@@ -111,6 +111,9 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
 
         for(let i=0; i<copyTeamList.length; i++) {
             for(let j=0; j<copyTeamList[i].length; j++) {
+                if(copyTeamList[i][j].nm.length < 1) {
+                    copyTeamList[i][j].lv = 1;
+                }
                 temp1DemList.push(copyTeamList[i][j]);
             }
         }
@@ -143,6 +146,14 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
             for(let j=0; j<teamCount; j++) {
                 if(temp2DemList[tempCompare[j].idx].length-1 >= i) {
                     tempCompare[j].sum += temp2DemList[tempCompare[j].idx][i].lv;   
+                }
+            }
+        }
+        
+        for(let i=0; i<copyTeamList.length; i++) {
+            for(let j=0; j<copyTeamList[i].length; j++) {
+                if(copyTeamList[i][j].nm.length < 1) {
+                    copyTeamList[i][j].lv = 5;
                 }
             }
         }
