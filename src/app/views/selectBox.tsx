@@ -211,8 +211,8 @@ const SelectBoxShuffleStyle = styled('div')`
 `
 
 interface SelectBoxShuffleProps {
-    updateSelectData: (data:{index:number; arrNo:number; value:number;}) => void;
-    inputData: {id:number; lv:number; nm:string;};
+    updateSelectData: (data:{index:number; arrNo:number; level:number;}) => void;
+    inputData: {id:string, lv:number, nm:string, idx:number, tmp:any};
     inputIdx: number;
 }
 
@@ -242,7 +242,7 @@ const SelectBoxShuffle = (props : SelectBoxShuffleProps) => {
 
     const onClickSelectItem = (idx:number, level:number) => {
         setIsSelectBoxShow(false);
-        props.updateSelectData({index:props.inputData.id, arrNo:props.inputIdx, value:level});
+        props.updateSelectData({index:props.inputData.idx, arrNo:props.inputIdx, level:level});
 
         selectItem.current[idx].className = selectItem.current[idx].className.replace('rs_active', '');
         selectItem.current[idx].className += 'rs_active';
