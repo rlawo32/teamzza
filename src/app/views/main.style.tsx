@@ -7,7 +7,7 @@ export const MatchShuffle = styled('div')`
         padding: 50px 15px;
     }
     // mobile_view
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
         padding: 50px 5px;
     }
     position: relative;
@@ -15,7 +15,7 @@ export const MatchShuffle = styled('div')`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 768px;
+    width: 1024px;
     height: 100%;
     min-height: 860px;
     margin: 0 auto;
@@ -23,6 +23,7 @@ export const MatchShuffle = styled('div')`
     border: 1px solid #887d7d;
     border-radius: 10px;
     background-color: rgb(49 49 60 / .7);
+    box-sizing: border-box;
 
     .list_section {
         position: relative;
@@ -38,35 +39,7 @@ export const MatchShuffle = styled('div')`
                 @media (max-width: 768px) {
                     margin: 0 4px;
                 }
-                margin: 0 10px;
-
-                .team_camp {
-                    @media (max-width: 768px) {
-                        font-size: 1.8rem;
-                    }
-                    // mobile_view
-                    @media (max-width: 480px) {
-                        font-size: 1.5rem;
-                    }
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 2.2rem;
-                    font-weight: 700;
-                    margin-bottom: 10px;
-                    svg {
-                        // mobile_view
-                        @media (max-width: 480px) {
-                            height: 25px; 
-                            width: 25px;
-                        }
-                        height: 35px; 
-                        width: 35px;
-                    }
-                }
-
-                .team_blue {color:#1F85FD;}
-                .team_red {color:#F60C50;}
+                margin: 0 50px;
 
                 .list_child {
                     position: relative;
@@ -83,7 +56,7 @@ export const MatchShuffle = styled('div')`
                             left: 10px;
                         }
                         // mobile_view
-                        @media (max-width: 480px) {
+                        @media (max-width: 500px) {
                             top: 13px;
                             left: 7px;
                         }
@@ -98,7 +71,7 @@ export const MatchShuffle = styled('div')`
                             right: 9px;
                         }
                         // mobile_view
-                        @media (max-width: 480px) {
+                        @media (max-width: 500px) {
                             top: 11px;
                             right: 6px;
                         }
@@ -121,9 +94,13 @@ export const MatchShuffle = styled('div')`
     .control_section {
         @media (max-width: 768px) {
             width: 100%;
-            height: 250px;
+            height: 190px;
             padding: 25px 0 20px;
             margin-top: 40px;
+        }
+        // mobile_view
+        @media (max-width: 500px) {
+            height: 180px;
         }
         width: 560px;
         height: 210px;
@@ -148,7 +125,7 @@ export const MatchShuffle = styled('div')`
                     font-size: 1.4rem;
                 }
                 // mobile_view
-                @media (max-width: 480px) {
+                @media (max-width: 500px) {
                     font-size: 1.2rem;
                 }
                 font-size: 1.8rem;
@@ -161,10 +138,9 @@ export const MatchShuffle = styled('div')`
                     font-size: 1rem;
                 }
                 // mobile_view
-                @media (max-width: 480px) {
+                @media (max-width: 500px) {
                     font-size: .9rem;
                 }
-                position: relative;
                 display: flex;
                 justify-content: center;
                 font-size: 1.3rem;
@@ -174,7 +150,7 @@ export const MatchShuffle = styled('div')`
                         font-size: .8rem;
                     }
                     // mobile_view
-                    @media (max-width: 480px) {
+                    @media (max-width: 500px) {
                         font-size: .6rem;
                     }
                     padding: 3px 4px;
@@ -203,7 +179,7 @@ export const MatchShuffle = styled('div')`
                             font-size: 1.1rem;
                         }
                         // mobile_view
-                        @media (max-width: 480px) {
+                        @media (max-width: 500px) {
                             font-size: 1rem;
                         }
                         font-size: 1.4rem;
@@ -220,27 +196,6 @@ export const MatchShuffle = styled('div')`
                             }
                             width: 35px;
                         }
-                    }
-                }
-
-                .shuffle_option {
-                    @media (max-width: 768px) {
-                        top: 0;
-                        right: 90px;
-                    }
-                    // mobile_view
-                    @media (max-width: 480px) {
-                        top: -2px;
-                        right: 30px;
-                    }
-                    position: absolute;
-                    top: 4px;
-                    right: 20px;
-
-                    .control_title {
-                        font-size: .9rem;
-                        font-weight: 400;
-                        margin-bottom: 6px;
                     }
                 }
             }
@@ -261,7 +216,7 @@ export const MatchShuffle = styled('div')`
 export const InputValueStyle = styled('input')`
     width: 100px;
     margin: 20px 10px;
-    padding: 14px 0 13px 20px;
+    padding: 18px 0 13px 20px;
     border: none;
     border-radius: 15px;
     background: rgba(42,50,73, .68);
@@ -281,34 +236,72 @@ export const InputValueStyle = styled('input')`
     }
 `;
 
+export const GroupCampStyle = styled('div')<{$camp:number}>`
+    @media (max-width: 768px) {
+        font-size: 1.8rem;
+    }
+    // mobile_view
+    @media (max-width: 500px) {
+        font-size: 1.5rem;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    svg {
+        // mobile_view
+        @media (max-width: 500px) {
+            height: 25px; 
+            width: 25px;
+        }
+        height: 35px; 
+        width: 35px;
+    }
+    color: ${({$camp}) => $camp === 0 ? "#1F85FD" : 
+                          $camp === 1 ? "#F60C50" :
+                          $camp === 2 ? "#FFD300" :
+                          $camp === 3 ? "#00C853" :
+                          $camp === 4 ? "#A259FF" :
+                          $camp === 5 ? "#A0522D" :
+                          $camp === 6 ? "#FF5CA8" :
+                          $camp === 7 ? "#FF6D00" :
+                          $camp === 8 ? "#4CFFD6" : "#A8FF00"};
+`
+
 export const InputPlayerStyle = styled('input')<{$camp:number}>`
     @media (max-width: 1024px) {
         width: 240px;
-        height: 46px;
-        padding: 10px 40px 14px 65px;
+        padding: 10px 40px 10px 60px;
         font-size: 1.8rem;
     }
     @media (max-width: 768px) {
         width: 170px;
-        height: 42px;
         margin: 10px 2px;
-        padding: 10px 35px 12px 60px;
+        padding: 10px 35px 10px 56px;
         font-size: 1.5rem;
     }
     // mobile_view
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
         width: 130px;
-        height: 32px;
         margin: 5px 2px;
-        padding: 7px 25px 9px 45px;
+        padding: 7px 25px 8px 42px;
         border-radius: 10px;
         font-size: 1.3rem;
     }
     width: 300px;
-    height: 50px;
     margin: 10px 5px;
-    padding: 10px 45px 15px 70px;
-    border: 2px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : "#F60C50"};
+    padding: 10px 45px 10px 75px;
+    border: 2px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
+                                     $camp === 1 ? "#F60C50" :
+                                     $camp === 2 ? "#FFD300" :
+                                     $camp === 3 ? "#00C853" :
+                                     $camp === 4 ? "#A259FF" :
+                                     $camp === 5 ? "#A0522D" :
+                                     $camp === 6 ? "#FF5CA8" :
+                                     $camp === 7 ? "#FF6D00" :
+                                     $camp === 8 ? "#4CFFD6" : "#A8FF00"};
     border-radius: 15px;
     background: rgb(28 28 31 / 1);
     color: #ffffff;
@@ -332,25 +325,22 @@ export const BtnStyle= styled('button')`
         font-size: 1.3rem;
     }
     // mobile_view
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
         padding: 7px 18px;
         margin: 5px;
         font-size: 1.1rem;
     }
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: calc(100% / 3);
-    margin: 0 7px;
-    padding: 12px 15px;
+    margin: 0 10px;
+    padding: 10px 30px;
     border: none;
     border-radius: 10px;
     box-shadow: 0 0 40px rgba(42,50,113, .68);
     background-color: rgb(28 28 31 / 1);
     color: #ffffff;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    text-align: center;
     cursor: pointer;
     transition: 0.5s;
     transition-duration: .3s;
@@ -397,7 +387,7 @@ export const CheckStyle = styled('input')`
                 padding: 5px 0 0;
             }
             // mobile_view
-            @media (max-width: 480px) {
+            @media (max-width: 500px) {
                 padding: 4px 0 0;
             }
             padding: 6px 0 0;
@@ -420,8 +410,7 @@ export const LabelStyle = styled('label')`
         font-size: .8rem;
     }
     // mobile_view
-    @media (max-width: 480px) {
-        top: -1px;
+    @media (max-width: 500px) {
         height: 17px;
         width: 20px;
         padding: 3px 0 0;
@@ -436,11 +425,13 @@ export const LabelStyle = styled('label')`
     border: 1px solid #7B7A8E;
     border-radius: 7px;
     background-color: transparent;
+    color: #ffffff;
     text-align: center;
     font-size: 1rem;
     font-weight: 700;
     box-sizing: border-box;
     cursor:pointer;
+    user-select: none;
 
     transition-property: transform;
 
@@ -448,7 +439,7 @@ export const LabelStyle = styled('label')`
 
         + .tooltip {
             // mobile_view
-            @media (max-width: 480px) {
+            @media (max-width: 500px) {
                 top: -20px;
             }
             top: -23px;
@@ -470,14 +461,10 @@ export const SelectStyle = styled('select')`
         font-size: 1rem;
     }
     // mobile_view
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
         font-size: .9rem;
         padding: 3px 2px;
     }
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 50px;
     padding: 5px 7px 5px 5px;
     border: none;
     border-radius: 10px;
@@ -490,7 +477,7 @@ export const SelectStyle = styled('select')`
     &:hover {
         + .tooltip {
             // mobile_view
-            @media (max-width: 480px) {
+            @media (max-width: 500px) {
                 top: -23px;
             }
             top: -25px;
@@ -509,7 +496,7 @@ export const ToolTipStyle = styled('div')`
         width: calc(100% + 5px);
     }
     // mobile_view
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
         height: 16px;
         padding: 3px 7px;
         font-size: .9rem;
@@ -526,7 +513,7 @@ export const ToolTipStyle = styled('div')`
     font-weight: 700;
     color: #c97874;
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-    opacity: 1;
+    opacity: 0;
     pointer-events: none;
     transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     z-index: -1;
@@ -536,7 +523,7 @@ export const ToolTipStyle = styled('div')`
             left: 42%;
         }
         // mobile_view
-        @media (max-width: 480px) {
+        @media (max-width: 500px) {
             bottom: -2px;
         }
         position: absolute;
@@ -562,7 +549,7 @@ export const LoadingContainerStyle = styled('div')`
 
 export const LoadingItemStyle = styled('div')<{$timing:number}>`
     // mobile_view
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
         font-size: 1.3rem;
     }
     display: inline-block;
