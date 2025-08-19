@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const MatchShuffle = styled('div')`
+export const MatchShuffle = styled('div')<{$teamCnt:number}>`
     @media (max-width: 1024px) {
         width: 100%;
         min-height: 0;
@@ -15,25 +15,27 @@ export const MatchShuffle = styled('div')`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 1024px;
+    width: 1280px;
     height: 100%;
     min-height: 860px;
     margin: 0 auto;
-    padding: 70px 30px;
-    border: 1px solid #887d7d;
+    padding: 50px 30px;
+    /* border: none;
     border-radius: 10px;
-    background-color: rgb(49 49 60 / .7);
+    background-color: rgb(49 49 60 / .1); */
     box-sizing: border-box;
 
     .list_section {
         position: relative;
         display: flex;
-        justify-content: space-between;
+        justify-content: ${({$teamCnt}) => $teamCnt > 2 ? 'center' : 'space-between'};
         flex-wrap: wrap;
 
         .list_wrap {
             position: relative;
             display: flex;
+            ${({$teamCnt}) => $teamCnt > 2 ? 'width: calc(100% / 3)' : ''};
+            margin: 0 0 35px;
 
             .list_parent {
                 @media (max-width: 768px) {
@@ -247,7 +249,7 @@ export const GroupCampStyle = styled('div')<{$camp:number}>`
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 10px;
     svg {
@@ -293,7 +295,7 @@ export const InputPlayerStyle = styled('input')<{$camp:number}>`
     width: 300px;
     margin: 10px 5px;
     padding: 10px 45px 10px 75px;
-    border: 2px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
+    border: 3px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
                                      $camp === 1 ? "#F60C50" :
                                      $camp === 2 ? "#FFD300" :
                                      $camp === 3 ? "#00C853" :
