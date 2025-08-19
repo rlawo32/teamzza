@@ -1,19 +1,26 @@
 import { create } from "zustand";
 
 interface shuffleBaseStore {
+    teamIdStorage: string[];
+    
     playerCount: number;
     setPlayerCount: (playerCount: number) => void;
+    insertPlayerCount: () => void;
+    deletePlayerCount: () => void;
+
     teamCount: number;
     setTeamCount: (teamCount: number) => void;
-    
-    insertPlayerCount: () => void;
     insertTeamCount: () => void;
-    deletePlayerCount: () => void;
     deleteTeamCount: () => void;
+
+    rollbackCount: number;
+    setRollbackCount: (teamCount: number) => void;
+    insertRollbackCount: () => void;
+    deleteRollbackCount: () => void;
 }
 
 const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
-    // 임시
+    teamIdStorage: ['bl', 're', 'yl', 'gr', 'pu', 'br', 'pi', 'or', 'mi', 'li'],
     playerCount: 5,
     setPlayerCount: (playerCount: number) =>
         set((state: {playerCount: number}) => ({
@@ -49,6 +56,25 @@ const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
         if(teamCount > 2) {
             set({
                 teamCount: teamCount - 1,
+            });
+        }
+    },
+    rollbackCount: 0,
+    setRollbackCount: (rollbackCount: number) =>
+        set((state: {rollbackCount: number}) => ({
+            rollbackCount: (state.rollbackCount = rollbackCount),
+        })),
+    insertRollbackCount: () => {
+        const rollbackCount = get().rollbackCount;
+        set({
+            rollbackCount: rollbackCount + 1,
+        });
+    },
+    deleteRollbackCount: () => {
+        const rollbackCount = get().rollbackCount;
+        if(rollbackCount > 0) {
+            set({
+                rollbackCount: rollbackCount - 1,
             });
         }
     },
