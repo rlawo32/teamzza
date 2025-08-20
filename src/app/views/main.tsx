@@ -1,7 +1,9 @@
 'use client'
 
 import * as Style from "./main.style";
+
 import SelectBox from "./selectBox"
+import ControlBox from "./controlBox";
 
 import useShuffleBaseStore from "./useShuffleBaseStore";
 import useShuffleTeamStore from "./useShuffleTeamStore";
@@ -11,27 +13,13 @@ import { useEffect } from "react";
 
 const Main = () => {
 
-    const { teamList, createTeam, insertTeam, deleteTeam, shuffleRandom, shuffleBalance, insertRollback, activeRollback } = useShuffleTeamStore();
-    const { playerCount, teamCount, rollbackCount, setPlayerCount, setTeamCount } = useShuffleBaseStore();
-    const { fixList, tempList } = useShuffleFixStore();
-
-    const insertPlayerCount = useShuffleBaseStore((state) => state.insertPlayerCount);
-    const insertTeamCount = useShuffleBaseStore((state) => state.insertTeamCount);
-    const deletePlayerCount = useShuffleBaseStore((state) => state.deletePlayerCount);
-    const deleteTeamCount = useShuffleBaseStore((state) => state.deleteTeamCount);
+    const { teamList, createTeam, insertTeam, deleteTeam, insertPlayer, deletePlayer } = useShuffleTeamStore();
+    const { playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
+    const { fixList, rollbackList } = useShuffleFixStore();
 
     const updateInputData = useShuffleTeamStore((state) => state.updateInputData);
     const updateSelectData = useShuffleTeamStore((state) => state.updateSelectData);
     const updateFixData = useShuffleFixStore((state) => state.updateFixData);
-
-    const onClickShuffle = (flag:string) => {
-        insertRollback();
-        if(flag === 'R') {
-            shuffleRandom();
-        } else {
-            shuffleBalance();
-        }
-    }
     
     useEffect(() => {
         createTeam();
@@ -82,12 +70,10 @@ const Main = () => {
                 ))}
             </div>
             <button onClick={() => insertTeam()}>그룹 추가</button>
-            <button onClick={() => insertPlayerCount()}>그룹원 추가</button>
+            <button onClick={() => insertPlayer()}>그룹원 추가</button>
             <button onClick={() => deleteTeam()}>그룹 삭제</button>
-            <button onClick={() => deletePlayerCount()}>그룹원 삭제</button>
-            <button onClick={() => onClickShuffle('R')}>무작위 셔플</button>
-            <button onClick={() => onClickShuffle('B')}>밸런스 셔플</button>
-            <button onClick={() => activeRollback()}>되돌리기</button>
+            <button onClick={() => deletePlayer()}>그룹원 삭제</button>
+            <ControlBox />
         </Style.MatchShuffle>
     )
 }
