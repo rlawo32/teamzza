@@ -5,18 +5,31 @@ interface shuffleBaseStore {
     
     playerCount: number;
     setPlayerCount: (playerCount: number) => void;
-    insertPlayerCount: () => void;
-    deletePlayerCount: () => void;
+    increasePlayerCount: () => void;
+    decreasePlayerCount: () => void;
 
     teamCount: number;
     setTeamCount: (teamCount: number) => void;
-    insertTeamCount: () => void;
-    deleteTeamCount: () => void;
+    increaseTeamCount: () => void;
+    decreaseTeamCount: () => void;
+
+    shuffleCount: number;
+    setShuffleCount: (shuffleCount: number) => void;
+    increaseShuffleCount: () => void;
+
+    shuffleTime: number;
+    setShuffleTime: (shuffleTime: number) => void;
+    increaseShuffleTime: () => void;
+    decreaseShuffleTime: () => void;
+    reduceTime: number;
+    setReduceTime: (reduceTime: number) => void;
+    increaseReduceTime: () => void;
+    decreaseReduceTime: () => void;
 
     rollbackCount: number;
     setRollbackCount: (teamCount: number) => void;
-    insertRollbackCount: () => void;
-    deleteRollbackCount: () => void;
+    increaseRollbackCount: () => void;
+    decreaseRollbackCount: () => void;
 }
 
 const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
@@ -26,18 +39,16 @@ const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
         set((state: {playerCount: number}) => ({
             playerCount: (state.playerCount = playerCount),
         })),
-    insertPlayerCount: () => {
+    increasePlayerCount: () => {
         const playerCount = get().playerCount;
-        set({
-            playerCount: playerCount + 1,
-        });
+        if(playerCount < 10) {
+            set({playerCount: playerCount + 1});
+        }
     },
-    deletePlayerCount: () => {
+    decreasePlayerCount: () => {
         const playerCount = get().playerCount;
         if(playerCount > 1) {
-            set({
-                playerCount: playerCount - 1,
-            });
+            set({playerCount: playerCount - 1});
         }
     },
     teamCount: 2,
@@ -45,18 +56,59 @@ const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
         set((state: {teamCount: number}) => ({
             teamCount: (state.teamCount = teamCount),
         })),
-    insertTeamCount: () => {
+    increaseTeamCount: () => {
         const teamCount = get().teamCount;
-        set({
-            teamCount: teamCount + 1,
-        });
+        if(teamCount < 10) {
+            set({teamCount: teamCount + 1});
+        }
     },
-    deleteTeamCount: () => {
+    decreaseTeamCount: () => {
         const teamCount = get().teamCount;
         if(teamCount > 2) {
-            set({
-                teamCount: teamCount - 1,
-            });
+            set({teamCount: teamCount - 1});
+        }
+    },
+    shuffleCount: 0,
+    setShuffleCount: (shuffleCount: number) =>
+        set((state: {shuffleCount: number}) => ({
+            shuffleCount: (state.shuffleCount = shuffleCount),
+        })),
+    increaseShuffleCount: () => {
+        const shuffleCount = get().shuffleCount;
+        set({shuffleCount: shuffleCount + 1});
+    },
+    shuffleTime: 5000,
+    setShuffleTime: (shuffleTime: number) =>
+        set((state: {shuffleTime: number}) => ({
+            shuffleTime: (state.shuffleTime = shuffleTime),
+        })),
+    increaseShuffleTime: () => {
+        const shuffleTime = get().shuffleTime;
+        if(shuffleTime < 10000) {
+            set({shuffleTime: shuffleTime + 1000});
+        }
+    },
+    decreaseShuffleTime: () => {
+        const shuffleTime = get().shuffleTime;
+        if(shuffleTime > 1000) {
+            set({shuffleTime: shuffleTime - 1000});
+        }
+    },
+    reduceTime: 200,
+    setReduceTime: (reduceTime: number) =>
+        set((state: {reduceTime: number}) => ({
+            reduceTime: (state.reduceTime = reduceTime),
+        })),
+    increaseReduceTime: () => {
+        const reduceTime = get().reduceTime;
+        if(reduceTime < 1000) {
+            set({reduceTime: reduceTime + 100});
+        }
+    },
+    decreaseReduceTime: () => {
+        const reduceTime = get().reduceTime;
+        if(reduceTime > 100) {
+            set({reduceTime: reduceTime - 100});
         }
     },
     rollbackCount: 0,
@@ -64,18 +116,14 @@ const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
         set((state: {rollbackCount: number}) => ({
             rollbackCount: (state.rollbackCount = rollbackCount),
         })),
-    insertRollbackCount: () => {
+    increaseRollbackCount: () => {
         const rollbackCount = get().rollbackCount;
-        set({
-            rollbackCount: rollbackCount + 1,
-        });
+        set({rollbackCount: rollbackCount + 1});
     },
-    deleteRollbackCount: () => {
+    decreaseRollbackCount: () => {
         const rollbackCount = get().rollbackCount;
         if(rollbackCount > 0) {
-            set({
-                rollbackCount: rollbackCount - 1,
-            });
+            set({rollbackCount: rollbackCount - 1});
         }
     },
 }));
