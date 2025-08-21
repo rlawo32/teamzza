@@ -15,16 +15,15 @@ export const MatchShuffle = styled('div')<{$teamCnt:number}>`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    width: 1280px;
+    max-width: 1280px;
     height: 100%;
-    min-height: 860px;
-    margin: 0 auto;
-    padding: 50px 30px;
+    padding: 100px 30px 210px;
+    margin: 30px auto;
     /* border: none;
     border-radius: 10px;
     background-color: rgb(49 49 60 / .1); */
     box-sizing: border-box;
-
+    
     .list_section {
         position: relative;
         display: flex;
@@ -63,7 +62,7 @@ export const MatchShuffle = styled('div')<{$teamCnt:number}>`
                             left: 7px;
                         }
                         position: absolute;
-                        top: 21px;
+                        top: 18px;
                         left: 15px;
                     }
 
@@ -92,127 +91,52 @@ export const MatchShuffle = styled('div')<{$teamCnt:number}>`
             }
         }
     }
+`;
 
-    .control_section {
-        @media (max-width: 768px) {
-            width: 100%;
-            height: 190px;
-            padding: 25px 0 20px;
-            margin-top: 40px;
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-            height: 180px;
-        }
-        width: 560px;
-        height: 210px;
-        padding: 25px 45px;
-        margin-top: 60px;
-        border-radius: 20px;
-        background-color: rgb(30 30 38 / 1);
+export const ControlSection = styled('div')<{$pos:string}>`
+    position: fixed;
+    ${({$pos}) => $pos === 'top' ? 'top: 0' : 'bottom: 50px'};
+    z-index: 99;
+    display: flex;
+    margin-top: 5px;
+    padding: 6px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(34, 34, 34 , 0.8);
 
-        .info_section {
-            @media (max-width: 768px) {
-                width: 100%;
-            }
+    .button_section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 50px;
+        padding: 0 6px;
+        border-radius: 8px;
+        background-color: #222222CC;
+        color: #DEDEDE;
+        gap: 6px;
+
+        button {
             display: flex;
-            flex-direction: column;
-            width: 300px;
-            margin: 0 auto 35px;
-            color: #ffffff;
-            text-align: center;
+            align-items: center;
+            height: 40px;
+            margin: 0 3px;
+            padding: 0 12px;
+            border: 1px solid #4E4E4E;
+            border-radius: 8px;
+            background: inherit;
+            color: #dedede;
+            font-size: 1.2rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all .5s;
 
-            .shuffle_count {
-                @media (max-width: 768px) {
-                    font-size: 1.4rem;
-                }
-                // mobile_view
-                @media (max-width: 500px) {
-                    font-size: 1.2rem;
-                }
-                font-size: 1.8rem;
-                font-weight: 700;
-                margin-bottom: 15px;
+            &:hover {
+                border: 1px solid #dedede;
             }
-
-            .shuffle_control {
-                @media (max-width: 768px) {
-                    font-size: 1rem;
-                }
-                // mobile_view
-                @media (max-width: 500px) {
-                    font-size: .9rem;
-                }
-                display: flex;
-                justify-content: center;
-                font-size: 1.3rem;
-
-                button {
-                    @media (max-width: 768px) {
-                        font-size: .8rem;
-                    }
-                    // mobile_view
-                    @media (max-width: 500px) {
-                        font-size: .6rem;
-                    }
-                    padding: 3px 4px;
-                    margin: 0 3px;
-                    border: none;
-                    border-radius: 5px;
-                    font-size: .9rem;
-                    font-weight: 700;
-                    cursor: pointer;
-
-                    &:active {
-                        scale: .7;
-                        transition: scale .3s;
-                    }
-                }
-
-                .control_item {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    margin: 0 5px;
-
-                    .control_title {
-                        @media (max-width: 768px) {
-                            font-size: 1.1rem;
-                        }
-                        // mobile_view
-                        @media (max-width: 500px) {
-                            font-size: 1rem;
-                        }
-                        font-size: 1.4rem;
-                        margin-bottom: 3px;
-                    }
-
-                    .control_tool {
-                        display: flex;
-                        align-items: center;
-
-                        .sec_time {
-                            @media (max-width: 768px) {
-                                width: 25px;
-                            }
-                            width: 35px;
-                        }
-                    }
-                }
-            }
-        }
-        
-        .btn_section {
-            @media (max-width: 768px) {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            display: flex;
-            justify-content: space-between;
-            margin: 10px auto;
         }
     }
+
 `;
 
 export const InputValueStyle = styled('input')`
@@ -292,6 +216,7 @@ export const InputPlayerStyle = styled('input')<{$camp:number}>`
         border-radius: 10px;
         font-size: 1.3rem;
     }
+    position: relative;
     width: 300px;
     margin: 10px 5px;
     padding: 10px 45px 10px 75px;
@@ -305,8 +230,9 @@ export const InputPlayerStyle = styled('input')<{$camp:number}>`
                                      $camp === 7 ? "#FF6D00" :
                                      $camp === 8 ? "#4CFFD6" : "#A8FF00"};
     border-radius: 15px;
-    background: rgb(28 28 31 / 1);
-    color: #ffffff;
+    /* background: rgb(28 28 31 / 1);
+    color: #ffffff; */
+    color: #222;
     font-size: 2.2rem;
 
     &:focus {
@@ -317,62 +243,6 @@ export const InputPlayerStyle = styled('input')<{$camp:number}>`
         color: gray;
         font-size: 18px;
         opacity: 0.7;
-    }
-`;
-
-export const BtnStyle= styled('button')`
-    @media (max-width: 768px) {
-        padding: 10px 20px;
-        margin: 5px;
-        font-size: 1.3rem;
-    }
-    // mobile_view
-    @media (max-width: 500px) {
-        padding: 7px 18px;
-        margin: 5px;
-        font-size: 1.1rem;
-    }
-    display: flex;
-    align-items: center;
-    margin: 0 10px;
-    padding: 10px 30px;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 0 40px rgba(42,50,113, .68);
-    background-color: rgb(28 28 31 / 1);
-    color: #ffffff;
-    font-size: 1.6rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.5s;
-    transition-duration: .3s;
-
-    &:hover {
-        transform: scale(1.1);
-        box-shadow: 0 0 20px rgba(42,50,113, .68);
-        background-position: right center;
-    }
-
-    .btn_icon {
-        margin-right: 7px;
-    }
-`;
-
-export const QuickBtnStyle = styled('button')`
-    flex: 1 1 auto;
-    margin: 10px;
-    padding: 10px 15px;
-    text-align: center;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: #6cacc5;
-    box-shadow: 0 0 40px rgba(42,50,113, .68);
-    border: none;
-    border-radius: 10px;
-    background-image: linear-gradient(to right, rgba(42,50,113) 0%, rgba(42,50,73, .88) 51%, rgba(42,50,113) 100%);
-    cursor: pointer;
-    &:hover {
-        background-position: right center;
     }
 `;
 
@@ -427,7 +297,7 @@ export const LabelStyle = styled('label')`
     border: 1px solid #7B7A8E;
     border-radius: 7px;
     background-color: transparent;
-    color: #ffffff;
+    color: #222;
     text-align: center;
     font-size: 1rem;
     font-weight: 700;
@@ -452,93 +322,6 @@ export const LabelStyle = styled('label')`
             color: #c97874;
             z-index: 0;
         }
-    }
-`;
-
-export const SelectStyle = styled('select')`
-    @media (max-width: 1024px) {
-        font-size: 1.2rem;
-    }
-    @media (max-width: 768px) {
-        font-size: 1rem;
-    }
-    // mobile_view
-    @media (max-width: 500px) {
-        font-size: .9rem;
-        padding: 3px 2px;
-    }
-    padding: 5px 7px 5px 5px;
-    border: none;
-    border-radius: 10px;
-    background: rgb(68 68 71 / 1);
-    color: #ffffff;
-    font-size: 1.5rem;
-    cursor: pointer;
-    outline: none;
-
-    &:hover {
-        + .tooltip {
-            // mobile_view
-            @media (max-width: 500px) {
-                top: -23px;
-            }
-            top: -25px;
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
-            color: #c97874;
-            z-index: 0;
-        }
-    }
-`;
-
-export const ToolTipStyle = styled('div')`
-    @media (max-width: 1024px) {
-        width: calc(100% + 5px);
-    }
-    // mobile_view
-    @media (max-width: 500px) {
-        height: 16px;
-        padding: 3px 7px;
-        font-size: .9rem;
-    }
-    position: absolute;
-    top: -13px;
-    width: 100%;
-    height: 18px;
-    padding: 3px 8px;
-    border-radius: 10px;
-    background: white;
-    /* background: rgb(28 28 31 / 1); */
-    font-size: 1rem;
-    font-weight: 700;
-    color: #c97874;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    z-index: -1;
-
-    &::before {
-        @media (max-width: 1024px) {
-            left: 42%;
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-            bottom: -2px;
-        }
-        position: absolute;
-        content: "";
-        height: 8px;
-        width: 8px;
-        /* background: rgb(28 28 31 / 1); */
-        background: white;
-        bottom: -3px;
-        left: 40%;
-        transform: translate(-50%) rotate(45deg);
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        z-index: -1;
     }
 `;
 
