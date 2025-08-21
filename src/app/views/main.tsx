@@ -31,6 +31,14 @@ const Main = () => {
 
     return (
         <Style.MatchShuffle $teamCnt={teamCount}>
+            <Style.ControlSection $pos="top">
+                <div className="button_section">
+                    <button onClick={() => insertTeam()}>그룹 추가</button>
+                    <button onClick={() => deleteTeam()}>그룹 삭제</button>
+                    <button onClick={() => insertPlayer()}>그룹원 추가</button>
+                    <button onClick={() => deletePlayer()}>그룹원 삭제</button>
+                </div>
+            </Style.ControlSection>
             <div className="list_section">
                 {teamList.map((parent, idx1) => (
                     <div key={idx1} className="list_wrap" id={parent.length + "_t"}>
@@ -51,11 +59,11 @@ const Main = () => {
                             </Style.GroupCampStyle>
                             {parent.map((child, idx2) => (
                                 <div key={idx2} className="list_child">
+                                    <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
+                                                type="text" id={"input_" + child.id} $camp={idx1}/>
                                     <div className="list_select">
                                         <SelectBox updateSelectData={updateSelectData} inputData={child} inputIdx={idx1} />
                                     </div>
-                                    <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
-                                                type="text" id={"input_" + child.id} $camp={idx1}/>
                                     <div className="list_check">
                                         <Style.CheckStyle onChange={(e) => updateFixData({checked:e.target.checked, index:child.idx, id:child.id, arrNo:idx1, value:idx2, tmp:null})} 
                                                     checked={fixList.some(data => data.idx === child.idx) ? true : false} type="checkbox" id={"chkbx" + child.id} />
@@ -69,11 +77,9 @@ const Main = () => {
                     </div>
                 ))}
             </div>
-            <button onClick={() => insertTeam()}>그룹 추가</button>
-            <button onClick={() => insertPlayer()}>그룹원 추가</button>
-            <button onClick={() => deleteTeam()}>그룹 삭제</button>
-            <button onClick={() => deletePlayer()}>그룹원 삭제</button>
-            <ControlBox />
+            <Style.ControlSection $pos="bottom">
+                <ControlBox />
+            </Style.ControlSection>
         </Style.MatchShuffle>
     )
 }
