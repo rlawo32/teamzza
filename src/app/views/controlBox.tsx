@@ -23,12 +23,6 @@ const ControlBoxStyle = styled('div')`
     @media (max-width: 500px) {
         height: 180px;
     }
-    width: 560px;
-    height: 210px;
-    padding: 25px 45px;
-    margin-top: 60px;
-    border-radius: 20px;
-    background-color: rgb(30 30 38 / 1);
 
     .info_section {
         @media (max-width: 768px) {
