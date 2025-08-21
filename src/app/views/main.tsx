@@ -5,9 +5,9 @@ import * as Style from "./main.style";
 import SelectBox from "./selectBox"
 import ControlBox from "./controlBox";
 
-import useShuffleBaseStore from "./useShuffleBaseStore";
-import useShuffleTeamStore from "./useShuffleTeamStore";
-import useShuffleFixStore from "./useShuffleFixStore";
+import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+import useShuffleTeamStore from "../stores/useShuffleTeamStore";
+import useShuffleFixStore from "../stores/useShuffleFixStore";
 import { useEffect } from "react";
 
 
