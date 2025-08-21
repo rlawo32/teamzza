@@ -10,9 +10,6 @@ const SelectBoxShuffleStyle = styled('div')`
     @media (max-width: 1024px) {
         top: -3.5px;
     }
-    position: absolute;
-    top: -3.6px;
-    left: 1px;
 
     button {
         @media (max-width: 1024px) {
@@ -38,10 +35,11 @@ const SelectBoxShuffleStyle = styled('div')`
         padding: 5px 7px;
         border: 1px solid grey;
         border-radius: 7px;
-        background: rgba(42,50,73, .5);
-        color: rgb(255 255 255 / 1);
+        background: rgba(42,50,73, .7);
+        color: #222;
         font-size: 1rem;
         font-weight: 700;
+        z-index: 10;
         cursor: pointer;
     }
 
@@ -63,7 +61,7 @@ const SelectBoxShuffleStyle = styled('div')`
         border-radius: 5px;
         background-color: rgb(28 28 31 / 1);
         text-align: center;
-        z-index: 2;
+        z-index: 11;
         transition: all 0.3s ease-in-out;
     }
 
@@ -87,7 +85,7 @@ const SelectBoxShuffleStyle = styled('div')`
         color: rgb(255 255 255 / 1);
         text-align: center;
         cursor: pointer;
-        z-index: 3;
+        z-index: 12;
         user-select: none;
         list-style:none;
         word-break: keep-all;
@@ -170,7 +168,7 @@ const SelectBoxShuffleStyle = styled('div')`
         }
         display: inline-block;
         margin-left: 6px;
-        color: rgb(255 255 255 / 1);
+        color: #222;
         font-weight: 700;
         transition: all .3s linear;
     }
@@ -186,6 +184,7 @@ const SelectBoxShuffleStyle = styled('div')`
         }
         padding: 5px 3px;
         height: 130px;
+        z-index: 11;
     }
 
     .select_list.show_select {
@@ -197,6 +196,7 @@ const SelectBoxShuffleStyle = styled('div')`
             
         }
         height: 120px;
+        z-index: 11;
     }
 
     ul.select_list li.rs_active {
