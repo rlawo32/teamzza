@@ -10,10 +10,15 @@ interface shuffleTeamStore {
     createTeam: () => void;
     insertTeam: () => void;
     deleteTeam: () => void;
-    shuffleRandom: () => void;
-    shuffleBalance: () => void;
+    insertPlayer: () => void;
+    deletePlayer: () => void;
+
     updateInputData: (data: {index: number; arrNo: number; input: string;}) => void;
     updateSelectData: (data: {index: number; arrNo: number; level: number;}) => void;
+    
+    shuffleRandom: () => void;
+    shuffleBalance: () => void;
+    shuffleRefresh: () => void;
     insertRollback: () => void;
     activeRollback: () => void;
 }
@@ -67,24 +72,100 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         set({ teamList: tempList });
     },
     insertTeam: () => {
-        const {teamIdStorage, playerCount, teamCount, insertTeamCount} = useShuffleBaseStore.getState();
-        const currentTeamList = JSON.parse(JSON.stringify(get().teamList));
+        const {teamIdStorage, playerCount, teamCount, increaseTeamCount} = useShuffleBaseStore.getState();
+        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
 
         let tempList:{idx:number, id:string, lv:number, nm:string, tmp:any}[] = [];
         
-        let idx:number = playerCount * teamCount + 1;
-        for(let i=0; i<playerCount; i++) {
-            tempList[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:5, nm:'', tmp:null};
-            idx += 1;
-        }
-        insertTeamCount();
+        if(teamCount < 10) {
+            tempList = Array.from({length: playerCount})
+            let idx:number = playerCount * teamCount + 1;
+            for(let i=0; i<playerCount; i++) {
+                tempList[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:5, nm:'', tmp:null};
+                idx += 1;
+            }
 
-        set({ teamList: [...currentTeamList, tempList] });
+            set({ teamList: [...get().teamList, tempList] });
+            increaseTeamCount();
+            setFixList([]);
+            setRollbackList([]);
+        }
     },
     deleteTeam: () => {
-        const currentTeamList = JSON.parse(JSON.stringify(get().teamList));
+        const {teamCount, decreaseTeamCount} = useShuffleBaseStore.getState();
+        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
 
-        set({ teamList: currentTeamList.slice(0, -1) });
+        if(teamCount > 2) {
+            set({ teamList: get().teamList.slice(0, -1) });
+            decreaseTeamCount();
+            setFixList([]);
+            setRollbackList([]);
+        }
+    },
+    insertPlayer: () => {
+        const {teamIdStorage, playerCount, increasePlayerCount} = useShuffleBaseStore.getState();
+        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
+        let idx:number = 1;
+
+        if(playerCount < 10) {
+            const newTeamList = get().teamList.map((team, teamIdx) => {
+                for(let i:number=0; i<team.length; i++) {
+                    team[i].idx = idx;
+                    idx += 1;
+                }
+                const newPlayer:{idx:number, id:string, lv:number, nm:string, tmp:any} = {idx:idx, id:teamIdStorage[teamIdx]+'_'+(team.length+1), lv:5, nm:'', tmp:null};
+                idx += 1;
+
+                return [...team, newPlayer]; 
+            });
+            
+            set({ teamList: newTeamList });
+            increasePlayerCount();
+            setFixList([]);
+            setRollbackList([]);
+        }
+    },
+    deletePlayer: () => {
+        const {playerCount, decreasePlayerCount} = useShuffleBaseStore.getState();
+        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
+        let idx:number = 1;
+
+        if(playerCount > 1) {
+            const newTeamList = get().teamList.map((team, teamIdx) => {
+                team = team.slice(0, -1);
+                for(let i:number=0; i<team.length; i++) {
+                    team[i].idx = idx;
+                    idx += 1;
+                }
+
+                return team; 
+            });
+
+            set({ teamList: newTeamList });
+            decreasePlayerCount();
+            setFixList([]);
+            setRollbackList([]);
+        }
+    },
+    updateInputData: (data: {index: number; arrNo: number; input: string;}) => {
+        const currentTeamList = JSON.parse(JSON.stringify(get().teamList));
+        const index = currentTeamList[data.arrNo].findIndex((item: {idx: number}) => item.idx === data.index);
+        
+        if (index !== -1) { 
+            currentTeamList[data.arrNo][index].nm = data.input;
+        }
+
+        set({ teamList: currentTeamList });
+    },
+    updateSelectData: (data: {index: number; arrNo: number; level: number;}) => {
+        const currentTeamList = JSON.parse(JSON.stringify(get().teamList));
+        const index = currentTeamList[data.arrNo].findIndex((item: {idx: number}) => item.idx === data.index);
+        
+        if (index !== -1) {
+            currentTeamList[data.arrNo][index].lv = data.level;
+        }
+
+        set({ teamList: currentTeamList }); 
     },
     shuffleRandom: () => {
         const copyFixList:{idx:number, id:string, row:number, cell:number, tmp:any}[] = useShuffleFixStore.getState().fixList;
@@ -206,38 +287,34 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
 
         set({ teamList: temp2DemList });
     },
-    updateInputData: (data: {index: number; arrNo: number; input: string;}) => {
-        const currentTeamList = JSON.parse(JSON.stringify(get().teamList));
-        const index = currentTeamList[data.arrNo].findIndex((item: {idx: number}) => item.idx === data.index);
-        
-        if (index !== -1) { 
-            currentTeamList[data.arrNo][index].nm = data.input;
-        }
+    shuffleRefresh: () => {
+        const {setTeamCount, setPlayerCount, setShuffleCount, setShuffleTime, setReduceTime, setRollbackCount} = useShuffleBaseStore.getState();
+        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
+        const {setTeamList, createTeam} = get();
 
-        set({ teamList: currentTeamList });
-    },
-    updateSelectData: (data: {index: number; arrNo: number; level: number;}) => {
-        const currentTeamList = JSON.parse(JSON.stringify(get().teamList));
-        const index = currentTeamList[data.arrNo].findIndex((item: {idx: number}) => item.idx === data.index);
-        
-        if (index !== -1) {
-            currentTeamList[data.arrNo][index].lv = data.level;
-        }
-
-        set({ teamList: currentTeamList }); 
+        setTeamList([[]]);
+        setFixList([]);
+        setRollbackList([]);
+        setTeamCount(2);
+        setPlayerCount(5);
+        setShuffleCount(0);
+        setShuffleTime(5000);
+        setReduceTime(200);
+        setRollbackCount(0);
+        createTeam();
     },
     insertRollback: () => {
-        const {updateTempData} = useShuffleFixStore.getState();
-        updateTempData(get().teamList);
+        const {updateRollbackData} = useShuffleFixStore.getState();
+        updateRollbackData(get().teamList);
     },
     activeRollback: () => {
         const {rollbackCount} = useShuffleBaseStore.getState();
-        const {tempList, deleteTempData} = useShuffleFixStore.getState();
+        const {rollbackList, deleteRollbackData} = useShuffleFixStore.getState();
 
-        if(rollbackCount > 0) {         
-            set({ teamList: tempList[rollbackCount-1].arr });
+        if(rollbackList.length > 0) {         
+            set({ teamList: rollbackList[rollbackCount-1].arr });
 
-            deleteTempData();
+            deleteRollbackData();
         }
     },
 }));
