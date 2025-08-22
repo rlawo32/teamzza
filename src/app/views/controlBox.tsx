@@ -9,8 +9,8 @@ import {
     faScaleBalanced as icon_balance
 } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
 
 const ControlBoxStyle = styled('div')`
     @media (max-width: 768px) {
