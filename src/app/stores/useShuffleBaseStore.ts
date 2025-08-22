@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface shuffleBaseStore {
+    teamTitleStorage: string[];
     teamIdStorage: string[];
     
     playerCount: number;
@@ -33,6 +34,7 @@ interface shuffleBaseStore {
 }
 
 const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
+    teamTitleStorage: ['TeamBlue', 'TeamRed', 'TeamYellow', 'TeamGreen', 'TeamPurple', 'TeamBrown', 'TeamPink', 'TeamOrange', 'TeamMint', 'TeamLime'],
     teamIdStorage: ['bl', 're', 'yl', 'gr', 'pu', 'br', 'pi', 'or', 'mi', 'li'],
     playerCount: 5,
     setPlayerCount: (playerCount: number) =>
