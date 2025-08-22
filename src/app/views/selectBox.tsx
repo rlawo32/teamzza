@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faChevronDown as arrow} from "@fortawesome/free-solid-svg-icons";
 
-const SelectBoxShuffleStyle = styled('div')`
+const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
     @media (max-width: 1024px) {
         top: -3.5px;
     }
@@ -30,8 +30,8 @@ const SelectBoxShuffleStyle = styled('div')`
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 50px;
-        height: 36px;
+        width: 45px;
+        height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt <= 5 ? 36 : 32}px;
         padding: 5px 7px;
         border: 1px solid grey;
         border-radius: 7px;
@@ -167,7 +167,7 @@ const SelectBoxShuffleStyle = styled('div')`
             margin-left: 4px;
         }
         display: inline-block;
-        margin-left: 6px;
+        margin-left: 4px;
         color: #222;
         font-weight: 700;
         transition: all .3s linear;
@@ -214,6 +214,8 @@ interface SelectBoxShuffleProps {
     updateSelectData: (data:{index:number; arrNo:number; level:number;}) => void;
     inputData: {id:string, lv:number, nm:string, idx:number, tmp:any};
     inputIdx: number;
+    teamCnt: number;
+    playerCnt: number;
 }
 
 const SelectBoxShuffle = (props : SelectBoxShuffleProps) => {
@@ -275,7 +277,7 @@ const SelectBoxShuffle = (props : SelectBoxShuffleProps) => {
     }, [isSelectBoxShow])
 
     return (
-        <SelectBoxShuffleStyle>
+        <SelectBoxShuffleStyle $teamCnt={props.teamCnt} $playerCnt={props.playerCnt}>
             <button onClick={() => setIsSelectBoxShow(!isSelectBoxShow)}>
                 <div className="select_value">
                     <div className="select_level">
