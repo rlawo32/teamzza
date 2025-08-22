@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const MatchShuffle = styled('div')<{$teamCnt:number}>`
+export const MatchShuffle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
     @media (max-width: 1024px) {
         width: 100%;
         min-height: 0;
@@ -17,7 +17,7 @@ export const MatchShuffle = styled('div')<{$teamCnt:number}>`
     align-items: center;
     max-width: 1280px;
     height: 100%;
-    padding: 100px 30px 210px;
+    padding: 80px 30px 210px;
     margin: 30px auto;
     /* border: none;
     border-radius: 10px;
@@ -27,13 +27,18 @@ export const MatchShuffle = styled('div')<{$teamCnt:number}>`
     .list_section {
         position: relative;
         display: flex;
-        justify-content: ${({$teamCnt}) => $teamCnt > 2 ? 'center' : 'space-between'};
+        justify-content: ${({$teamCnt}) => $teamCnt <= 5 ? 'space-between' : 'flex-start'};
         flex-wrap: wrap;
 
         .list_wrap {
             position: relative;
             display: flex;
-            ${({$teamCnt}) => $teamCnt > 2 ? 'width: calc(100% / 3)' : ''};
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            ${({$teamCnt}) => $teamCnt === 2 ? '' : 
+                              $teamCnt === 3 ? 'width: calc(100% / 3)' : 
+                              $teamCnt === 4 ? 'width: calc(100% / 4)' : 'width: calc(100% / 5)'};
             margin: 0 0 35px;
 
             .list_parent {
@@ -62,7 +67,7 @@ export const MatchShuffle = styled('div')<{$teamCnt:number}>`
                             left: 7px;
                         }
                         position: absolute;
-                        top: 18px;
+                        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 15 : 10}px;
                         left: 15px;
                     }
 
@@ -77,7 +82,7 @@ export const MatchShuffle = styled('div')<{$teamCnt:number}>`
                             right: 6px;
                         }
                         position: absolute;
-                        top: 20px;
+                        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 18 : 12}px;
                         right: 13px;
                     }
 
@@ -163,28 +168,14 @@ export const InputValueStyle = styled('input')`
 `;
 
 export const GroupCampStyle = styled('div')<{$camp:number}>`
-    @media (max-width: 768px) {
-        font-size: 1.8rem;
-    }
-    // mobile_view
-    @media (max-width: 500px) {
-        font-size: 1.5rem;
-    }
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 30px;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 10px;
-    svg {
-        // mobile_view
-        @media (max-width: 500px) {
-            height: 25px; 
-            width: 25px;
-        }
-        height: 35px; 
-        width: 35px;
-    }
     color: ${({$camp}) => $camp === 0 ? "#1F85FD" : 
                           $camp === 1 ? "#F60C50" :
                           $camp === 2 ? "#FFD300" :
@@ -194,9 +185,54 @@ export const GroupCampStyle = styled('div')<{$camp:number}>`
                           $camp === 6 ? "#FF5CA8" :
                           $camp === 7 ? "#FF6D00" :
                           $camp === 8 ? "#4CFFD6" : "#A8FF00"};
+    input {
+        width: 120px;
+        padding: 5px 10px;
+        border: 2px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
+                                         $camp === 1 ? "#F60C50" :
+                                         $camp === 2 ? "#FFD300" :
+                                         $camp === 3 ? "#00C853" :
+                                         $camp === 4 ? "#A259FF" :
+                                         $camp === 5 ? "#A0522D" :
+                                         $camp === 6 ? "#FF5CA8" :
+                                         $camp === 7 ? "#FF6D00" :
+                                         $camp === 8 ? "#4CFFD6" : "#A8FF00"};
+        border-radius: 10px;
+        outline: none;
+    }
+    button {
+        position: relative;
+        top: 2px;
+        right: -10px;
+        display: flex;
+        width: 12px;
+        height: 12px;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        .btn_icon {
+            width: 11px;
+            height: 11px;
+            font-size: 1.5rem;
+            color: black;
+            opacity: 0.4;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        &:focus {
+            outline: none;
+            .btn_icon {
+                opacity: 1;
+            }
+        }
+    }
 `
 
-export const InputPlayerStyle = styled('input')<{$camp:number}>`
+export const InputPlayerStyle = styled('input')<{$camp:number; $teamCnt:number, $playerCnt:number}>`
     @media (max-width: 1024px) {
         width: 240px;
         padding: 10px 40px 10px 60px;
@@ -217,9 +253,10 @@ export const InputPlayerStyle = styled('input')<{$camp:number}>`
         font-size: 1.3rem;
     }
     position: relative;
-    width: 300px;
-    margin: 10px 5px;
-    padding: 10px 45px 10px 75px;
+    width: ${({$teamCnt}) => $teamCnt < 4 ? 300 : 
+                             $teamCnt === 4 ? 240 : 200}px;
+    margin: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '7px 5px' : '3px'};
+    padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '10px 45px 10px 60px' : '7px 45px 7px 60px'};
     border: 3px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
                                      $camp === 1 ? "#F60C50" :
                                      $camp === 2 ? "#FFD300" :
@@ -270,7 +307,7 @@ export const CheckStyle = styled('input')`
     }
 `;
 
-export const LabelStyle = styled('label')`
+export const LabelStyle = styled('label')<{$teamCnt:number, $playerCnt:number}>`
     @media (max-width: 1024px) {
         width: 25px;
         height: 20px;
@@ -291,8 +328,8 @@ export const LabelStyle = styled('label')`
     position: relative;
     display: inline-block;
     width: 30px;
-    height: 25px;
-    padding: 5px 0 0;
+    height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 25 : 21}px;
+    padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '5px 0 0' : '3px 0 0'};
     margin: 3px 0 0 0;
     border: 1px solid #7B7A8E;
     border-radius: 7px;
@@ -306,23 +343,6 @@ export const LabelStyle = styled('label')`
     user-select: none;
 
     transition-property: transform;
-
-    &:hover {
-
-        + .tooltip {
-            // mobile_view
-            @media (max-width: 500px) {
-                top: -20px;
-            }
-            top: -23px;
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
-            color: #c97874;
-            z-index: 0;
-        }
-    }
 `;
 
 export const LoadingContainerStyle = styled('div')`
