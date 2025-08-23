@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faPencil as pencil} from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleBaseStore from "./useShuffleBaseStore";
-import useShuffleTeamStore from "./useShuffleTeamStore";
-import useShuffleFixStore from "./useShuffleFixStore";
+import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+import useShuffleTeamStore from "../stores/useShuffleTeamStore";
+import useShuffleFixStore from "../stores/useShuffleFixStore";
 
 import SelectBox from "./selectBox"
 import ControlBox from "./controlBox";

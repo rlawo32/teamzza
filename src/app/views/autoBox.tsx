@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 
-import useShuffleFixStore from "./useShuffleFixStore";
+import useShuffleFixStore from "../stores/useShuffleFixStore";
 import { useEffect } from "react";
 
 const AutoBoxStyle = styled('div')`
