@@ -2,8 +2,9 @@
 
 import styled from "styled-components";
 
-import useShuffleFixStore from "../stores/useShuffleFixStore";
 import { useEffect } from "react";
+
+import useShuffleFixStore from "../stores/useShuffleFixStore";
 
 const AutoBoxStyle = styled('div')`
     position: absolute;

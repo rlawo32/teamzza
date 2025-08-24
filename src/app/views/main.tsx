@@ -4,7 +4,7 @@ import * as Style from "./main.style";
 
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faPencil as pencil} from "@fortawesome/free-solid-svg-icons";
+import { faPencil as pencil } from "@fortawesome/free-solid-svg-icons";
 
 import useShuffleBaseStore from "../stores/useShuffleBaseStore";
 import useShuffleTeamStore from "../stores/useShuffleTeamStore";

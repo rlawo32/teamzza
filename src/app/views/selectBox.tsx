@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faChevronDown as arrow} from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown as arrow } from "@fortawesome/free-solid-svg-icons";
 
 const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
     @media (max-width: 1024px) {
