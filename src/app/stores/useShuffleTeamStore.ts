@@ -346,8 +346,28 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         }
     },
     activeAutoInput: () => {
+        const {teamTitleStorage, teamIdStorage, setPlayerCount, setTeamCount} = useShuffleBaseStore.getState();
         const {autoList} = useShuffleFixStore.getState();
 
+        const autoPlayerList:string[] = autoList.raw.split(/[,\s\/|]+/).filter(Boolean);
+        const autoPlayerCount:number = autoList.cnt;
+        const autoTeamCount:number = Math.ceil(autoPlayerList.length / autoList.cnt);
+
+        setPlayerCount(autoPlayerCount);
+        setTeamCount(autoTeamCount);
+
+        let tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: autoTeamCount }, () => ({title: '', target:false, list: Array.from({ length: autoPlayerCount })}));
+        
+        let idx:number = 1;
+        for(let i=0; i<tempList.length; i++) {
+            tempList[i].title = teamTitleStorage[i];
+            for(let j=0; j<tempList[i].list.length; j++) {
+                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:5, nm:autoPlayerList[idx-1], tmp:null};
+                idx += 1;
+            }
+        }
+
+        set({ teamList: tempList });
     },
 }));
 
