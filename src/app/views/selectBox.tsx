@@ -8,30 +8,21 @@ import { faChevronDown as arrow } from "@fortawesome/free-solid-svg-icons";
 
 const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
     @media (max-width: 1024px) {
-        top: -3.5px;
     }
 
     button {
         @media (max-width: 1024px) {
-            width: 45px;
-            height: 32px;
-            padding: 4px 6px;
         }
         @media (max-width: 768px) {
-            height: 29px;
-            padding: 3px 5px;
         }
         // mobile_view
-        @media (max-width: 480px) {
-            width: 36px;
-            height: 23px;
-            font-size: .8rem;
+        @media (max-width: 500px) {
         }
         display: flex;
         align-items: center;
         justify-content: space-between;
-        width: 45px;
-        height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt <= 5 ? 36 : 32}px;
+        width: 50px;
+        height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 36 : 32}px;
         padding: 5px 7px;
         border: 1px solid grey;
         border-radius: 7px;
@@ -45,11 +36,9 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
 
     .select_box {
         @media (max-width: 1024px) {
-            width: 45px;
         }
         // mobile_view
-        @media (max-width: 480px) {
-            width: 36px;
+        @media (max-width: 500px) {
         }
         position: absolute;
         top: 105%;
@@ -67,11 +56,9 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
 
     ul.select_list {
         @media (max-width: 1024px) {
-            width: 39px;
         }
         // mobile_view
-        @media (max-width: 480px) {
-            width: 30px;
+        @media (max-width: 500px) {
         }
         height: 0;
         width: 44px;
@@ -108,23 +95,33 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
 
     ul.select_list li {
         @media (max-width: 1024px) {
-            width: 39px;
-            padding: 5px;
-            font-size: 1rem;
         }
         @media (max-width: 768px) {
-            font-size: .9rem;
         }
         // mobile_view
-        @media (max-width: 480px) {
-            width: 30px;
-            padding: 4px;
-            font-size: .7rem;
+        @media (max-width: 500px) {
         }
         padding: 6px 5px;
         border-bottom: 1px solid rgb(28 28 31 / 1);
         font-size: 1.2rem;
         opacity: 0.9;
+
+        .item_top {
+            @media (max-width: 768px) {
+            }
+            // mobile_view
+            @media (max-width: 500px) {
+            }
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .item_bottom {
+            // mobile_view
+            @media (max-width: 500px) {
+            }
+            font-size: .9rem;
+        }
 
         &:last-child {
             border: none;
@@ -139,32 +136,27 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
 
         .select_level {
             @media (max-width: 768px) {
-                font-size: 1.2rem;
             }
             // mobile_view
-            @media (max-width: 480px) {
-                font-size: 1rem;
+            @media (max-width: 500px) {
             }
             font-size: 1.4rem;
         }
 
-        .select_rank {
+        .select_text {
             // mobile_view
-            @media (max-width: 480px) {
-                font-size: .7rem;
+            @media (max-width: 500px) {
             }
-            font-size: .8rem;
+            font-size: .9rem;
             letter-spacing: -0.1rem;
         }
     }
 
     .select_arrow {
         @media (max-width: 1024px) {
-            margin-left: 5px;
         }
         // mobile_view
-        @media (max-width: 480px) {
-            margin-left: 4px;
+        @media (max-width: 500px) {
         }
         display: inline-block;
         margin-left: 4px;
@@ -175,12 +167,10 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
 
     .select_box.show_select {
         @media (max-width: 768px) {
-            height: 110px;
             
         }
         // mobile_view
-        @media (max-width: 480px) {
-            
+        @media (max-width: 500px) {
         }
         padding: 5px 3px;
         height: 130px;
@@ -189,11 +179,9 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
 
     .select_list.show_select {
         @media (max-width: 768px) {
-            height: 100px;
         }
         // mobile_view
-        @media (max-width: 480px) {
-            
+        @media (max-width: 500px) {
         }
         height: 120px;
         z-index: 11;
@@ -226,7 +214,7 @@ const SelectBoxShuffle = (props : SelectBoxShuffleProps) => {
 
     const [isSelectBoxShow, setIsSelectBoxShow] = useState<boolean>(false);
 
-    const selectItemList:string[] = ["E", "D", "C", "B", "A"];
+    const selectItemList:string[] = ["1", "2", "3", "4", "5"];
         
     const customSelectBox = () => {
         const result:any[] = [];
@@ -236,7 +224,14 @@ const SelectBoxShuffle = (props : SelectBoxShuffleProps) => {
             result.push(<li key={"level_" + (i+props.inputData.id)} value={level}
                             onClick={() => onClickSelectItem(i, level)}
                             ref={(li:any) => (selectItem.current[i] = li)}>
-                {selectItemList[level-1]} RANK</li>)
+                            <div className="item_top">
+                                {selectItemList[level-1]}
+                            </div>
+                            <div className="item_bottom">
+                                LEVEL
+                            </div>
+                        </li>)
+                 
         }
 
         return result;
@@ -283,8 +278,8 @@ const SelectBoxShuffle = (props : SelectBoxShuffleProps) => {
                     <div className="select_level">
                         {selectItemList[props.inputData.lv-1]}
                     </div>
-                    <div className="select_rank">
-                        RANK
+                    <div className="select_text">
+                        LEVEL
                     </div>
                 </div>
                 <div className="select_arrow" ref={selectArrow}>
