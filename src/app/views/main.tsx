@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil as pencil } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleFixStore from "../stores/useShuffleFixStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleFixStore from "./useShuffleFixStore";
 
 import SelectBox from "./selectBox"
 import ControlBox from "./controlBox";
@@ -52,17 +52,10 @@ const Main = () => {
         };
     }, []);
 
-    /* 
-        명단 변환
-        명단 작성시 , / | 공백 등으로 이름 구분
-        1그룹당 그룹원 수 설정 (자동 계산 ex. 그룹원 수를 4로 할 경우 최대 입력 인원 40명 / 6으로 할 경우 최대 입력 인원 60명)
-
-    */
-
     return (
         <Style.MatchShuffle $teamCnt={teamCount} $playerCnt={playerCount}>
-            {isModal ? <AutoBox /> : <></>}
-            <Style.ControlSection $pos="top">
+            {isModal ? <AutoBox isModal={isModal} setIsModal={setIsModal} /> : <></>}
+            <Style.ControlSection $pos="top" $teamCnt={teamCount} $playerCnt={playerCount}>
                 <div className="button_section">
                     <button onClick={() => insertTeam()}>그룹 추가</button>
                     <button onClick={() => deleteTeam()}>그룹 삭제</button>
@@ -93,7 +86,7 @@ const Main = () => {
                                     </div>
                                     <div className="list_check">
                                         <Style.CheckStyle onChange={(e) => updateFixData({checked:e.target.checked, index:child.idx, id:child.id, arrNo:idx1, value:idx2, tmp:null})} 
-                                                    checked={fixList.some(data => data.idx === child.idx) ? true : false} type="checkbox" id={"chkbx" + child.id} />
+                                                    checked={fixList.some(data => data.idx === child.idx) ? true : false} type="checkbox" id={"chkbx" + child.id}  $teamCnt={teamCount} $playerCnt={playerCount} />
                                         <Style.LabelStyle htmlFor={"chkbx" + child.id} className="check_box" $teamCnt={teamCount} $playerCnt={playerCount}>
                                             고정
                                         </Style.LabelStyle>
@@ -104,7 +97,7 @@ const Main = () => {
                     </div>
                 ))}
             </div>
-            <Style.ControlSection $pos="bottom">
+            <Style.ControlSection $pos="bottom" $teamCnt={teamCount} $playerCnt={playerCount}>
                 <ControlBox />
             </Style.ControlSection>
         </Style.MatchShuffle>
