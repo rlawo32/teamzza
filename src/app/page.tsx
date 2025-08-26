@@ -1,3 +1,5 @@
+'use client'
+
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme/theme";
 import { GlobalStyle } from "./theme/global";

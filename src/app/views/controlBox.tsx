@@ -19,7 +19,7 @@ const ControlBoxStyle = styled('div')`
     // mobile_view
     @media (max-width: 500px) {
     }
-    height: 130px;
+    height: 150px;
     padding: 5px 10px;
 
     .info_section {
