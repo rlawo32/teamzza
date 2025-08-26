@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown as arrow } from "@fortawesome/free-solid-svg-icons";
 
-const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
+const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
     @media (max-width: 1024px) {
     }
 
@@ -24,9 +24,9 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
         width: 50px;
         height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 36 : 32}px;
         padding: 5px 7px;
-        border: 1px solid grey;
-        border-radius: 7px;
-        background: rgba(42,50,73, .7);
+        border: none;
+        border-radius: 5px;
+        background-color: #F0F0F0;
         color: #222;
         font-size: 1rem;
         font-weight: 700;
@@ -48,7 +48,7 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
         padding: 0 3px;
         border: none;
         border-radius: 5px;
-        background-color: rgb(28 28 31 / 1);
+        background-color: #ffffff;
         text-align: center;
         z-index: 11;
         transition: all 0.3s ease-in-out;
@@ -61,15 +61,15 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
         @media (max-width: 500px) {
         }
         height: 0;
-        width: 44px;
+        width: 100%;
         padding: 0;
         border: none;
         border-radius: 5px;
         overflow: hidden;
         overflow-y: scroll;
-        background-color: rgb(40 40 48 / 1);
+        background-color: #F0F0F0;
         /* background-color: rgb(49 49 60 / 1); */
-        color: rgb(255 255 255 / 1);
+        color: #222;
         text-align: center;
         cursor: pointer;
         z-index: 12;
@@ -79,11 +79,11 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
         transition: all 0.3s ease-in-out;
         
         &::-webkit-scrollbar {
-            width: 1px;
+            width: 2px;
         }
 
         &::-webkit-scrollbar-thumb {
-            background-color: rgb(255 255 255 / 1);
+            background-color: rgb(205 205 205 / 1);
             border-radius: 1px;
         }
 
@@ -102,7 +102,7 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
         @media (max-width: 500px) {
         }
         padding: 6px 5px;
-        border-bottom: 1px solid rgb(28 28 31 / 1);
+        border-bottom: 2px solid #ffffff;
         font-size: 1.2rem;
         opacity: 0.9;
 
@@ -172,8 +172,9 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
         // mobile_view
         @media (max-width: 500px) {
         }
-        padding: 5px 3px;
-        height: 130px;
+        padding: 4px 3px;
+        height: 120px;
+        border: 1px solid #D1D5DB;
         z-index: 11;
     }
 
@@ -183,7 +184,7 @@ const SelectBoxShuffleStyle = styled('div')<{$teamCnt:number, $playerCnt:number}
         // mobile_view
         @media (max-width: 500px) {
         }
-        height: 120px;
+        height: 111px;
         z-index: 11;
     }
 
@@ -206,7 +207,7 @@ interface SelectBoxShuffleProps {
     playerCnt: number;
 }
 
-const SelectBoxShuffle = (props : SelectBoxShuffleProps) => {
+const LevelBox = (props : SelectBoxShuffleProps) => {
     const selectBox:any = useRef<any>(null);
     const selectList:any = useRef<any>(null);
     const selectItem:any = useRef<any>([]);
@@ -272,7 +273,7 @@ const SelectBoxShuffle = (props : SelectBoxShuffleProps) => {
     }, [isSelectBoxShow])
 
     return (
-        <SelectBoxShuffleStyle $teamCnt={props.teamCnt} $playerCnt={props.playerCnt}>
+        <LevelBoxStyle $teamCnt={props.teamCnt} $playerCnt={props.playerCnt}>
             <button onClick={() => setIsSelectBoxShow(!isSelectBoxShow)}>
                 <div className="select_value">
                     <div className="select_level">
@@ -291,8 +292,8 @@ const SelectBoxShuffle = (props : SelectBoxShuffleProps) => {
                     {customSelectBox()}
                 </ul>
             </div>
-        </SelectBoxShuffleStyle>
+        </LevelBoxStyle>
     )
 }
 
-export default SelectBoxShuffle;
+export default LevelBox;
