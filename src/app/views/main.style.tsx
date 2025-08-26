@@ -297,7 +297,7 @@ export const CheckStyle = styled('input')<{$teamCnt:number, $playerCnt:number}>`
             // mobile_view
             @media (max-width: 500px) {
             }
-            padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '6px 0 0' : '3px 0 0'};
+            padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '5px 0 0' : '3px 0 0'};
             margin-top: 4px;
             margin-bottom: 2px;
             border: none;
@@ -324,7 +324,7 @@ export const LabelStyle = styled('label')<{$teamCnt:number, $playerCnt:number}>`
     display: inline-block;
     width: 30px;
     height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 25 : 21}px;
-    padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '5px 0 0' : '3px 0 0'};
+    padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '4px 0 0' : '2px 0 0'};
     margin: 3px 0 0 0;
     border: 1px solid #D1D5DB;
     border-radius: 7px;
