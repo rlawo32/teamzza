@@ -4,14 +4,14 @@ import styled from "styled-components";
 
 import { useEffect, useRef } from "react";
 
-import useShuffleFixStore from "../stores/useShuffleFixStore";
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
+import useShuffleFixStore from "./useShuffleFixStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
 
 import CountBox from "./countBox";
 
 const AutoBoxStyle = styled('div')`
     position: absolute;
-    top: 26%;
+    top: 35%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 600px;
