@@ -2,7 +2,7 @@ import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme/theme";
 import { GlobalStyle } from "./theme/global";
 
-import useShuffleBaseStore from "./reference/testView9/useShuffleBaseStore";
+import useShuffleBaseStore from "./stores/useShuffleBaseStore";
 
 import Main from "./views/main";
 

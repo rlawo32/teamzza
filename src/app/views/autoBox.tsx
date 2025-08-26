@@ -4,8 +4,8 @@ import styled from "styled-components";
 
 import { useEffect, useRef } from "react";
 
-import useShuffleFixStore from "./useShuffleFixStore";
-import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleFixStore from "../stores/useShuffleFixStore";
+import useShuffleTeamStore from "../stores/useShuffleTeamStore";
 
 import CountBox from "./countBox";
 
