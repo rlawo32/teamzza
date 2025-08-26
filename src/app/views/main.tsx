@@ -6,16 +6,17 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil as pencil } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleFixStore from "../stores/useShuffleFixStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleFixStore from "./useShuffleFixStore";
 
-import SelectBox from "./selectBox"
+import LevelBox from "./levelBox"
 import ControlBox from "./controlBox";
 import AutoBox from "./autoBox";
 
 const Main = () => {
-    const inputRef = useRef<HTMLInputElement>(null);
+    const titleRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLDivElement[]>([]);
 
     const { teamList, createTeam, insertTeam, deleteTeam, insertPlayer, deletePlayer } = useShuffleTeamStore();
     const { playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
@@ -40,8 +41,8 @@ const Main = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
-                inputRef.current.blur();
+            if (titleRef.current && !titleRef.current.contains(event.target as Node)) {
+                titleRef.current.blur();
                 updateTargetAllData({target:false});
             }
         };
@@ -50,6 +51,26 @@ const Main = () => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
+    }, []);
+
+    useEffect(() => {
+        let current = 0;
+
+        const animate = () => {
+            inputRef.current.forEach(el => el?.classList.remove('scale-up', 'scale-down'));
+
+            const el = inputRef.current[current];
+            if (el) {
+                el.classList.add('scale-up');
+                setTimeout(() => el.classList.replace('scale-up', 'scale-down'), 250);
+            }
+
+            current = (current + 1) % inputRef.current.length;
+        };
+
+        // const interval = setInterval(animate, 250); 
+
+        // return () => clearInterval(interval);
     }, []);
 
     return (
@@ -69,20 +90,25 @@ const Main = () => {
                     <div key={idx1} className="list_wrap" id={idx1 + "_t"}>
                         <div className="list_parent">
                             <Style.GroupCampStyle $camp={idx1}>
+                                <div className="list_title">
+                                    {
+                                        parent.target ? <input onChange={(e) => updateTitleData({arrNo:idx1, title:e.target.value})} value={parent.title} 
+                                                            type="text" ref={titleRef} autoFocus={true} spellCheck={false} /> : parent.title
+                                    }
+                                </div>
                                 {
-                                    parent.target ? <input onChange={(e) => updateTitleData({arrNo:idx1, title:e.target.value})} value={parent.title} 
-                                                        type="text" ref={inputRef} autoFocus={true} /> : parent.title
+                                    parent.target ? <></> : 
+                                        <button onClick={() => updateTargetData({arrNo:idx1, target:true})}>
+                                            <FontAwesomeIcon icon={pencil} className="btn_icon" />
+                                        </button>
                                 }
-                                <button onClick={() => updateTargetData({arrNo:idx1, target:true})}>
-                                    <FontAwesomeIcon icon={pencil} className="btn_icon" />
-                                </button>
                             </Style.GroupCampStyle>
                             {parent.list.map((child, idx2) => (
-                                <div key={idx2} className="list_child">
+                                <Style.ListChild key={idx2} $idx={child.idx} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[child.idx-1] = el;}}>
                                     <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
                                                 type="text" id={"input_" + child.id} spellCheck={false} $camp={idx1} $teamCnt={teamCount} $playerCnt={playerCount} />
                                     <div className="list_select">
-                                        <SelectBox updateSelectData={updateSelectData} inputData={child} inputIdx={idx1} teamCnt={teamCount} playerCnt={playerCount} />
+                                        <LevelBox updateSelectData={updateSelectData} inputData={child} inputIdx={idx1} teamCnt={teamCount} playerCnt={playerCount} />
                                     </div>
                                     <div className="list_check">
                                         <Style.CheckStyle onChange={(e) => updateFixData({checked:e.target.checked, index:child.idx, id:child.id, arrNo:idx1, value:idx2, tmp:null})} 
@@ -91,7 +117,7 @@ const Main = () => {
                                             고정
                                         </Style.LabelStyle>
                                     </div>
-                                </div>
+                                </Style.ListChild>
                             ))}
                         </div>
                     </div>
