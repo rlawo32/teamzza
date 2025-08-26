@@ -36,7 +36,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
     createTeam: () => {
         const {teamTitleStorage, teamIdStorage, playerCount, teamCount} = useShuffleBaseStore.getState();
 
-        let tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: teamCount }, () => ({title: '', target:false, list: Array.from({ length: playerCount })}));
+        const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: teamCount }, () => ({title: '', target:false, list: Array.from({ length: playerCount })}));
 /*
         if(realPlayerCount % realTeamCount !== 0) {
             let tempComposition:number = Math.ceil(realPlayerCount/realTeamCount);
@@ -80,7 +80,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         const {teamTitleStorage, teamIdStorage, playerCount, teamCount, increaseTeamCount} = useShuffleBaseStore.getState();
         const {setFixList, setRollbackList} = useShuffleFixStore.getState();
 
-        let tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]} = {title:teamTitleStorage[teamCount], target:false, list:Array.from({length: playerCount})};
+        const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]} = {title:teamTitleStorage[teamCount], target:false, list:Array.from({length: playerCount})};
         
         if(teamCount < 10) {
             let idx:number = playerCount * teamCount + 1;
@@ -237,7 +237,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         const {playerCount, teamCount} = useShuffleBaseStore.getState();
         
         const temp1DemList:{idx:number, id:string, lv:number, nm:string, tmp:any}[] = [];
-        let temp2DemList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: teamCount }, () => ({title: '', target:false, list: Array.from({ length: playerCount })}));
+        const temp2DemList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: teamCount }, () => ({title: '', target:false, list: Array.from({ length: playerCount })}));
         const tempCompare:{idx:number, sum:number, len:number}[] = [];
 
         for(let i=0; i<copyTeamList.length; i++) {
@@ -356,7 +356,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         setPlayerCount(autoPlayerCount);
         setTeamCount(autoTeamCount);
 
-        let tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: autoTeamCount }, () => ({title: '', target:false, list: Array.from({ length: autoPlayerCount })}));
+        const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: autoTeamCount }, () => ({title: '', target:false, list: Array.from({ length: autoPlayerCount })}));
         
         let idx:number = 1;
         for(let i=0; i<tempList.length; i++) {
