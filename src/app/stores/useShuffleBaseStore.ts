@@ -3,6 +3,9 @@ import { create } from "zustand";
 interface shuffleBaseStore {
     teamTitleStorage: string[];
     teamIdStorage: string[];
+
+    themeMode: boolean;
+    setThemeMode: (themeMode: boolean) => void;
     
     playerCount: number;
     setPlayerCount: (playerCount: number) => void;
@@ -36,6 +39,11 @@ interface shuffleBaseStore {
 const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
     teamTitleStorage: ['TeamBlue', 'TeamRed', 'TeamYellow', 'TeamGreen', 'TeamPurple', 'TeamBrown', 'TeamPink', 'TeamOrange', 'TeamMint', 'TeamLime'],
     teamIdStorage: ['bl', 're', 'yl', 'gr', 'pu', 'br', 'pi', 'or', 'mi', 'li'],
+    themeMode: false,
+    setThemeMode: (themeMode: boolean) =>
+        set((state: {themeMode: boolean}) => ({
+            themeMode: (state.themeMode = themeMode),
+        })),
     playerCount: 5,
     setPlayerCount: (playerCount: number) =>
         set((state: {playerCount: number}) => ({
