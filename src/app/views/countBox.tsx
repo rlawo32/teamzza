@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { useEffect, useRef, useState } from "react";
 
-import useShuffleFixStore from "./useShuffleFixStore";
+import useShuffleFixStore from "../stores/useShuffleFixStore";
 
 const CountBoxStyle = styled('div')`
     @media (max-width: 1024px) {
