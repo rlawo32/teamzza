@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil as pencil } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleFixStore from "../stores/useShuffleFixStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleFixStore from "./useShuffleFixStore";
 
 import LevelBox from "./levelBox"
 import ControlBox from "./controlBox";
@@ -19,7 +19,7 @@ const Main = () => {
     const inputRef = useRef<HTMLDivElement[]>([]);
 
     const { teamList, createTeam, insertTeam, deleteTeam, insertPlayer, deletePlayer } = useShuffleTeamStore();
-    const { playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
+    const { shuffleProgress, playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
     const { fixList, rollbackList } = useShuffleFixStore();
 
     const updateTitleData = useShuffleTeamStore((state) => state.updateTitleData);
@@ -104,9 +104,12 @@ const Main = () => {
                                 }
                             </Style.GroupCampStyle>
                             {parent.list.map((child, idx2) => (
-                                <Style.ListChild key={idx2} $idx={child.idx} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[child.idx-1] = el;}}>
-                                    <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
-                                                type="text" id={"input_" + child.id} spellCheck={false} $camp={idx1} $teamCnt={teamCount} $playerCnt={playerCount} />
+                                <Style.ListChild key={idx2} $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[child.idx-1] = el;}}>
+                                    <Style.InputWrapperStyle $camp={idx1} $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} $shuffle={shuffleProgress}>
+                                        <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
+                                                    type="text" id={"input_" + child.id} spellCheck={false} $camp={idx1} $teamCnt={teamCount} $playerCnt={playerCount} />
+                                        <div className="dot" />
+                                    </Style.InputWrapperStyle>
                                     <div className="list_select">
                                         <LevelBox updateSelectData={updateSelectData} inputData={child} inputIdx={idx1} teamCnt={teamCount} playerCnt={playerCount} />
                                     </div>
