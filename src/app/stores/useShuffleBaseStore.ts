@@ -6,6 +6,8 @@ interface shuffleBaseStore {
 
     themeMode: boolean;
     setThemeMode: (themeMode: boolean) => void;
+    shuffleProgress: boolean;
+    setShuffleProgress: (themeMode: boolean) => void;
     
     playerCount: number;
     setPlayerCount: (playerCount: number) => void;
@@ -43,6 +45,11 @@ const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
     setThemeMode: (themeMode: boolean) =>
         set((state: {themeMode: boolean}) => ({
             themeMode: (state.themeMode = themeMode),
+        })),
+    shuffleProgress: false,
+    setShuffleProgress: (shuffleProgress: boolean) =>
+        set((state: {shuffleProgress: boolean}) => ({
+            shuffleProgress: (state.shuffleProgress = shuffleProgress),
         })),
     playerCount: 5,
     setPlayerCount: (playerCount: number) =>
