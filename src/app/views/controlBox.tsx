@@ -10,8 +10,8 @@ import {
     faScaleBalanced as icon_balance, faRotateLeft as icon_rollback,
 } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
 
 const ControlBoxStyle = styled('div')`
     @media (max-width: 768px) {
@@ -19,7 +19,7 @@ const ControlBoxStyle = styled('div')`
     // mobile_view
     @media (max-width: 500px) {
     }
-    height: 150px;
+    height: 130px;
     padding: 5px 10px;
 
     .info_section {
@@ -168,8 +168,8 @@ const ControlBoxStyle = styled('div')`
 
 const ControlBox = () => {
     const { shuffleRandom, shuffleBalance, shuffleRefresh, insertRollback, activeRollback } = useShuffleTeamStore();
-    const { shuffleCount, increaseShuffleCount, shuffleTime, setShuffleTime, increaseShuffleTime, decreaseShuffleTime, 
-        reduceTime, setReduceTime, increaseReduceTime, decreaseReduceTime } = useShuffleBaseStore();
+    const { setShuffleProgress, shuffleCount, increaseShuffleCount, shuffleTime, setShuffleTime, 
+        increaseShuffleTime, decreaseShuffleTime, reduceTime, setReduceTime, increaseReduceTime, decreaseReduceTime } = useShuffleBaseStore();
 
     const [oneShuffleChk, setOneShuffleChk] = useState<boolean>(false);
     const [onClickActiveChk, setOnClickActiveChk] = useState<boolean>(false);
@@ -187,6 +187,7 @@ const ControlBox = () => {
         if(!onClickActiveChk) { 
             insertRollback();
             setOnClickActiveChk(true);
+            setShuffleProgress(true);
             let intervalTime:number = shuffleTime;
             const interval = setInterval(() => {
                 shuffleRandom();    
@@ -194,6 +195,7 @@ const ControlBox = () => {
                 intervalTime -= reduceTime;
                 if(intervalTime <= 0) {
                     setOnClickActiveChk(false);
+                    setShuffleProgress(false);
                     clearInterval(interval);
                 }
             }, reduceTime);
@@ -204,6 +206,7 @@ const ControlBox = () => {
         if(!onClickActiveChk) { 
             insertRollback();
             setOnClickActiveChk(true);
+            setShuffleProgress(true);
             let intervalTime:number = shuffleTime;
             const interval = setInterval(() => {
                 shuffleBalance();    
@@ -211,6 +214,7 @@ const ControlBox = () => {
                 intervalTime -= reduceTime;
                 if(intervalTime <= 0) {
                     setOnClickActiveChk(false);
+                    setShuffleProgress(false);
                     clearInterval(interval);
                 }
             }, reduceTime);
