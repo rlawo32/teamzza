@@ -57,8 +57,14 @@ export const ListChild = styled('div')<{$idx:number, $teamCnt:number, $playerCnt
     position: relative;
     display: flex;
     align-items: center;
-    margin: auto;
+    width: ${({$teamCnt}) => $teamCnt < 4 ? 310 : 
+                             $teamCnt === 4 ? 250 : 210}px;
+    height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 60 : 54}px;
+    margin: 5px 0;
+    border-radius: 20px;
+    text-align: center;
     transition: transform 0.4s ease-in-out;
+	overflow: hidden;
     
     .list_select {
         @media (max-width: 1024px) {
@@ -69,7 +75,7 @@ export const ListChild = styled('div')<{$idx:number, $teamCnt:number, $playerCnt
         @media (max-width: 500px) {
         }
         position: absolute;
-        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 15 : 10}px;
+        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 12 : 7}px;
         left: 15px;
     }
 
@@ -80,15 +86,8 @@ export const ListChild = styled('div')<{$idx:number, $teamCnt:number, $playerCnt
         @media (max-width: 500px) {
         }
         position: absolute;
-        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 16 : 11}px;
+        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 14 : 9}px;
         right: 13px;
-    }
-
-    .list_image {
-        position: absolute;
-        top: 35%;
-        left: 10px;
-        transform: translateY(-35%);
     }
 
     &.scale-up {
@@ -155,26 +154,83 @@ export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $play
 
 `;
 
-export const InputValueStyle = styled('input')`
-    width: 100px;
-    margin: 20px 10px;
-    padding: 18px 0 13px 20px;
-    border: none;
-    border-radius: 15px;
-    background: rgba(42,50,73, .68);
-    color: #ffffff;
-    font-size: 2.2rem;
-    outline: none;
+export const InputWrapperStyle = styled('div')<{$camp:number, $idx:number, $teamCnt:number, $playerCnt:number, $shuffle:boolean}>`
+	
+	&::before {
+		content: '';
+		position: absolute;
+		width: 200%;
+		height: 200%;
+		background-color: ${({$camp}) => $camp === 0 ? "#1F85FD" : 
+                                         $camp === 1 ? "#F60C50" :
+                                         $camp === 2 ? "#FFD300" :
+                                         $camp === 3 ? "#00C853" :
+                                         $camp === 4 ? "#A259FF" :
+                                         $camp === 5 ? "#A0522D" :
+                                         $camp === 6 ? "#FF5CA8" :
+                                         $camp === 7 ? "#FF6D00" :
+                                         $camp === 8 ? "#4CFFD6" : "#A8FF00"};
 
-    &::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
+        border-radius: 18px;
+        z-index: -2;
+	}
+
+    /* &::after {
+		content: '';
+		position: absolute;
+        top: 30%;
+        left: -50%;
+		width: 200%;
+		height: 50%;
+        border-radius: 18px;
+        z-index: -1;
+        background: ${({$shuffle}) => $shuffle ? 'conic-gradient(from 0deg, #333333 25% 50%, transparent 25% 100%)' : ''};
+        animation: ${({$shuffle}) => $shuffle ? 'rotate 4s linear infinite' : ''};
+    } */
+
+    .dot {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 20px;
+        display: block;
+        width: ${({$teamCnt}) => $teamCnt < 4 ? 'calc(259px * .05)' : 
+                                 $teamCnt === 4 ? 'calc(199px * .05)' : 'calc(159px * .05)'};
+        height: 90%;
+        border-radius: 50%;
+        transition: ${({$shuffle, $idx}) => $shuffle ? 'opacity .' + $idx + 's ease' : ''};
+        animation: ${({$shuffle}) => $shuffle ? 'atom 2s infinite linear' : ''};
+        animation-delay: ${({$shuffle, $idx}) => $shuffle ? '.' + $idx + 's' : ''};
+        opacity: ${({$shuffle}) => $shuffle ? '1' : '0'};
+        z-index: -2;
     }
 
-    &::placeholder {
-        color: gray;
-        font-size: 17px;
-        opacity: 0.7;
+    .dot::after {
+        content: '';
+        position: absolute;
+        left: calc(10% - .4em);
+        top: -8px;
+        height: 30px;
+        width: 40px;
+        background: #333333;
+        border: none;
+        border-radius: 25%;
+    }
+
+    @keyframes rotate {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    @keyframes atom {
+        0% {transform: translateX(0) rotate(0);}
+        30%{transform: translateX(${({$teamCnt}) => $teamCnt < 4 ? 'calc(259px - (259px * .01))' : 
+                                                    $teamCnt === 4 ? 'calc(199px - (199px * .01))' : 'calc(159px - (159px * .01))'}) rotate(0);}
+        50% {transform: translateX(${({$teamCnt}) => $teamCnt < 4 ? 'calc(259px - (259px * .01))' : 
+                                                     $teamCnt === 4 ? 'calc(199px - (199px * .01))' : 'calc(159px - (159px * .01))'}) rotate(180deg);}
+        80% {transform: translateX(0) rotate(180deg);}
+        100% {transform: translateX(0) rotate(360deg);}
     }
 `;
 
@@ -243,7 +299,7 @@ export const GroupCampStyle = styled('div')<{$camp:number}>`
     }
 `
 
-export const InputPlayerStyle = styled('input')<{$camp:number; $teamCnt:number, $playerCnt:number}>`
+export const InputPlayerStyle = styled('input')<{$camp:number, $teamCnt:number, $playerCnt:number}>`
     @media (max-width: 1024px) {
     }
     @media (max-width: 768px) {
@@ -254,10 +310,10 @@ export const InputPlayerStyle = styled('input')<{$camp:number; $teamCnt:number, 
     position: relative;
     width: ${({$teamCnt}) => $teamCnt < 4 ? 300 : 
                              $teamCnt === 4 ? 240 : 200}px;
-    height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 52   : 46}px;
-    margin: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '7px 5px' : '3px'};
+    height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 52 : 46}px;
+    margin: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '7px 5px' : '6px'};
     padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '10px 45px 10px 70px' : '7px 45px 7px 70px'};
-    border: 3px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
+    border: 0px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
                                      $camp === 1 ? "#F60C50" :
                                      $camp === 2 ? "#FFD300" :
                                      $camp === 3 ? "#00C853" :
@@ -297,7 +353,7 @@ export const CheckStyle = styled('input')<{$teamCnt:number, $playerCnt:number}>`
             // mobile_view
             @media (max-width: 500px) {
             }
-            padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '5px 0 0' : '3px 0 0'};
+            padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '6px 0 0' : '3px 0 0'};
             margin-top: 4px;
             margin-bottom: 2px;
             border: none;
@@ -324,7 +380,7 @@ export const LabelStyle = styled('label')<{$teamCnt:number, $playerCnt:number}>`
     display: inline-block;
     width: 30px;
     height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 25 : 21}px;
-    padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '4px 0 0' : '2px 0 0'};
+    padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '5px 0 0' : '3px 0 0'};
     margin: 3px 0 0 0;
     border: 1px solid #D1D5DB;
     border-radius: 7px;
