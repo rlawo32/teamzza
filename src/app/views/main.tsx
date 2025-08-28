@@ -54,24 +54,34 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        let current = 0;
+        let current:number = 0;
+        let timeoutId:NodeJS.Timeout;
 
         const animate = () => {
             inputRef.current.forEach(el => el?.classList.remove('scale-up', 'scale-down'));
 
-            const el = inputRef.current[current];
-            if (el) {
+            const el:HTMLDivElement|null = inputRef.current[current];
+            if(el) {
                 el.classList.add('scale-up');
-                setTimeout(() => el.classList.replace('scale-up', 'scale-down'), 250);
+                setTimeout(() => el.classList.replace('scale-up', 'scale-down'), 60);
             }
 
-            current = (current + 1) % inputRef.current.length;
+            current++;
+
+            if(current < inputRef.current.length) {
+                timeoutId = setTimeout(animate, 60);
+            } else {
+                current = 0;
+                timeoutId = setTimeout(animate, 1500);
+            }
         };
 
-        // const interval = setInterval(animate, 250); 
+        if(shuffleProgress) {
+            animate();
+        }
 
-        // return () => clearInterval(interval);
-    }, []);
+        return () => clearTimeout(timeoutId);
+    }, [shuffleProgress]);
 
     return (
         <Style.MatchShuffle $teamCnt={teamCount} $playerCnt={playerCount}>
@@ -104,8 +114,8 @@ const Main = () => {
                                 }
                             </Style.GroupCampStyle>
                             {parent.list.map((child, idx2) => (
-                                <Style.ListChild key={idx2} $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[child.idx-1] = el;}}>
-                                    <Style.InputWrapperStyle $camp={idx1} $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} $shuffle={shuffleProgress}>
+                                <Style.ListChild key={idx2} $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[(idx1*playerCount)+idx2] = el;}}>
+                                    <Style.InputWrapperStyle $camp={idx1} $idx={String(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} $shuffle={shuffleProgress}>
                                         <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
                                                     type="text" id={"input_" + child.id} spellCheck={false} $camp={idx1} $teamCnt={teamCount} $playerCnt={playerCount} />
                                         <div className="dot" />
