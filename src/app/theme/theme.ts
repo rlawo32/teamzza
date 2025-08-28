@@ -1,5 +1,5 @@
 export const lightTheme = {
-    bgColor: "",
+    bgColor: "#FAFAFA",
     reverseBgColor: "",
     textColor: "",
     reverseTextColor: "",
@@ -12,7 +12,7 @@ export const lightTheme = {
 };
 
 export const darkTheme = {
-    bgColor: "",
+    bgColor: "222",
     reverseBgColor: "",
     textColor: "",
     reverseTextColor: "",
