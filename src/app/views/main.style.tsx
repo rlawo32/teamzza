@@ -57,13 +57,13 @@ export const ListChild = styled('div')<{$idx:number, $teamCnt:number, $playerCnt
     position: relative;
     display: flex;
     align-items: center;
-    width: ${({$teamCnt}) => $teamCnt < 4 ? 310 : 
-                             $teamCnt === 4 ? 250 : 210}px;
+    width: ${({$teamCnt, $playerCnt}) => $teamCnt < 4 ? 310 : 
+                                         $teamCnt === 4 ? 250 : 210}px;
     height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 60 : 54}px;
     margin: 5px 0;
     border-radius: 20px;
     text-align: center;
-    transition: transform 0.4s ease-in-out;
+    transition: transform .2s ease-in-out;
 	overflow: hidden;
     
     .list_select {
@@ -75,7 +75,7 @@ export const ListChild = styled('div')<{$idx:number, $teamCnt:number, $playerCnt
         @media (max-width: 500px) {
         }
         position: absolute;
-        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 12 : 7}px;
+        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 12 : 10}px;
         left: 15px;
     }
 
@@ -86,15 +86,17 @@ export const ListChild = styled('div')<{$idx:number, $teamCnt:number, $playerCnt
         @media (max-width: 500px) {
         }
         position: absolute;
-        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 14 : 9}px;
+        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 14 : 12}px;
         right: 13px;
     }
 
     &.scale-up {
-        transform: scale(1.03);
+        transform: scale(1.1);
+        transition: transform 0.3s ease;
     }
     &.scale-down {
         transform: scale(1);
+        transition: transform 0.3s ease;
     }
 `
 
@@ -154,7 +156,7 @@ export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $play
 
 `;
 
-export const InputWrapperStyle = styled('div')<{$camp:number, $idx:number, $teamCnt:number, $playerCnt:number, $shuffle:boolean}>`
+export const InputWrapperStyle = styled('div')<{$camp:number, $idx:string, $teamCnt:number, $playerCnt:number, $shuffle:boolean}>`
 	
 	&::before {
 		content: '';
@@ -198,9 +200,9 @@ export const InputWrapperStyle = styled('div')<{$camp:number, $idx:number, $team
                                  $teamCnt === 4 ? 'calc(199px * .05)' : 'calc(159px * .05)'};
         height: 90%;
         border-radius: 50%;
-        transition: ${({$shuffle, $idx}) => $shuffle ? 'opacity .' + $idx + 's ease' : ''};
+        transition: ${({$shuffle, $idx}) => $shuffle ? 'opacity .' + $idx.substring($idx.length - 1) + 's ease' : ''};
         animation: ${({$shuffle}) => $shuffle ? 'atom 2s infinite linear' : ''};
-        animation-delay: ${({$shuffle, $idx}) => $shuffle ? '.' + $idx + 's' : ''};
+        animation-delay: ${({$shuffle, $idx}) => $shuffle ? '.' + $idx.substring($idx.length - 1) + 's' : ''};
         opacity: ${({$shuffle}) => $shuffle ? '1' : '0'};
         z-index: -2;
     }
@@ -212,7 +214,15 @@ export const InputWrapperStyle = styled('div')<{$camp:number, $idx:number, $team
         top: -8px;
         height: 30px;
         width: 40px;
-        background: #333333;
+        background: ${({$camp}) => $camp === 0 ? "#66B2FF" : 
+                                   $camp === 1 ? "#FF6B6B" :
+                                   $camp === 2 ? "#FFE066" :
+                                   $camp === 3 ? "#66FF99" :
+                                   $camp === 4 ? "#D1A3FF" :
+                                   $camp === 5 ? "#C97F4E" :
+                                   $camp === 6 ? "#FFAADD" :
+                                   $camp === 7 ? "#FFAB40" :
+                                   $camp === 8 ? "#A0FFF0" : "#D4FF70"};
         border: none;
         border-radius: 25%;
     }
@@ -308,10 +318,11 @@ export const InputPlayerStyle = styled('input')<{$camp:number, $teamCnt:number, 
     @media (max-width: 500px) {
     }
     position: relative;
+    left: 0px;
     width: ${({$teamCnt}) => $teamCnt < 4 ? 300 : 
                              $teamCnt === 4 ? 240 : 200}px;
     height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 52 : 46}px;
-    margin: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '7px 5px' : '6px'};
+    margin: 7px 5px;
     padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '10px 45px 10px 70px' : '7px 45px 7px 70px'};
     border: 0px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
                                      $camp === 1 ? "#F60C50" :
