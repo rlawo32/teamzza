@@ -1,14 +1,15 @@
 'use client'
 
+import ReactDOM from "react-dom";
 import * as Style from "./main.style";
 
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil as pencil } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleFixStore from "../stores/useShuffleFixStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleFixStore from "./useShuffleFixStore";
 
 import LevelBox from "./levelBox"
 import ControlBox from "./controlBox";
@@ -85,7 +86,7 @@ const Main = () => {
 
     return (
         <Style.MatchShuffle $teamCnt={teamCount} $playerCnt={playerCount}>
-            {isModal ? <AutoBox isModal={isModal} setIsModal={setIsModal} /> : <></>}
+            <AutoBox isModal={isModal} setIsModal={setIsModal} />
             <Style.ControlSection $pos="top" $teamCnt={teamCount} $playerCnt={playerCount}>
                 <div className="button_section">
                     <button onClick={() => insertTeam()}>그룹 추가</button>
@@ -114,23 +115,25 @@ const Main = () => {
                                 }
                             </Style.GroupCampStyle>
                             {parent.list.map((child, idx2) => (
-                                <Style.ListChild key={idx2} $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[(idx1*playerCount)+idx2] = el;}}>
-                                    <Style.InputWrapperStyle $camp={idx1} $idx={String(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} $shuffle={shuffleProgress}>
-                                        <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
-                                                    type="text" id={"input_" + child.id} spellCheck={false} $camp={idx1} $teamCnt={teamCount} $playerCnt={playerCount} />
-                                        <div className="dot" />
-                                    </Style.InputWrapperStyle>
+                                <div className="list_child">
+                                    <Style.ListChild key={idx2} $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[(idx1*playerCount)+idx2] = el;}}>
+                                        <Style.InputWrapperStyle $camp={idx1} $idx={String(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} $shuffle={shuffleProgress}>
+                                            <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
+                                                        type="text" id={"input_" + child.id} spellCheck={false} $camp={idx1} $teamCnt={teamCount} $playerCnt={playerCount} />
+                                            <div className="dot" />
+                                        </Style.InputWrapperStyle>
+                                        <div className="list_check">
+                                            <Style.CheckStyle onChange={(e) => updateFixData({checked:e.target.checked, index:child.idx, id:child.id, arrNo:idx1, value:idx2, tmp:null})} 
+                                                        checked={fixList.some(data => data.idx === child.idx) ? true : false} type="checkbox" id={"chkbx" + child.id}  $teamCnt={teamCount} $playerCnt={playerCount} />
+                                            <Style.LabelStyle htmlFor={"chkbx" + child.id} className="check_box" $teamCnt={teamCount} $playerCnt={playerCount}>
+                                                고정
+                                            </Style.LabelStyle>
+                                        </div>
+                                    </Style.ListChild>
                                     <div className="list_select">
                                         <LevelBox updateSelectData={updateSelectData} inputData={child} inputIdx={idx1} teamCnt={teamCount} playerCnt={playerCount} />
                                     </div>
-                                    <div className="list_check">
-                                        <Style.CheckStyle onChange={(e) => updateFixData({checked:e.target.checked, index:child.idx, id:child.id, arrNo:idx1, value:idx2, tmp:null})} 
-                                                    checked={fixList.some(data => data.idx === child.idx) ? true : false} type="checkbox" id={"chkbx" + child.id}  $teamCnt={teamCount} $playerCnt={playerCount} />
-                                        <Style.LabelStyle htmlFor={"chkbx" + child.id} className="check_box" $teamCnt={teamCount} $playerCnt={playerCount}>
-                                            고정
-                                        </Style.LabelStyle>
-                                    </div>
-                                </Style.ListChild>
+                                </div>
                             ))}
                         </div>
                     </div>
