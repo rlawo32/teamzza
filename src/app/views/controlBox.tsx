@@ -10,8 +10,8 @@ import {
     faScaleBalanced as icon_balance, faRotateLeft as icon_rollback,
 } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
 
 const ControlBoxStyle = styled('div')`
     @media (max-width: 768px) {
@@ -109,19 +109,30 @@ const ControlBoxStyle = styled('div')`
                 // mobile_view
                 @media (max-width: 480px) {
                 }
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 position: absolute;
-                top: 2px;
-                right: 22px;
+                top: 3px;
+                right: -40px;
 
-                .control_title {
-                    font-size: .9rem;
-                    font-weight: 400;
-                    margin-bottom: 6px;
-                }
+                .option_section {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    margin: 0 4px;
 
-                input {
-                    transform: scale(0.8);
-                    cursor: pointer;
+                    .control_title {
+                        font-size: .9rem;
+                        font-weight: 400;
+                        margin-bottom: 6px;
+                    }
+
+                    input {
+                        transform: scale(0.8);
+                        cursor: pointer;
+                    }
                 }
             }
         }
@@ -168,14 +179,13 @@ const ControlBoxStyle = styled('div')`
 
 const ControlBox = () => {
     const { shuffleRandom, shuffleBalance, shuffleRefresh, insertRollback, activeRollback } = useShuffleTeamStore();
-    const { setShuffleProgress, shuffleCount, increaseShuffleCount, shuffleTime, setShuffleTime, 
+    const { setShuffleProgress, shuffleRandomChk, setShuffleRandomChk, 
+        shuffleBalanceChk, setShuffleBalanceChk, shuffleOneClickChk, setShuffleOneClickChk, 
+        shuffleActiveChk, setShuffleActiveChk, shuffleCount, increaseShuffleCount, shuffleTime, setShuffleTime, 
         increaseShuffleTime, decreaseShuffleTime, reduceTime, setReduceTime, increaseReduceTime, decreaseReduceTime } = useShuffleBaseStore();
 
-    const [oneShuffleChk, setOneShuffleChk] = useState<boolean>(false);
-    const [onClickActiveChk, setOnClickActiveChk] = useState<boolean>(false);
-
     const onClickControl = (flag:string, type:string) => {
-        if(!oneShuffleChk)
+        if(!shuffleOneClickChk)
         if(flag === 'time') {
             type === 'increase' ? increaseShuffleTime() : decreaseShuffleTime();
         } else {
@@ -183,10 +193,18 @@ const ControlBox = () => {
         }
     }
 
+    const onClickShuffle = () => {
+        if(shuffleRandomChk) {
+            onClickRandom();
+        } else if(shuffleBalanceChk) {
+            onClickBalance();
+        }
+    }
+
     const onClickRandom = () => {
-        if(!onClickActiveChk) { 
+        if(!shuffleActiveChk) { 
             insertRollback();
-            setOnClickActiveChk(true);
+            setShuffleActiveChk(true);
             setShuffleProgress(true);
             let intervalTime:number = shuffleTime;
             const interval = setInterval(() => {
@@ -194,7 +212,7 @@ const ControlBox = () => {
                 increaseShuffleCount();
                 intervalTime -= reduceTime;
                 if(intervalTime <= 0) {
-                    setOnClickActiveChk(false);
+                    setShuffleActiveChk(false);
                     setShuffleProgress(false);
                     clearInterval(interval);
                 }
@@ -203,9 +221,9 @@ const ControlBox = () => {
     }
 
     const onClickBalance = () => {
-        if(!onClickActiveChk) { 
+        if(!shuffleActiveChk) { 
             insertRollback();
-            setOnClickActiveChk(true);
+            setShuffleActiveChk(true);
             setShuffleProgress(true);
             let intervalTime:number = shuffleTime;
             const interval = setInterval(() => {
@@ -213,7 +231,7 @@ const ControlBox = () => {
                 increaseShuffleCount();
                 intervalTime -= reduceTime;
                 if(intervalTime <= 0) {
-                    setOnClickActiveChk(false);
+                    setShuffleActiveChk(false);
                     setShuffleProgress(false);
                     clearInterval(interval);
                 }
@@ -221,14 +239,22 @@ const ControlBox = () => {
         }
     }
     
-    const onClickShuffleOption = () => {
-        setOneShuffleChk(!oneShuffleChk);
-        if(!oneShuffleChk) {
-            setShuffleTime(1000);
-            setReduceTime(1000);
-        } else {
-            setShuffleTime(5000);
-            setReduceTime(200);
+    const onClickShuffleOption = (flag:string) => {
+        if(flag === 'oneClick') {
+            setShuffleOneClickChk(!shuffleOneClickChk);
+            if(!shuffleOneClickChk) {
+                setShuffleTime(1000);
+                setReduceTime(1000);
+            } else {
+                setShuffleTime(5000);
+                setReduceTime(200);
+            }
+        } else if(flag === 'random') {
+            setShuffleRandomChk(!shuffleRandomChk);
+            setShuffleBalanceChk(!shuffleBalanceChk);
+        } else if(flag === 'balance') {
+            setShuffleRandomChk(!shuffleRandomChk);
+            setShuffleBalanceChk(!shuffleBalanceChk);
         }
     }
 
@@ -257,22 +283,37 @@ const ControlBox = () => {
                             <button onClick={() => onClickControl('speed', 'decrease')}><FontAwesomeIcon icon={icon_minus} className="btn_icon"/></button>
                         </div>
                     </div>
-                    <div className="control_item shuffle_option">
-                        <div className="control_title">
-                            1회 셔플
+                    <div className="shuffle_option">
+                        <div className="option_section">
+                            <div className="control_title">
+                                1회 셔플
+                            </div>
+                            <div className="control_tool">
+                                <input type="checkbox" checked={shuffleOneClickChk} onChange={() => onClickShuffleOption('oneClick')} />
+                            </div>
                         </div>
-                        <div className="control_tool">
-                            <input type="checkbox" checked={oneShuffleChk} onChange={() => onClickShuffleOption()} />
+                        <div className="option_section">
+                            <div className="control_title">
+                                무작위
+                            </div>
+                            <div className="control_tool">
+                                <input type="checkbox" checked={shuffleRandomChk} onChange={() => onClickShuffleOption('random')} />
+                            </div>
+                        </div>
+                        <div className="option_section">
+                            <div className="control_title">
+                                밸런스
+                            </div>
+                            <div className="control_tool">
+                                <input type="checkbox" checked={shuffleBalanceChk} onChange={() => onClickShuffleOption('balance')} />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="btn_section">
-                <button onClick={() => onClickRandom()}>
-                    <FontAwesomeIcon icon={icon_random} className="btn_icon"/>무작위
-                </button>
-                <button onClick={() => onClickBalance()}>
-                    <FontAwesomeIcon icon={icon_balance} className="btn_icon"/>밸런스
+                <button onClick={() => onClickShuffle()}>
+                    <FontAwesomeIcon icon={icon_random} className="btn_icon"/>섞기
                 </button>
                 <button onClick={() => shuffleRefresh()}>
                     <FontAwesomeIcon icon={icon_refresh} className="btn_icon"/>초기화
