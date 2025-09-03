@@ -3,9 +3,9 @@ import "styled-components";
 declare module "styled-components" {
     export interface DefaultTheme {
         bgColor: string;
-        reverseBgColor: string;
+        bgSubColor: string;
         textColor: string;
-        reverseTextColor: string;
+        textSubColor: string;
         inputBgColor: string;
         inputTextColor: string;
         buttonBgColor: string;
