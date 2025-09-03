@@ -26,8 +26,8 @@ const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
         padding: 5px 7px;
         border: none;
         border-radius: 5px;
-        background-color: #F0F0F0;
-        color: #222;
+        background-color: ${({ theme }) => theme.buttonBgColor};
+        color: ${({ theme }) => theme.textColor};
         font-size: 1rem;
         font-weight: 700;
         z-index: 10;
@@ -43,15 +43,18 @@ const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
         position: absolute;
         top: 105%;
         left: 0;
-        height: 0;
         width: 50px;
+        height: 0;
         padding: 0 3px;
-        border: none;
+        border: 1px solid transparent;
         border-radius: 5px;
-        background-color: #ffffff;
+        background-color: ${({ theme }) => theme.bgSubColor};
         text-align: center;
-        z-index: 11;
+        z-index: 15;
+        opacity: 0;
         transition: all 0.3s ease-in-out;
+        transform-origin: top;
+        transform: scaleY(0);
     }
 
     ul.select_list {
@@ -60,19 +63,18 @@ const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
         // mobile_view
         @media (max-width: 500px) {
         }
-        height: 0;
         width: 100%;
+        height: 0;
         padding: 0;
         border: none;
         border-radius: 5px;
         overflow: hidden;
         overflow-y: scroll;
-        background-color: #F0F0F0;
-        /* background-color: rgb(49 49 60 / 1); */
-        color: #222;
+        background-color: ${({ theme }) => theme.inputBgColor};
+        color: ${({ theme }) => theme.textColor};
         text-align: center;
         cursor: pointer;
-        z-index: 12;
+        z-index: 20;
         user-select: none;
         list-style:none;
         word-break: keep-all;
@@ -83,7 +85,7 @@ const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
         }
 
         &::-webkit-scrollbar-thumb {
-            background-color: rgb(205 205 205 / 1);
+            background-color: rgba(205, 205, 205, 1);
             border-radius: 1px;
         }
 
@@ -102,7 +104,7 @@ const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
         @media (max-width: 500px) {
         }
         padding: 6px 5px;
-        border-bottom: 2px solid #ffffff;
+        border-bottom: 2px solid ${({ theme }) => theme.bgSubColor};
         font-size: 1.2rem;
         opacity: 0.9;
 
@@ -160,7 +162,7 @@ const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
         }
         display: inline-block;
         margin-left: 4px;
-        color: #222;
+        color: ${({ theme }) => theme.textColor};
         font-weight: 700;
         transition: all .3s linear;
     }
@@ -172,10 +174,12 @@ const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
         // mobile_view
         @media (max-width: 500px) {
         }
+        transform: scaleY(1);
         padding: 4px 3px;
         height: 120px;
-        border: 1px solid #D1D5DB;
+        border: 1px solid ${({ theme }) => theme.borderColor};
         z-index: 11;
+        opacity: 1;
     }
 
     .select_list.show_select {
@@ -184,8 +188,10 @@ const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
         // mobile_view
         @media (max-width: 500px) {
         }
+        transform: scaleY(1);
         height: 111px;
         z-index: 11;
+        opacity: 1;
     }
 
     ul.select_list li.rs_active {
