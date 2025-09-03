@@ -6,14 +6,22 @@ interface shuffleBaseStore {
 
     themeMode: boolean;
     setThemeMode: (themeMode: boolean) => void;
+
     shuffleProgress: boolean;
-    setShuffleProgress: (themeMode: boolean) => void;
+    setShuffleProgress: (shuffleProgress: boolean) => void;
+    shuffleRandomChk: boolean;
+    setShuffleRandomChk: (shuffleRandomChk: boolean) => void;
+    shuffleBalanceChk: boolean;
+    setShuffleBalanceChk: (shuffleBalanceChk: boolean) => void;
+    shuffleOneClickChk: boolean;
+    setShuffleOneClickChk: (shuffleOneClickChk: boolean) => void;
+    shuffleActiveChk: boolean;
+    setShuffleActiveChk: (shuffleActiveChk: boolean) => void;
     
     playerCount: number;
     setPlayerCount: (playerCount: number) => void;
     increasePlayerCount: () => void;
     decreasePlayerCount: () => void;
-
     teamCount: number;
     setTeamCount: (teamCount: number) => void;
     increaseTeamCount: () => void;
@@ -50,6 +58,26 @@ const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
     setShuffleProgress: (shuffleProgress: boolean) =>
         set((state: {shuffleProgress: boolean}) => ({
             shuffleProgress: (state.shuffleProgress = shuffleProgress),
+        })),
+    shuffleRandomChk: true,
+    setShuffleRandomChk: (shuffleRandomChk: boolean) =>
+        set((state: {shuffleRandomChk: boolean}) => ({
+            shuffleRandomChk: (state.shuffleRandomChk = shuffleRandomChk),
+        })),
+    shuffleBalanceChk: false,
+    setShuffleBalanceChk: (shuffleBalanceChk: boolean) =>
+        set((state: {shuffleBalanceChk: boolean}) => ({
+            shuffleBalanceChk: (state.shuffleBalanceChk = shuffleBalanceChk),
+        })),
+    shuffleOneClickChk: false,
+    setShuffleOneClickChk: (shuffleOneClickChk: boolean) =>
+        set((state: {shuffleOneClickChk: boolean}) => ({
+            shuffleOneClickChk: (state.shuffleOneClickChk = shuffleOneClickChk),
+        })),
+    shuffleActiveChk: false,
+    setShuffleActiveChk: (shuffleActiveChk: boolean) =>
+        set((state: {shuffleActiveChk: boolean}) => ({
+            shuffleActiveChk: (state.shuffleActiveChk = shuffleActiveChk),
         })),
     playerCount: 5,
     setPlayerCount: (playerCount: number) =>
