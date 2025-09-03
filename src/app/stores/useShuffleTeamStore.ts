@@ -316,7 +316,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         set({ teamList: temp2DemList });
     },
     shuffleRefresh: () => {
-        const {setTeamCount, setPlayerCount, setShuffleCount, setShuffleTime, setReduceTime, setRollbackCount} = useShuffleBaseStore.getState();
+        const {setTeamCount, setPlayerCount, setShuffleCount, setShuffleTime, setReduceTime, setRollbackCount, setShuffleRandomChk, setShuffleBalanceChk, setShuffleOneClickChk} = useShuffleBaseStore.getState();
         const {setFixList, setRollbackList} = useShuffleFixStore.getState();
         const {setTeamList, createTeam} = get();
 
@@ -329,6 +329,9 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         setShuffleTime(5000);
         setReduceTime(200);
         setRollbackCount(0);
+        setShuffleRandomChk(true);
+        setShuffleBalanceChk(false);
+        setShuffleOneClickChk(false);
         createTeam();
     },
     insertRollback: () => {
