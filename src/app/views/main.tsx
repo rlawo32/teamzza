@@ -7,9 +7,9 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil as pencil } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleBaseStore from "./useShuffleBaseStore";
-import useShuffleTeamStore from "./useShuffleTeamStore";
-import useShuffleFixStore from "./useShuffleFixStore";
+import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+import useShuffleTeamStore from "../stores/useShuffleTeamStore";
+import useShuffleFixStore from "../stores/useShuffleFixStore";
 
 import LevelBox from "./levelBox"
 import ControlBox from "./controlBox";
@@ -115,8 +115,8 @@ const Main = () => {
                                 }
                             </Style.GroupCampStyle>
                             {parent.list.map((child, idx2) => (
-                                <div className="list_child">
-                                    <Style.ListChild key={idx2} $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[(idx1*playerCount)+idx2] = el;}}>
+                                <div className="list_child" key={idx2}>
+                                    <Style.ListChild $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[(idx1*playerCount)+idx2] = el;}}>
                                         <Style.InputWrapperStyle $camp={idx1} $idx={String(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} $shuffle={shuffleProgress}>
                                             <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
                                                         type="text" id={"input_" + child.id} spellCheck={false} $camp={idx1} $teamCnt={teamCount} $playerCnt={playerCount} />

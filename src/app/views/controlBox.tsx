@@ -10,8 +10,8 @@ import {
     faScaleBalanced as icon_balance, faRotateLeft as icon_rollback,
 } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleTeamStore from "./useShuffleTeamStore";
-import useShuffleBaseStore from "./useShuffleBaseStore";
+import useShuffleTeamStore from "../stores/useShuffleTeamStore";
+import useShuffleBaseStore from "../stores/useShuffleBaseStore";
 
 const ControlBoxStyle = styled('div')`
     @media (max-width: 768px) {
@@ -19,7 +19,7 @@ const ControlBoxStyle = styled('div')`
     // mobile_view
     @media (max-width: 500px) {
     }
-    height: 130px;
+    height: 100%;
     padding: 5px 10px;
 
     .info_section {
@@ -38,7 +38,7 @@ const ControlBoxStyle = styled('div')`
             // mobile_view
             @media (max-width: 500px) {
             }
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             font-weight: 700;
             margin: 0 0 10px 0;
         }

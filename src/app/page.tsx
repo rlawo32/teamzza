@@ -10,11 +10,12 @@ import Main from "./views/main";
 
 export default function Home() {
 
-  const {themeMode} = useShuffleBaseStore();
+  const {themeMode, setThemeMode} = useShuffleBaseStore();
   
   return (
     <ThemeProvider theme={themeMode ? darkTheme : lightTheme } >
       <GlobalStyle />
+      <button onClick={() => setThemeMode(!themeMode)}>변경</button>
       <div>
         <Main />
       </div>
