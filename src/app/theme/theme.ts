@@ -1,27 +1,27 @@
 export const lightTheme = {
     bgColor: "#FAFAFA",
-    reverseBgColor: "",
-    textColor: "",
-    reverseTextColor: "",
-    inputBgColor: "",
+    bgSubColor: "#FFFFFF",
+    textColor: "#222222",
+    textSubColor: "#6B7280",
+    inputBgColor: "#F9F9F9",
     inputTextColor: "",
-    buttonBgColor: "",
+    buttonBgColor: "#E5E7EB",
     buttonTextColor: "",
     boxBgColor: "",
-    borderColor: "",
+    borderColor: "#D1D5DB",
 };
 
 export const darkTheme = {
-    bgColor: "222",
-    reverseBgColor: "",
-    textColor: "",
-    reverseTextColor: "",
-    inputBgColor: "",
+    bgColor: "#121212",
+    bgSubColor: "#1A1A1A",
+    textColor: "#E5E7EB",
+    textSubColor: "#9CA3AF",
+    inputBgColor: "#1F1F1F",
     inputTextColor: "",
-    buttonBgColor: "",
+    buttonBgColor: "#2F2F2F",
     buttonTextColor: "",
     boxBgColor: "",
-    borderColor: "",
+    borderColor: "#3F3F46",
 };
 
 export const theme = {
