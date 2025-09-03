@@ -47,6 +47,20 @@ export const MatchShuffle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
                 }
 
                 .list_child {
+                    position: relative;
+    
+                    .list_select {
+                        @media (max-width: 1024px) {
+                        }
+                        @media (max-width: 768px) {
+                        }
+                        // mobile_view
+                        @media (max-width: 500px) {
+                        }
+                        position: absolute;
+                        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 12 : 10}px;
+                        left: 15px;
+                    }
                 }
             }
         }
@@ -65,19 +79,6 @@ export const ListChild = styled('div')<{$idx:number, $teamCnt:number, $playerCnt
     text-align: center;
     transition: transform .2s ease-in-out;
 	overflow: hidden;
-    
-    .list_select {
-        @media (max-width: 1024px) {
-        }
-        @media (max-width: 768px) {
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-        }
-        position: absolute;
-        top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 12 : 10}px;
-        left: 15px;
-    }
 
     .list_check {
         @media (max-width: 768px) {
@@ -327,21 +328,19 @@ export const InputPlayerStyle = styled('input')<{$camp:number, $teamCnt:number, 
     border: 0px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
                                      $camp === 1 ? "#F60C50" :
                                      $camp === 2 ? "#FFD300" :
-                                     $camp === 3 ? "#00C853" :
-                                     $camp === 4 ? "#A259FF" :
+                                     $camp === 3 ? "#00C853" : // #16A34A
+                                     $camp === 4 ? "#A259FF" : // #9333EA
                                      $camp === 5 ? "#A0522D" :
                                      $camp === 6 ? "#FF5CA8" :
-                                     $camp === 7 ? "#FF6D00" :
+                                     $camp === 7 ? "#FF6D00" : // #EA580C
                                      $camp === 8 ? "#4CFFD6" : "#A8FF00"};
     border-radius: 15px;
-    /* background: rgb(28 28 31 / 1);
-    color: #ffffff; */
-    background-color: #F9F9F9;
-    color: #222;
+    background-color: ${({ theme }) => theme.inputBgColor};
+    color: ${({ theme }) => theme.textColor};
     font-size: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 1.8 : 1.5}rem;
 
     &:focus {
-        outline: 1px solid #ffffff;
+        outline: none;
     }
 
     &::placeholder {
@@ -373,7 +372,7 @@ export const CheckStyle = styled('input')<{$teamCnt:number, $playerCnt:number}>`
             color: #1E293B;
             font-size: 1rem;
             font-weight: 700;
-            box-shadow: 0px 0px 0px 0px #D1D5DB;
+            box-shadow: 0px 0px 0px 0px ${({ theme }) => theme.borderColor};
             /* transition: all .1s ease-in-out; */
         }
     }
@@ -393,19 +392,17 @@ export const LabelStyle = styled('label')<{$teamCnt:number, $playerCnt:number}>`
     height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 25 : 21}px;
     padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '5px 0 0' : '3px 0 0'};
     margin: 3px 0 0 0;
-    border: 1px solid #D1D5DB;
+    border: 1px solid ${({ theme }) => theme.borderColor};
     border-radius: 7px;
     background-color: transparent;
-    color: #222;
+    color: ${({ theme }) => theme.textColor};
     text-align: center;
     font-size: 1rem;
     font-weight: 700;
     box-sizing: border-box;
-    box-shadow: 0px 2px 0px 0px #D1D5DB;
+    box-shadow: 0px 2px 0px 0px ${({ theme }) => theme.borderColor};
     cursor:pointer;
     user-select: none;
-
-    transition-property: transform;
 `;
 
 export const LoadingContainerStyle = styled('div')`
