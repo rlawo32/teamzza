@@ -4,16 +4,26 @@ import styled from "styled-components";
 
 import { useEffect, useRef } from "react";
 
-import useShuffleFixStore from "../stores/useShuffleFixStore";
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
+import useShuffleFixStore from "./useShuffleFixStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
 
 import CountBox from "./countBox";
 
-const AutoBoxStyle = styled('div')`
+const ModalOverlay = styled('div')<{$show:boolean}>`
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: ${({$show}) => $show ? 999 : -99};
+    opacity: ${({$show}) => $show ? 1 : 0};
+    transition: opacity .2s ease-out, z-index ${({$show}) => $show ? '.1s' : '.2s'} ease;
+`
+
+const AutoBoxStyle = styled('div')<{$show:boolean}>`
+    display: block;
     position: absolute;
     top: 35%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) ${({$show}) => $show ? 'scale(1)' : 'scale(0.7)'};
     width: 600px;
     height: 300px;
     padding: 20px 25px;
@@ -22,7 +32,9 @@ const AutoBoxStyle = styled('div')`
     background-color: rgba(34, 34, 34, .95);
     color: #222;
     font-size: 1rem;
-    z-index: 99;
+    z-index: ${({$show}) => $show ? 99 : -99};
+    opacity: ${({$show}) => $show ? 1 : 0};
+    transition: opacity .2s ease-out, z-index ${({$show}) => $show ? '.1s' : '2s'} ease, transform .3s ease-out;
 
     .input_section {
         width: 100%;
@@ -114,21 +126,23 @@ const AutoBox = (props: AutoBoxProps) => {
     })
 
     return (
-        <AutoBoxStyle ref={modalRef}>
-            <div className="input_section">
-                <div className="textarea_title">
-                    플레이어 입력
+        <ModalOverlay $show={props.isModal}>
+            <AutoBoxStyle $show={props.isModal} ref={modalRef} onClick={(e) => e.stopPropagation()}>
+                <div className="input_section">
+                    <div className="textarea_title">
+                        플레이어 입력
+                    </div>
+                    <textarea onChange={(e) => updateAutoData({type:'raw', value:e.target.value})} value={autoList.raw} placeholder="ex) 홍길동, 아무개" />
                 </div>
-                <textarea onChange={(e) => updateAutoData({type:'raw', value:e.target.value})} value={autoList.raw} placeholder="ex) 홍길동, 아무개" />
-            </div>
-            <div className="option_section">
-                한 그룹당 <CountBox />명 씩
-            </div>
-            <div className="button_section">
-                <button onClick={() => onClickActive()}>완료</button>
-                <button onClick={() => props.setIsModal(false)}>취소</button>
-            </div>
-        </AutoBoxStyle>
+                <div className="option_section">
+                    한 그룹당 <CountBox />명 씩
+                </div>
+                <div className="button_section">
+                    <button onClick={() => onClickActive()}>완료</button>
+                    <button onClick={() => props.setIsModal(false)}>취소</button>
+                </div>
+            </AutoBoxStyle>
+        </ModalOverlay>
     )
 }
 
