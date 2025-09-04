@@ -14,8 +14,8 @@ export const MatchShuffle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
     max-width: 1280px;
     height: 100%;
     min-height: 600px;
-    padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '100px 30px 60px' : '60px 30px'};
-    margin: 30px auto;
+    padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '60px 60px' : '30px 60px'};
+    margin: 60px auto;
     /* border: none;
     border-radius: 10px;
     background-color: rgb(49 49 60 / .1); */
@@ -110,7 +110,7 @@ export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $play
     padding: 6px;
     border: none;
     border-radius: 12px;
-    background: rgba(34, 34, 34 , 0.8);
+    background: ${({ theme }) => theme.boxBgColor};;
 
     .button_section {
         display: flex;
@@ -119,8 +119,8 @@ export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $play
         width: 100%;
         padding: 4px 6px;
         border-radius: 8px;
-        background-color: #222222CC;
-        color: #DEDEDE;
+        background-color: ${({ theme }) => theme.boxBgSubColor};
+        color: ${({ theme }) => theme.boxTextColor};
         gap: 6px;
 
         button {
@@ -129,27 +129,27 @@ export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $play
             height: 40px;
             margin: 0 3px;
             padding: 0 12px;
-            border: 1px solid #4E4E4E;
+            border: 1px solid ${({ theme }) => theme.boxBorderColor};
             border-radius: 8px;
             background: inherit;
-            color: #dedede;
+            color: ${({ theme }) => theme.boxTextColor};
             font-size: 1.2rem;
             font-weight: 400;
             cursor: pointer;
             transition: all .5s;
 
             &:hover {
-                border: 1px solid #dedede;
+                border: 1px solid ${({ theme }) => theme.boxTextColor};
             }
 
             &:last-child {
-                border: 1px solid #dedede;
-                background-color: #F9F9F9;
-                color: #222;
+                border: 1px solid ${({ theme }) => theme.boxTextColor};
+                background-color: ${({ theme }) => theme.boxTextColor};
+                color: ${({ theme }) => theme.boxBgSubColor};
                 font-weight: 700;
 
                 &:hover {
-                    border: 1px solid #4E4E4E;
+                    border: 1px solid ${({ theme }) => theme.boxBorderColor};
                 }
             }
         }
@@ -368,8 +368,8 @@ export const CheckStyle = styled('input')<{$teamCnt:number, $playerCnt:number}>`
             margin-bottom: 2px;
             border: none;
             border-radius: 7px;
-            background-color: #14B8A6;
-            color: #1E293B;
+            background-color: red;
+            color: #ffffff;
             font-size: 1rem;
             font-weight: 700;
             box-shadow: 0px 0px 0px 0px ${({ theme }) => theme.borderColor};
