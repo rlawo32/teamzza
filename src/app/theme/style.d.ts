@@ -11,6 +11,10 @@ declare module "styled-components" {
         buttonBgColor: string;
         buttonTextColor: string;
         boxBgColor: string;
+        boxBgSubColor: string;
+        boxTextColor: string;
+        boxBorderColor: string;
         borderColor: string;
+        borderSubColor: string;
     }
 }
