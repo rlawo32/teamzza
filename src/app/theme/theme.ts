@@ -7,8 +7,12 @@ export const lightTheme = {
     inputTextColor: "",
     buttonBgColor: "#E5E7EB",
     buttonTextColor: "",
-    boxBgColor: "",
+    boxBgColor: "rgba(220, 220, 220, .8)",
+    boxBgSubColor: "#F5F5F5",
+    boxTextColor: "#1A1A1A",
+    boxBorderColor: "#B0B0B0",
     borderColor: "#D1D5DB",
+    borderSubColor: "rgba(34, 34, 34, .3)",
 };
 
 export const darkTheme = {
@@ -20,8 +24,12 @@ export const darkTheme = {
     inputTextColor: "",
     buttonBgColor: "#2F2F2F",
     buttonTextColor: "",
-    boxBgColor: "",
+    boxBgColor: "rgba(34, 34, 34, .8)",
+    boxBgSubColor: "#222222",
+    boxTextColor: "#DEDEDE",
+    boxBorderColor: "#4E4E4E",
     borderColor: "#3F3F46",
+    borderSubColor: "rgba(229, 231, 235, .3)",
 };
 
 export const theme = {
