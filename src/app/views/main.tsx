@@ -1,15 +1,14 @@
 'use client'
 
-import ReactDOM from "react-dom";
 import * as Style from "./main.style";
 
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil as pencil } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleFixStore from "../stores/useShuffleFixStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleFixStore from "./useShuffleFixStore";
 
 import LevelBox from "./levelBox"
 import ControlBox from "./controlBox";
@@ -118,8 +117,8 @@ const Main = () => {
                                 <div className="list_child" key={idx2}>
                                     <Style.ListChild $idx={(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} ref={el => {if (el) inputRef.current[(idx1*playerCount)+idx2] = el;}}>
                                         <Style.InputWrapperStyle $camp={idx1} $idx={String(idx1*playerCount)+(idx2+1)} $teamCnt={teamCount} $playerCnt={playerCount} $shuffle={shuffleProgress}>
-                                            <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} 
-                                                        type="text" id={"input_" + child.id} spellCheck={false} $camp={idx1} $teamCnt={teamCount} $playerCnt={playerCount} />
+                                            <Style.InputPlayerStyle onChange={(e) => updateInputData({index:child.idx, arrNo:idx1, input:e.target.value})} value={child.nm} placeholder="플레이어 입력"
+                                                        type="text" id={"input_" + child.id} spellCheck={false} $camp={idx1} $teamCnt={teamCount} $playerCnt={playerCount} tabIndex={(idx1*playerCount)+(idx2+1)} />
                                             <div className="dot" />
                                         </Style.InputWrapperStyle>
                                         <div className="list_check">
