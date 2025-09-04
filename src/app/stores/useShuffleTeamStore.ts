@@ -21,7 +21,8 @@ interface shuffleTeamStore {
     
     shuffleRandom: () => void;
     shuffleBalance: () => void;
-    shuffleRefresh: () => void;
+    shuffleReset: () => void;
+    shuffleClean: () => void;
     insertRollback: () => void;
     activeRollback: () => void;
     activeAutoInput: () => void;
@@ -78,7 +79,6 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
     },
     insertTeam: () => {
         const {teamTitleStorage, teamIdStorage, playerCount, teamCount, increaseTeamCount} = useShuffleBaseStore.getState();
-        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
 
         const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]} = {title:teamTitleStorage[teamCount], target:false, list:Array.from({length: playerCount})};
         
@@ -91,24 +91,20 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
 
             set({ teamList: [...get().teamList, tempList] });
             increaseTeamCount();
-            setFixList([]);
-            setRollbackList([]);
+            get().shuffleClean();
         }
     },
     deleteTeam: () => {
         const {teamCount, decreaseTeamCount} = useShuffleBaseStore.getState();
-        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
 
         if(teamCount > 2) {
             set({ teamList: get().teamList.slice(0, -1) });
             decreaseTeamCount();
-            setFixList([]);
-            setRollbackList([]);
+            get().shuffleClean();
         }
     },
     insertPlayer: () => {
         const {teamIdStorage, playerCount, increasePlayerCount} = useShuffleBaseStore.getState();
-        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
         let idx:number = 1;
 
         if(playerCount < 10) {
@@ -125,13 +121,11 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
             
             set({ teamList: newTeamList });
             increasePlayerCount();
-            setFixList([]);
-            setRollbackList([]);
+            get().shuffleClean();
         }
     },
     deletePlayer: () => {
         const {playerCount, decreasePlayerCount} = useShuffleBaseStore.getState();
-        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
         let idx:number = 1;
 
         if(playerCount > 1) {
@@ -147,8 +141,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
 
             set({ teamList: newTeamList });
             decreasePlayerCount();
-            setFixList([]);
-            setRollbackList([]);
+            get().shuffleClean();
         }
     },
     updateTitleData: (data: {arrNo: number; title: string;}) => {
@@ -315,7 +308,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
 
         set({ teamList: temp2DemList });
     },
-    shuffleRefresh: () => {
+    shuffleReset: () => { // 완전 초기화
         const {setTeamCount, setPlayerCount, setShuffleCount, setShuffleTime, setReduceTime, setRollbackCount, setShuffleRandomChk, setShuffleBalanceChk, setShuffleOneClickChk} = useShuffleBaseStore.getState();
         const {setFixList, setRollbackList} = useShuffleFixStore.getState();
         const {setTeamList, createTeam} = get();
@@ -333,6 +326,15 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         setShuffleBalanceChk(false);
         setShuffleOneClickChk(false);
         createTeam();
+    },
+    shuffleClean: () => { // 부분 초기화
+        const {setShuffleCount, setRollbackCount} = useShuffleBaseStore.getState();
+        const {setFixList, setRollbackList} = useShuffleFixStore.getState();
+
+        setFixList([]);
+        setRollbackList([]);
+        setShuffleCount(0);
+        setRollbackCount(0);
     },
     insertRollback: () => {
         const {updateRollbackData} = useShuffleFixStore.getState();
