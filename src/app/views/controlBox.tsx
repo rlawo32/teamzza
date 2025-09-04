@@ -1,3 +1,4 @@
+
 'use client'
 
 import styled from "styled-components";
@@ -10,8 +11,8 @@ import {
     faScaleBalanced as icon_balance, faRotateLeft as icon_rollback,
 } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
 
 const ControlBoxStyle = styled('div')`
     @media (max-width: 768px) {
@@ -19,6 +20,7 @@ const ControlBoxStyle = styled('div')`
     // mobile_view
     @media (max-width: 500px) {
     }
+    width: 400px;
     height: 100%;
     padding: 5px 10px;
 
@@ -28,8 +30,8 @@ const ControlBoxStyle = styled('div')`
         display: flex;
         flex-direction: column;
         width: 300px;
-        margin: 0 auto 15px;
-        color: #ffffff;
+        margin: 0 auto 20px;
+        color: ${({ theme }) => theme.boxTextColor};
         text-align: center;
 
         .shuffle_count {
@@ -38,9 +40,9 @@ const ControlBoxStyle = styled('div')`
             // mobile_view
             @media (max-width: 500px) {
             }
-            font-size: 1.2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin: 0 0 10px 0;
+            margin: 0 0 20px 0;
         }
 
         .shuffle_control {
@@ -60,12 +62,15 @@ const ControlBoxStyle = styled('div')`
                 // mobile_view
                 @media (max-width: 500px) {
                 }
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 padding: 3px 4px;
                 margin: 0 3px;
                 border: none;
                 border-radius: 5px;
-                font-size: .7rem;
-                font-weight: 700;
+                background-color: ${({ theme }) => theme.textColor};
+                color: ${({ theme }) => theme.boxBgSubColor};
                 cursor: pointer;
 
                 &:active {
@@ -94,6 +99,11 @@ const ControlBoxStyle = styled('div')`
                 .control_tool {
                     display: flex;
                     align-items: center;
+
+                    .btn_icon {
+                        font-size: .8rem;
+                        font-weight: 700;
+                    }
 
                     .sec_time {
                         @media (max-width: 768px) {
@@ -142,7 +152,7 @@ const ControlBoxStyle = styled('div')`
         @media (max-width: 768px) {
         }
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
 
         button {
             @media (max-width: 768px) {
@@ -152,33 +162,37 @@ const ControlBoxStyle = styled('div')`
             }
             display: flex;
             align-items: center;
+            justify-content: center;
+            width: 100px;
             margin: 0 5px;
-            padding: 10px 30px;
-            border: none;
+            padding: 10px 15px;
+            border: 1px solid ${({ theme }) => theme.boxBorderColor};;
             border-radius: 10px;
-            box-shadow: 0 0 40px rgba(42,50,113, .68);
-            background-color: rgb(28 28 31 / 1);
-            color: #ffffff;
+            background-color: ${({ theme }) => theme.textColor};
+            color: ${({ theme }) => theme.boxBgSubColor};
             font-size: 1.3rem;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.5s;
-            transition-duration: .3s;
+            transition: border .5s;
 
             .btn_icon {
                 margin-right: 7px;
             }
 
+            &:hover {
+                border: 1px solid ${({ theme }) => theme.textColor};
+            }
+
             &:active {
-                scale: .95;
-                transition: scale .1s ease-in-out;
+                scale: .9;
+                transition: scale .2s ease-in-out;
             }
         }
     }
 `
 
 const ControlBox = () => {
-    const { shuffleRandom, shuffleBalance, shuffleRefresh, insertRollback, activeRollback } = useShuffleTeamStore();
+    const { shuffleRandom, shuffleBalance, shuffleReset, insertRollback, activeRollback } = useShuffleTeamStore();
     const { setShuffleProgress, shuffleRandomChk, setShuffleRandomChk, 
         shuffleBalanceChk, setShuffleBalanceChk, shuffleOneClickChk, setShuffleOneClickChk, 
         shuffleActiveChk, setShuffleActiveChk, shuffleCount, increaseShuffleCount, shuffleTime, setShuffleTime, 
@@ -315,14 +329,10 @@ const ControlBox = () => {
                 <button onClick={() => onClickShuffle()}>
                     <FontAwesomeIcon icon={icon_random} className="btn_icon"/>섞기
                 </button>
-                <button onClick={() => shuffleRefresh()}>
+                <button onClick={() => shuffleReset()}>
                     <FontAwesomeIcon icon={icon_refresh} className="btn_icon"/>초기화
                 </button>
-                <button onClick={() => activeRollback()}>
-                    <FontAwesomeIcon icon={icon_rollback} className="btn_icon"/>되돌리기
-                </button>
             </div>
-
         </ControlBoxStyle>
     )
 }
