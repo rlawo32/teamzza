@@ -29,8 +29,8 @@ const AutoBoxStyle = styled('div')<{$show:boolean}>`
     padding: 20px 25px;
     border: none;
     border-radius: 12px;
-    background-color: rgba(34, 34, 34, .95);
-    color: #222;
+    background-color: ${({ theme }) => theme.modalBgColor};
+    color: ${({ theme }) => theme.textColor};
     font-size: 1rem;
     z-index: ${({$show}) => $show ? 99 : -99};
     opacity: ${({$show}) => $show ? 1 : 0};
@@ -48,7 +48,7 @@ const AutoBoxStyle = styled('div')<{$show:boolean}>`
             height: 5%;
             margin-bottom: 7px;
             padding: 0 2px;
-            color: #ffffff;
+            font-weight: 700;
 
             .input_title {
                 font-size: 1.1rem;
@@ -66,6 +66,8 @@ const AutoBoxStyle = styled('div')<{$show:boolean}>`
             resize: none;
             border: none;
             border-radius: 8px;
+            background-color: ${({ theme }) => theme.modalBgSubColor};
+            color: ${({ theme }) => theme.textColor};
             outline: none;
         }
     }
@@ -77,7 +79,6 @@ const AutoBoxStyle = styled('div')<{$show:boolean}>`
         width: 100%;
         height: 10%;
         margin-top: 10px;
-        color: #ffffff;
         font-size: 1.1rem;
     }
 
@@ -89,8 +90,26 @@ const AutoBoxStyle = styled('div')<{$show:boolean}>`
         align-items: center;
 
         button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin: 5px;
+            padding: 4px 10px;
+            border: none;
+            border-radius: 7px;
+            background-color: rgba(107, 107, 107, 1);
+            font-size: 1rem;
             cursor: pointer;
+            transition: opacity .5s;
+
+            &:hover {
+                background-color: rgba(107, 107, 107, .7);
+            }
+
+            &:active {
+                scale: .9;
+                transition: scale .2s ease-in-out;
+            }
         }
     }
 `

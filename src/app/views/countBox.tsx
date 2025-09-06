@@ -21,8 +21,8 @@ const CountBoxStyle = styled('div')`
         padding: 5px 7px;
         border: 1px solid grey;
         border-radius: 7px;
-        background: rgba(42,50,73, .3);
-        color: #ffffff;
+        background-color: ${({ theme }) => theme.buttonBgColor};
+        color: ${({ theme }) => theme.textColor};
         font-size: 1.1rem;
         font-weight: 700;
         text-align: center;
@@ -39,7 +39,7 @@ const CountBoxStyle = styled('div')`
         padding: 0 3px;
         border: none;
         border-radius: 5px;
-        background-color: rgb(28 28 31 / 1);
+        background-color: ${({ theme }) => theme.bgSubColor};
         text-align: center;
         z-index: 11;
         transition: all 0.3s ease-in-out;
@@ -58,9 +58,8 @@ const CountBoxStyle = styled('div')`
         border-radius: 5px;
         overflow: hidden;
         overflow-y: scroll;
-        background-color: rgb(40 40 48 / 1);
-        /* background-color: rgb(49 49 60 / 1); */
-        color: #ffffff;
+        background-color: ${({ theme }) => theme.inputBgColor};
+        color: ${({ theme }) => theme.textColor};
         text-align: center;
         cursor: pointer;
         z-index: 12;
@@ -74,7 +73,7 @@ const CountBoxStyle = styled('div')`
         }
 
         &::-webkit-scrollbar-thumb {
-            background-color: rgb(255 255 255 / 1);
+            background-color: rgba(205, 205, 205, 1);
             border-radius: 1px;
         }
 
@@ -93,7 +92,7 @@ const CountBoxStyle = styled('div')`
         @media (max-width: 480px) {
         }
         padding: 3px 5px;
-        border-bottom: 1px solid rgb(28 28 31 / 1);
+        border-bottom: 2px solid ${({ theme }) => theme.bgSubColor};
         font-size: 1.2rem;
         opacity: 0.9;
 

@@ -293,8 +293,8 @@ export const GroupCampStyle = styled('div')<{$camp:number}>`
             width: 11px;
             height: 11px;
             font-size: 1.5rem;
-            color: black;
-            opacity: 0.4;
+            color: ${({ theme }) => theme.textColor};
+            opacity: 0.7;
 
             &:hover {
                 opacity: 1;
