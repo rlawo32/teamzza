@@ -3,16 +3,14 @@
 
 import styled from "styled-components";
 
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faPlus as icon_plus, faMinus as icon_minus,
-    faRotate as icon_refresh, faShuffle as icon_random,
-    faScaleBalanced as icon_balance, faRotateLeft as icon_rollback,
+    faRotate as icon_refresh, faShuffle as icon_random
 } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleTeamStore from "./useShuffleTeamStore";
-import useShuffleBaseStore from "./useShuffleBaseStore";
+import useShuffleTeamStore from "../stores/useShuffleTeamStore";
+import useShuffleBaseStore from "../stores/useShuffleBaseStore";
 
 const ControlBoxStyle = styled('div')`
     @media (max-width: 768px) {

@@ -2,12 +2,11 @@
 
 import styled from "styled-components";
 
-import { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRotateLeft as icon_rollback } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleBaseStore from "./useShuffleBaseStore";
-import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+import useShuffleTeamStore from "../stores/useShuffleTeamStore";
 
 const RollbackBoxStyle = styled('div')<{$show:boolean}>`
     display: flex;
