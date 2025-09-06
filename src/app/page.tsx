@@ -8,7 +8,6 @@ import useShuffleBaseStore from "./stores/useShuffleBaseStore";
 import RollbackBox from "./views/rollbackBox";
 import DarkmodeBox from "./views/darkmodeBox";
 
-
 import Main from "./views/main";
 
 export default function Home() {

@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${pretendard.variable}`}>
-      <body>
+      <body className={`${pretendard.variable}`}>
         <StyledComponentsRegistry>
           {children}
         </StyledComponentsRegistry>
