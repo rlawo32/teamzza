@@ -11,6 +11,9 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 config.autoAddCss = false
 
+// vercel analytics addition
+import { Analytics } from '@vercel/analytics/react';
+
 // font-family addition
 const pretendard = localFont({
   src: "/fonts/PretendardVariable.woff2",
@@ -29,6 +32,7 @@ export default function RootLayout({
       <body className={`${pretendard.variable}`}>
         <StyledComponentsRegistry>
           {children}
+          <Analytics />
         </StyledComponentsRegistry>
       </body>
     </html>
