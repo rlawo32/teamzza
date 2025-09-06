@@ -9,7 +9,7 @@ const DarkmodeBoxStyle = styled('div')`
     justify-content: center;
     align-items: center;
     position: fixed;
-    top: 20px;
+    top: 15px;
     right: 30px;
     width: 30px;
     height: 30px;

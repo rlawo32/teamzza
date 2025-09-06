@@ -49,7 +49,7 @@ interface shuffleBaseStore {
 const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
     teamTitleStorage: ['TeamBlue', 'TeamRed', 'TeamYellow', 'TeamGreen', 'TeamPurple', 'TeamBrown', 'TeamPink', 'TeamOrange', 'TeamMint', 'TeamLime'],
     teamIdStorage: ['bl', 're', 'yl', 'gr', 'pu', 'br', 'pi', 'or', 'mi', 'li'],
-    themeMode: false,
+    themeMode: true,
     setThemeMode: (themeMode: boolean) =>
         set((state: {themeMode: boolean}) => ({
             themeMode: (state.themeMode = themeMode),
