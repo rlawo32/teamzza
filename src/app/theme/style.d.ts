@@ -16,5 +16,7 @@ declare module "styled-components" {
         boxBorderColor: string;
         borderColor: string;
         borderSubColor: string;
+        modalBgColor: string;
+        modalBgSubColor: string,
     }
 }

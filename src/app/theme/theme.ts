@@ -13,6 +13,8 @@ export const lightTheme = {
     boxBorderColor: "#B0B0B0",
     borderColor: "#D1D5DB",
     borderSubColor: "rgba(34, 34, 34, .3)",
+    modalBgColor: "rgba(220, 220, 220, .95)",
+    modalBgSubColor: "rgba(200, 200, 200, 1)",
 };
 
 export const darkTheme = {
@@ -30,6 +32,8 @@ export const darkTheme = {
     boxBorderColor: "#4E4E4E",
     borderColor: "#3F3F46",
     borderSubColor: "rgba(229, 231, 235, .3)",
+    modalBgColor: "rgba(34, 34, 34, .95)",
+    modalBgSubColor: "rgba(59, 59, 59, 1)",
 };
 
 export const theme = {
