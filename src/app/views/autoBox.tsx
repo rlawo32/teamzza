@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { useEffect, useRef } from "react";
 
-import useShuffleFixStore from "../stores/useShuffleFixStore";
+import useShuffleListStore from "../stores/useShuffleListStore";
 import useShuffleTeamStore from "../stores/useShuffleTeamStore";
 
 import CountBox from "./countBox";
@@ -103,9 +103,9 @@ interface AutoBoxProps {
 const AutoBox = (props: AutoBoxProps) => {
     const modalRef:any = useRef<any>(null);
 
-    const { autoList } = useShuffleFixStore();
+    const { autoList } = useShuffleListStore();
 
-    const updateAutoData = useShuffleFixStore((state) => state.updateAutoData);
+    const updateAutoData = useShuffleListStore((state) => state.updateAutoData);
     const activeAutoInput = useShuffleTeamStore((state) => state.activeAutoInput);
 
     const onClickActive = () => {

@@ -8,7 +8,7 @@ import { faPencil as pencil } from "@fortawesome/free-solid-svg-icons";
 
 import useShuffleBaseStore from "../stores/useShuffleBaseStore";
 import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleFixStore from "../stores/useShuffleFixStore";
+import useShuffleListStore from "../stores/useShuffleListStore";
 
 import LevelBox from "./levelBox"
 import ControlBox from "./controlBox";
@@ -20,14 +20,14 @@ const Main = () => {
 
     const { teamList, createTeam, insertTeam, deleteTeam, insertPlayer, deletePlayer } = useShuffleTeamStore();
     const { shuffleProgress, playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
-    const { fixList, rollbackList } = useShuffleFixStore();
+    const { fixList, rollbackList } = useShuffleListStore();
 
     const updateTitleData = useShuffleTeamStore((state) => state.updateTitleData);
     const updateTargetData = useShuffleTeamStore((state) => state.updateTargetData);
     const updateTargetAllData = useShuffleTeamStore((state) => state.updateTargetAllData);
     const updateInputData = useShuffleTeamStore((state) => state.updateInputData);
     const updateSelectData = useShuffleTeamStore((state) => state.updateSelectData);
-    const updateFixData = useShuffleFixStore((state) => state.updateFixData);
+    const updateFixData = useShuffleListStore((state) => state.updateFixData);
 
     const [isModal, setIsModal] = useState<boolean>(false);
     

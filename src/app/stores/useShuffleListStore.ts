@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import useShuffleBaseStore from "./useShuffleBaseStore";
 
-interface shuffleFixStore {
+interface shuffleListStore {
     autoList: {cnt:number, raw:string};
     setAutoList: (autoList: {cnt:number, raw:string}) => void;
     fixList: {idx:number, id:string, row:number, cell:number, tmp:any}[];
@@ -16,7 +16,7 @@ interface shuffleFixStore {
     deleteRollbackData: () => void;
 }
 
-const useShuffleFixStore = create<shuffleFixStore>((set, get) => ({
+const useShuffleListStore = create<shuffleListStore>((set, get) => ({
     autoList: {cnt:5, raw:''},
     setAutoList: (autoList: {cnt:number, raw:string}) =>
         set((state: {autoList: {cnt:number, raw:string}}) => ({
@@ -78,5 +78,5 @@ const useShuffleFixStore = create<shuffleFixStore>((set, get) => ({
     },
 }));
 
-export default useShuffleFixStore;
-export type { shuffleFixStore };
+export default useShuffleListStore;
+export type { shuffleListStore };

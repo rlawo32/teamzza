@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { useEffect, useRef, useState } from "react";
 
-import useShuffleFixStore from "../stores/useShuffleFixStore";
+import useShuffleListStore from "../stores/useShuffleListStore";
 
 const CountBoxStyle = styled('div')`
     @media (max-width: 1024px) {
@@ -135,9 +135,9 @@ const CountBox = () => {
     const selectList:any = useRef<any>(null);
     const selectItem:any = useRef<any>([]);
 
-    const { autoList } = useShuffleFixStore();
+    const { autoList } = useShuffleListStore();
 
-    const updateAutoData = useShuffleFixStore((state) => state.updateAutoData);
+    const updateAutoData = useShuffleListStore((state) => state.updateAutoData);
 
     const [isSelectBoxShow, setIsSelectBoxShow] = useState<boolean>(false);
         
