@@ -324,15 +324,7 @@ export const InputPlayerStyle = styled('input')<{$camp:number, $teamCnt:number, 
     height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 52 : 46}px;
     margin: 7px 5px;
     padding: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? '10px 45px 10px 70px' : '7px 45px 7px 70px'};
-    border: 0px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
-                                     $camp === 1 ? "#F60C50" :
-                                     $camp === 2 ? "#FFD300" :
-                                     $camp === 3 ? "#00C853" : // #16A34A
-                                     $camp === 4 ? "#A259FF" : // #9333EA
-                                     $camp === 5 ? "#A0522D" :
-                                     $camp === 6 ? "#FF5CA8" :
-                                     $camp === 7 ? "#FF6D00" : // #EA580C
-                                     $camp === 8 ? "#4CFFD6" : "#A8FF00"};
+    border: none;
     border-radius: 15px;
     background-color: ${({ theme }) => theme.inputBgColor};
     color: ${({ theme }) => theme.textColor};
