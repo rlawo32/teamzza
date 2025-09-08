@@ -382,9 +382,19 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         }
     },
     activeLocalLoad: () => {
+        const {setPlayerCount, setTeamCount} = useShuffleBaseStore.getState();
         if (typeof window !== 'undefined') {
-            const data = localStorage.getItem('LastList');
-            data ? set({ teamList: JSON.parse(data) }) : set({ teamList: [] });
+            const data:string|null = localStorage.getItem('LastList');
+            if(data) {
+                const parsedData:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = JSON.parse(data);
+                setTeamCount(parsedData.length);
+                setPlayerCount(parsedData[0].list.length);
+                set({ teamList: parsedData });
+            } else {
+                setTeamCount(2);
+                setPlayerCount(5);
+                set({ teamList: [] });
+            }
         }
     },
 }));
