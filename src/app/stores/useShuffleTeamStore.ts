@@ -384,7 +384,6 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
     activeLocalLoad: () => {
         if (typeof window !== 'undefined') {
             const data = localStorage.getItem('LastList');
-            console.log(data);
             data ? set({ teamList: JSON.parse(data) }) : set({ teamList: [] });
         }
     },
