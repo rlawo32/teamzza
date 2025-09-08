@@ -315,6 +315,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         const {setFixList, setRollbackList} = useShuffleListStore.getState();
         const {setTeamList, createTeam} = get();
 
+        localStorage.removeItem('LastList');
         setTeamList([]);
         setFixList([]);
         setRollbackList([]);
