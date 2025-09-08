@@ -30,6 +30,13 @@ const Main = () => {
     const updateFixData = useShuffleListStore((state) => state.updateFixData);
 
     const [isModal, setIsModal] = useState<boolean>(false);
+
+    const insertTitle = () => {
+        if (titleRef.current) {
+            titleRef.current.blur();
+            updateTargetAllData({target:false});
+        }
+    }
     
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -41,8 +48,7 @@ const Main = () => {
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (titleRef.current && !titleRef.current.contains(event.target as Node)) {
-                titleRef.current.blur();
-                updateTargetAllData({target:false});
+                insertTitle();
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -102,7 +108,8 @@ const Main = () => {
                                 <div className="list_title">
                                     {
                                         parent.target ? <input onChange={(e) => updateTitleData({arrNo:idx1, title:e.target.value})} value={parent.title} 
-                                                            type="text" ref={titleRef} autoFocus={true} spellCheck={false} /> : parent.title
+                                                            type="text" ref={titleRef} autoFocus={true} spellCheck={false} 
+                                                            onKeyDown={(e) => {if (e.key === 'Enter') { insertTitle(); }}} /> : parent.title
                                     }
                                 </div>
                                 {
