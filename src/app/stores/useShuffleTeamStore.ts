@@ -26,6 +26,8 @@ interface shuffleTeamStore {
     insertRollback: () => void;
     activeRollback: () => void;
     activeAutoInput: () => void;
+    activeLocalSave: () => void;
+    activeLocalLoad: () => void;
 }
 
 const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
@@ -373,6 +375,18 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         }
 
         set({ teamList: tempList });
+    },
+    activeLocalSave: () => {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('LastList', JSON.stringify(get().teamList));
+        }
+    },
+    activeLocalLoad: () => {
+        if (typeof window !== 'undefined') {
+            const data = localStorage.getItem('LastList');
+            console.log(data);
+            data ? set({ teamList: JSON.parse(data) }) : set({ teamList: [] });
+        }
     },
 }));
 
