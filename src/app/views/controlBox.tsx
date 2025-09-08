@@ -190,7 +190,7 @@ const ControlBoxStyle = styled('div')`
 `
 
 const ControlBox = () => {
-    const { shuffleRandom, shuffleBalance, shuffleReset, insertRollback, activeRollback } = useShuffleTeamStore();
+    const { shuffleRandom, shuffleBalance, shuffleReset, insertRollback, activeLocalSave } = useShuffleTeamStore();
     const { setShuffleProgress, shuffleRandomChk, setShuffleRandomChk, 
         shuffleBalanceChk, setShuffleBalanceChk, shuffleOneClickChk, setShuffleOneClickChk, 
         shuffleActiveChk, setShuffleActiveChk, shuffleCount, increaseShuffleCount, shuffleTime, setShuffleTime, 
@@ -226,6 +226,7 @@ const ControlBox = () => {
                 if(intervalTime <= 0) {
                     setShuffleActiveChk(false);
                     setShuffleProgress(false);
+                    activeLocalSave();
                     clearInterval(interval);
                 }
             }, reduceTime);
@@ -245,6 +246,7 @@ const ControlBox = () => {
                 if(intervalTime <= 0) {
                     setShuffleActiveChk(false);
                     setShuffleProgress(false);
+                    activeLocalSave();
                     clearInterval(interval);
                 }
             }, reduceTime);
