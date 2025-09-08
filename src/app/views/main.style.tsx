@@ -88,16 +88,65 @@ export const ListParent = styled('div')<{$camp:number, $idx:number, $teamCnt:num
                                          $camp === 8 ? "#4CFFD6" : "#A8FF00"};
         border-radius: 10px;
         z-index: -3;
-        animation: ${({$shuffle}) => $shuffle ? 'blink 2s infinite' : ''};
+        animation: ${({$shuffle, $camp}) => $shuffle ? $camp === 0 ? '' : 
+                                                       $camp === 1 ? '' :
+                                                       $camp === 2 ? '' :
+                                                       $camp === 3 ? '' : // #16A34A
+                                                       $camp === 4 ? '' : // #9333EA
+                                                       $camp === 5 ? '' :
+                                                       $camp === 6 ? '' :
+                                                       $camp === 7 ? '' : // #EA580C
+                                                       $camp === 8 ? '' : '' : ''};
 	}
 
-    @keyframes blink {
-        0%, 100% {
-		    opacity: 1;
-        }
-        50% {
-		    opacity: .5;
-        }
+    @keyframes blinkBlue {
+        0%, 100% {border-color: #1F85FD;}
+        50% {border-color: #66B2FF;}
+    }
+
+    @keyframes blinkRed {
+        0%, 100% {border-color: #F60C50;}
+        50% {border-color: #FF6B6B;}
+    }
+
+    @keyframes blinkYellow {
+        0%, 100% {border-color: #FFD300;}
+        50% {border-color: #FFE066;}
+    }
+
+    @keyframes blinkGreen {
+        0%, 100% {border-color: #16A34A;}
+        50% {border-color: #66FF99;}
+    }
+
+    @keyframes blinkPurple {
+        0%, 100% {border-color: #9333EA;}
+        50% {border-color: #D1A3FF;}
+    }
+
+    @keyframes blinkBrown {
+        0%, 100% {border-color: #A0522D;}
+        50% {border-color: #C97F4E;}
+    }
+
+    @keyframes blinkPink {
+        0%, 100% {border-color: #FF5CA8;}
+        50% {border-color: #FFAADD;}
+    }
+
+    @keyframes blinkOrange {
+        0%, 100% {border-color: #EA580C;}
+        50% {border-color: #FFAB40;}
+    }
+
+    @keyframes blinkMint {
+        0%, 100% {border-color: #4CFFD6;}
+        50% {border-color: #A0FFF0;}
+    }
+
+    @keyframes blinkLime {
+        0%, 100% {border-color: #A8FF00;}
+        50% {border-color: #D4FF70;}
     }
 `;
 
