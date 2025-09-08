@@ -167,13 +167,12 @@ export const InputWrapperStyle = styled('div')<{$camp:number, $idx:string, $team
 		background-color: ${({$camp}) => $camp === 0 ? "#1F85FD" : 
                                          $camp === 1 ? "#F60C50" :
                                          $camp === 2 ? "#FFD300" :
-                                         $camp === 3 ? "#00C853" :
-                                         $camp === 4 ? "#A259FF" :
+                                         $camp === 3 ? "#00C853" : // #16A34A
+                                         $camp === 4 ? "#A259FF" : // #9333EA
                                          $camp === 5 ? "#A0522D" :
                                          $camp === 6 ? "#FF5CA8" :
-                                         $camp === 7 ? "#FF6D00" :
+                                         $camp === 7 ? "#FF6D00" : // #EA580C
                                          $camp === 8 ? "#4CFFD6" : "#A8FF00"};
-
         border-radius: 18px;
         z-index: -2;
 	}
@@ -338,13 +337,14 @@ export const InputPlayerStyle = styled('input')<{$camp:number, $teamCnt:number, 
     background-color: ${({ theme }) => theme.inputBgColor};
     color: ${({ theme }) => theme.textColor};
     font-size: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 1.8 : 1.5}rem;
+    font-weight: 700;
 
     &:focus {
         outline: none;
     }
 
     &::placeholder {
-        color: gray;
+        color: rgba(128, 128, 128, .3);
         font-size: 18px;
         opacity: 0.7;
     }
