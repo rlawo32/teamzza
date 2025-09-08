@@ -41,6 +41,7 @@ export const MatchShuffle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
             .list_parent {
                 @media (max-width: 768px) {
                 }
+                position: relative;
                 margin: 0 50px;
 
                 .list_title {
@@ -63,6 +64,39 @@ export const MatchShuffle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
                     }
                 }
             }
+        }
+    }
+`;
+
+export const ListParent = styled('div')<{$camp:number, $idx:number, $teamCnt:number, $playerCnt:number, $shuffle:boolean}>`
+    &::before {
+		content: '';
+		position: absolute;
+        top: 17px;
+        left: 50%;
+        transform: translateX(-50%);    
+		width: 110%;
+		height: 100%;
+		border: 1px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
+                                         $camp === 1 ? "#F60C50" :
+                                         $camp === 2 ? "#FFD300" :
+                                         $camp === 3 ? "#16A34A" : // #16A34A
+                                         $camp === 4 ? "#9333EA" : // #9333EA
+                                         $camp === 5 ? "#A0522D" :
+                                         $camp === 6 ? "#FF5CA8" :
+                                         $camp === 7 ? "#EA580C" : // #EA580C
+                                         $camp === 8 ? "#4CFFD6" : "#A8FF00"};
+        border-radius: 10px;
+        z-index: -3;
+        animation: ${({$shuffle}) => $shuffle ? 'blink 2s infinite' : ''};
+	}
+
+    @keyframes blink {
+        0%, 100% {
+		    opacity: 1;
+        }
+        50% {
+		    opacity: .5;
         }
     }
 `;
@@ -99,7 +133,7 @@ export const ListChild = styled('div')<{$idx:number, $teamCnt:number, $playerCnt
         transform: scale(1);
         transition: transform 0.3s ease;
     }
-`
+`;
 
 export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $playerCnt:number}>`
     position: fixed;
@@ -110,7 +144,7 @@ export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $play
     padding: 6px;
     border: none;
     border-radius: 12px;
-    background: ${({ theme }) => theme.boxBgColor};;
+    background: ${({ theme }) => theme.boxBgColor};
 
     .button_section {
         display: flex;
@@ -249,10 +283,12 @@ export const GroupCampStyle = styled('div')<{$camp:number}>`
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 210px;
     height: 30px;
     font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin: 0 auto 10px;
+    background-color: ${({ theme }) => theme.bgColor};
     color: ${({$camp}) => $camp === 0 ? "#1F85FD" : 
                           $camp === 1 ? "#F60C50" :
                           $camp === 2 ? "#FFD300" :
@@ -337,7 +373,7 @@ export const InputPlayerStyle = styled('input')<{$camp:number, $teamCnt:number, 
 
     &::placeholder {
         color: rgba(128, 128, 128, .3);
-        font-size: 18px;
+        font-size: ${({$teamCnt, $playerCnt}) => $teamCnt < 5 && $playerCnt < 7 ? 1.8 : 1.3}rem;
         opacity: 0.7;
     }
 `;
