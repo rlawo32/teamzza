@@ -18,7 +18,7 @@ const Main = () => {
     const titleRef = useRef<HTMLInputElement>(null);
     const inputRef = useRef<HTMLDivElement[]>([]);
 
-    const { teamList, createTeam, insertTeam, deleteTeam, insertPlayer, deletePlayer } = useShuffleTeamStore();
+    const { teamList, createTeam, insertTeam, deleteTeam, insertPlayer, deletePlayer, activeLocalLoad } = useShuffleTeamStore();
     const { shuffleProgress, playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
     const { fixList, rollbackList } = useShuffleListStore();
 
@@ -32,12 +32,11 @@ const Main = () => {
     const [isModal, setIsModal] = useState<boolean>(false);
     
     useEffect(() => {
-        createTeam();
+        if (typeof window !== 'undefined') {
+            const data = localStorage.getItem('LastList');
+            data ? activeLocalLoad() : createTeam();
+        }
     }, [])
-
-    useEffect(() => {
-        console.log(playerCount);
-    }, [teamList])
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
