@@ -18,7 +18,7 @@ export default function Home() {
     <ThemeProvider theme={themeMode ? darkTheme : lightTheme } >
       <GlobalStyle />
       <DarkmodeBox />
-      <RollbackBox />
+      {/* <RollbackBox /> 추후 확인 후 적용(기능 개발 완료 -> UI 고민중) */}
       <div>
         <Main />
       </div>
