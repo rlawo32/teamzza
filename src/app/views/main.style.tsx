@@ -77,7 +77,7 @@ export const ListParent = styled('div')<{$camp:number, $idx:number, $teamCnt:num
         transform: translateX(-50%);    
 		width: 110%;
 		height: 100%;
-		border: 1px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
+		border: 2px solid ${({$camp}) => $camp === 0 ? "#1F85FD" : 
                                          $camp === 1 ? "#F60C50" :
                                          $camp === 2 ? "#FFD300" :
                                          $camp === 3 ? "#16A34A" : // #16A34A
@@ -88,15 +88,15 @@ export const ListParent = styled('div')<{$camp:number, $idx:number, $teamCnt:num
                                          $camp === 8 ? "#4CFFD6" : "#A8FF00"};
         border-radius: 10px;
         z-index: -3;
-        animation: ${({$shuffle, $camp}) => $shuffle ? $camp === 0 ? '' : 
-                                                       $camp === 1 ? '' :
-                                                       $camp === 2 ? '' :
-                                                       $camp === 3 ? '' : // #16A34A
-                                                       $camp === 4 ? '' : // #9333EA
-                                                       $camp === 5 ? '' :
-                                                       $camp === 6 ? '' :
-                                                       $camp === 7 ? '' : // #EA580C
-                                                       $camp === 8 ? '' : '' : ''};
+        animation: ${({$shuffle, $camp}) => $shuffle ? $camp === 0 ? 'blinkBlue 2s infinite' : 
+                                                       $camp === 1 ? 'blinkRed 2s infinite' :
+                                                       $camp === 2 ? 'blinkYellow 2s infinite' :
+                                                       $camp === 3 ? 'blinkGreen 2s infinite' : // #16A34A
+                                                       $camp === 4 ? 'blinkPurple 2s infinite' : // #9333EA
+                                                       $camp === 5 ? 'blinkBrown 2s infinite' :
+                                                       $camp === 6 ? 'blinkPink 2s infinite' :
+                                                       $camp === 7 ? 'blinkOrange 2s infinite' : // #EA580C
+                                                       $camp === 8 ? 'blinkMint 2s infinite' : 'blinkLime 2s infinite' : ''};
 	}
 
     @keyframes blinkBlue {
