@@ -11,6 +11,9 @@ const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
     }
 
     button {
+        @media (max-width: 1300px) {
+            height: 32px;
+        }
         @media (max-width: 1024px) {
         }
         @media (max-width: 768px) {
