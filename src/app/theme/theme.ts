@@ -16,6 +16,7 @@ export const lightTheme = {
     modalBgColor: "rgba(220, 220, 220, .95)",
     modalBgSubColor: "rgba(200, 200, 200, 1)",
     modalBgReverseColor: "rgba(34, 34, 34, .95)",
+    overlayColor: "rgba(255, 255, 255, 0.1)",
 };
 
 export const darkTheme = {
@@ -36,6 +37,7 @@ export const darkTheme = {
     modalBgColor: "rgba(34, 34, 34, .95)",
     modalBgSubColor: "rgba(59, 59, 59, 1)",
     modalBgReverseColor: "rgba(220, 220, 220, .95)",
+    overlayColor: "rgba(0, 0, 0, 0.1)",
 };
 
 export const theme = {
