@@ -191,10 +191,11 @@ const ControlBoxStyle = styled('div')`
 
 const ControlBox = () => {
     const { shuffleRandom, shuffleBalance, shuffleReset, insertRollback, activeLocalSave } = useShuffleTeamStore();
-    const { setShuffleProgress, shuffleRandomChk, setShuffleRandomChk, 
-        shuffleBalanceChk, setShuffleBalanceChk, shuffleOneClickChk, setShuffleOneClickChk, 
-        shuffleActiveChk, setShuffleActiveChk, shuffleCount, increaseShuffleCount, shuffleTime, setShuffleTime, 
-        increaseShuffleTime, decreaseShuffleTime, reduceTime, setReduceTime, increaseReduceTime, decreaseReduceTime } = useShuffleBaseStore();
+    const { setShuffleProgress, setShuffleCompleteChk, shuffleRandomChk, setShuffleRandomChk, 
+            shuffleBalanceChk, setShuffleBalanceChk, shuffleOneClickChk, setShuffleOneClickChk, 
+            shuffleActiveChk, setShuffleActiveChk, shuffleCount, increaseShuffleCount, 
+            shuffleTime, setShuffleTime, reduceTime, setReduceTime, 
+            increaseShuffleTime, decreaseShuffleTime, increaseReduceTime, decreaseReduceTime } = useShuffleBaseStore();
 
     const onClickControl = (flag:string, type:string) => {
         if(!shuffleOneClickChk)
@@ -206,51 +207,48 @@ const ControlBox = () => {
     }
 
     const onClickShuffle = () => {
-        if(shuffleRandomChk) {
-            onClickRandom();
-        } else if(shuffleBalanceChk) {
-            onClickBalance();
+        if(!shuffleActiveChk) { 
+            insertRollback();
+            setShuffleActiveChk(true);
+            setShuffleProgress(true);
+            if(shuffleRandomChk) {
+                onClickRandom();
+            } else if(shuffleBalanceChk) {
+                onClickBalance();
+            }
         }
     }
 
     const onClickRandom = () => {
-        if(!shuffleActiveChk) { 
-            insertRollback();
-            setShuffleActiveChk(true);
-            setShuffleProgress(true);
-            let intervalTime:number = shuffleTime;
-            const interval = setInterval(() => {
-                shuffleRandom();    
-                increaseShuffleCount();
-                intervalTime -= reduceTime;
-                if(intervalTime <= 0) {
-                    setShuffleActiveChk(false);
-                    setShuffleProgress(false);
-                    activeLocalSave();
-                    clearInterval(interval);
-                }
-            }, reduceTime);
-        }
+        let intervalTime:number = shuffleTime;
+        const interval = setInterval(() => {
+            shuffleRandom();    
+            increaseShuffleCount();
+            intervalTime -= reduceTime;
+            if(intervalTime <= 0) {
+                setShuffleActiveChk(false);
+                setShuffleProgress(false);
+                setShuffleCompleteChk(true);
+                activeLocalSave();
+                clearInterval(interval);
+            }
+        }, reduceTime);
     }
 
     const onClickBalance = () => {
-        if(!shuffleActiveChk) { 
-            insertRollback();
-            setShuffleActiveChk(true);
-            setShuffleProgress(true);
-            let intervalTime:number = shuffleTime;
-            const interval = setInterval(() => {
-                shuffleBalance();    
-                increaseShuffleCount();
-                intervalTime -= reduceTime;
-                if(intervalTime <= 0) {
-                    setShuffleActiveChk(false);
-                    setShuffleProgress(false);
-                    activeLocalSave();
-                    clearInterval(interval);
-                }
-            }, reduceTime);
-        }
+        let intervalTime:number = shuffleTime;
+        const interval = setInterval(() => {
+            shuffleBalance();    
+            increaseShuffleCount();
+            intervalTime -= reduceTime;
+            if(intervalTime <= 0) {
+                setShuffleActiveChk(false);
+                setShuffleProgress(false);
+                setShuffleCompleteChk(true);
+                activeLocalSave();
+                clearInterval(interval);
+            }
+        }, reduceTime);
     }
     
     const onClickShuffleOption = (flag:string) => {
