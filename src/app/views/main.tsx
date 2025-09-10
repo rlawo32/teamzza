@@ -13,6 +13,7 @@ import useShuffleListStore from "../stores/useShuffleListStore";
 import LevelBox from "./levelBox"
 import ControlBox from "./controlBox";
 import AutoBox from "./autoBox";
+import CompleteBox from "./completeBox";
 
 const Main = () => {
     const titleRef = useRef<HTMLInputElement>(null);
@@ -91,6 +92,7 @@ const Main = () => {
     return (
         <Style.MatchShuffle $teamCnt={teamCount} $playerCnt={playerCount}>
             <AutoBox isModal={isModal} setIsModal={setIsModal} />
+            <CompleteBox />
             <Style.ControlSection $pos="top" $teamCnt={teamCount} $playerCnt={playerCount}>
                 <div className="button_section">
                     <button onClick={() => insertTeam()}>그룹 추가</button>
