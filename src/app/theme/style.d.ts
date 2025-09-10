@@ -19,5 +19,6 @@ declare module "styled-components" {
         modalBgColor: string;
         modalBgSubColor: string,
         modalBgReverseColor: string,
+        overlayColor: string,
     }
 }
