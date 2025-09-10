@@ -12,7 +12,7 @@ import CountBox from "./countBox";
 const ModalOverlay = styled('div')<{$show:boolean}>`
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background-color: ${({ theme }) => theme.overlayColor};
     z-index: ${({$show}) => $show ? 999 : -99};
     opacity: ${({$show}) => $show ? 1 : 0};
     transition: opacity .2s ease-out, z-index ${({$show}) => $show ? '.1s' : '.2s'} ease;
