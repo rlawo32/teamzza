@@ -17,6 +17,8 @@ interface shuffleBaseStore {
     setShuffleOneClickChk: (shuffleOneClickChk: boolean) => void;
     shuffleActiveChk: boolean;
     setShuffleActiveChk: (shuffleActiveChk: boolean) => void;
+    shuffleCompleteChk: boolean;
+    setShuffleCompleteChk: (shuffleActiveChk: boolean) => void;
     
     playerCount: number;
     setPlayerCount: (playerCount: number) => void;
@@ -78,6 +80,11 @@ const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
     setShuffleActiveChk: (shuffleActiveChk: boolean) =>
         set((state: {shuffleActiveChk: boolean}) => ({
             shuffleActiveChk: (state.shuffleActiveChk = shuffleActiveChk),
+        })),
+    shuffleCompleteChk: false,
+    setShuffleCompleteChk: (shuffleCompleteChk: boolean) =>
+        set((state: {shuffleCompleteChk: boolean}) => ({
+            shuffleCompleteChk: (state.shuffleCompleteChk = shuffleCompleteChk),
         })),
     playerCount: 5,
     setPlayerCount: (playerCount: number) =>
