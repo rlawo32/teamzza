@@ -201,7 +201,7 @@ export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $play
     z-index: 99;
     display: flex;
     margin-top: 5px;
-    padding: 6px;
+    ${({$pos, $teamCnt, $playerCnt}) => $pos === 'top' ? 'padding: 6px' : ''};
     border: none;
     border-radius: 12px;
     background: ${({ theme }) => theme.boxBgColor};
