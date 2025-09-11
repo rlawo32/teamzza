@@ -1,36 +1,71 @@
-
 'use client'
 
 import styled from "styled-components";
 
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faPlus as icon_plus, faMinus as icon_minus,
-    faRotate as icon_refresh, faShuffle as icon_random
+    faRotate as icon_refresh, faShuffle as icon_random,
+    faSliders as icon_option
 } from "@fortawesome/free-solid-svg-icons";
 
 import useShuffleTeamStore from "../stores/useShuffleTeamStore";
 import useShuffleBaseStore from "../stores/useShuffleBaseStore";
 
-const ControlBoxStyle = styled('div')`
+const ControlBoxStyle = styled('div')<{$show:boolean}>`
     @media (max-width: 768px) {
     }
     // mobile_view
     @media (max-width: 500px) {
     }
-    width: 400px;
+    width: 300px;
     height: 100%;
-    padding: 5px 10px;
 
     .info_section {
-        @media (max-width: 768px) {
-        }
+        position: relative;
         display: flex;
-        flex-direction: column;
-        width: 300px;
-        margin: 0 auto 20px;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 6px 0;
         color: ${({ theme }) => theme.boxTextColor};
         text-align: center;
+
+        button {
+            @media (max-width: 768px) {
+            }
+            // mobile_view
+            @media (max-width: 500px) {
+            }
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 4px;
+            margin: 0 3px;
+            border: none;
+            border-radius: 5px;
+            background-color: transparent;
+            color: ${({ theme }) => theme.textColor};
+            cursor: pointer;
+
+            &:active {
+                scale: .7;
+                transition: scale .3s ease-in-out;
+            }
+
+            &:hover {
+                opacity: .7;
+            }
+
+            .btn_icon {
+                position: absolute;
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+        }
 
         .shuffle_count {
             @media (max-width: 768px) {
@@ -42,6 +77,24 @@ const ControlBoxStyle = styled('div')`
             font-weight: 700;
             margin: 0 0 20px 0;
         }
+    }
+
+    .control_section {
+        @media (max-width: 768px) {
+        }
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: ${({$show}) => $show ? 170 : 0}px;
+        margin: 0 auto 5px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+        background-color: ${({ theme }) => theme.textSubColor};
+        font-size: 1.3rem;
+        overflow: hidden;
+        transition: height .3s ease-in-out;
 
         .shuffle_control {
             @media (max-width: 768px) {
@@ -50,9 +103,6 @@ const ControlBoxStyle = styled('div')`
             @media (max-width: 500px) {
             }
             position: relative;
-            display: flex;
-            justify-content: center;
-            font-size: 1.3rem;
 
             button {
                 @media (max-width: 768px) {
@@ -107,39 +157,77 @@ const ControlBoxStyle = styled('div')`
                         @media (max-width: 768px) {
                         }
                         width: 35px;
+                        text-align: center;
                     }
                 }
-            }
+            }     
+        }
 
-            .shuffle_option {
-                @media (max-width: 768px) {
-                }
-                // mobile_view
-                @media (max-width: 480px) {
-                }
+        .shuffle_option {
+            @media (max-width: 768px) {
+            }
+            // mobile_view
+            @media (max-width: 480px) {
+            }
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .option_item {
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                position: absolute;
-                top: 3px;
-                right: -40px;
+                margin: 0 4px;
 
-                .option_section {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    margin: 0 4px;
+                .control_title {
+                    font-size: .9rem;
+                    font-weight: 400;
+                    margin-bottom: 6px;
+                }
 
-                    .control_title {
-                        font-size: .9rem;
-                        font-weight: 400;
-                        margin-bottom: 6px;
-                    }
+                .control_tool {
+                    
+                    .switch {
+                        position: relative;
 
-                    input {
-                        transform: scale(0.8);
-                        cursor: pointer;
+                        input {
+                            display: none;
+
+                            &:checked + .slider {
+                                background-color: #66bb6a;
+
+                                &::before {
+                                    transform: translateX(20px);
+                                }
+                            }
+                        }
+
+                        .slider {
+                            position: relative;
+                            display: flex;
+                            align-items: center;
+                            width: 35px;
+                            height: 15px;
+                            border-radius: 34px;
+                            background-color: red;
+                            font-size: .8rem;
+                            font-weight: 700;
+                            user-select: none;
+                            cursor: pointer;
+                            
+                            &::before {
+                                content: "";
+                                position: absolute;
+                                bottom: 3px;
+                                left: 3px;
+                                width: 9px;
+                                height: 9px;
+                                border-radius: 50%;
+                                background-color: #fff;
+                                transition: .4s;
+                            }
+                        }
                     }
                 }
             }
@@ -151,6 +239,7 @@ const ControlBoxStyle = styled('div')`
         }
         display: flex;
         justify-content: center;
+        padding: 0 10px 15px;
 
         button {
             @media (max-width: 768px) {
@@ -189,6 +278,22 @@ const ControlBoxStyle = styled('div')`
     }
 `
 
+const ToggleEffectOn = styled('div')<{$show:boolean}>`
+    position: absolute;
+    left: 0;
+    margin: 0 3px;
+    opacity: ${({$show}) => $show ? 1 : 0};
+    transition: opacity 1s;
+`
+
+const ToggleEffectOff = styled('div')<{$show:boolean}>`
+    position: absolute;
+    right: 0;
+    margin: 0 3px;
+    opacity: ${({$show}) => $show ? 0 : 1};
+    transition: opacity 1s;
+`
+
 const ControlBox = () => {
     const { shuffleRandom, shuffleBalance, shuffleReset, insertRollback, activeLocalSave } = useShuffleTeamStore();
     const { setShuffleProgress, setShuffleCompleteChk, shuffleRandomChk, setShuffleRandomChk, 
@@ -196,6 +301,8 @@ const ControlBox = () => {
             shuffleActiveChk, setShuffleActiveChk, shuffleCount, increaseShuffleCount, 
             shuffleTime, setShuffleTime, reduceTime, setReduceTime, 
             increaseShuffleTime, decreaseShuffleTime, increaseReduceTime, decreaseReduceTime } = useShuffleBaseStore();
+    
+    const [activeOption, setActiveOption] = useState<boolean>(false);
 
     const onClickControl = (flag:string, type:string) => {
         if(!shuffleOneClickChk)
@@ -271,9 +378,8 @@ const ControlBox = () => {
     }
 
     return (
-        <ControlBoxStyle>
-            <div className="info_section">
-                <div className="shuffle_count">셔플 횟수 {shuffleCount}회</div>
+        <ControlBoxStyle $show={activeOption}>
+            <div className="control_section">
                 <div className="shuffle_control">
                     <div className="control_item shuffle_time">
                         <div className="control_title">
@@ -295,33 +401,43 @@ const ControlBox = () => {
                             <button onClick={() => onClickControl('speed', 'decrease')}><FontAwesomeIcon icon={icon_minus} className="btn_icon"/></button>
                         </div>
                     </div>
-                    <div className="shuffle_option">
-                        <div className="option_section">
-                            <div className="control_title">
-                                1회 셔플
-                            </div>
-                            <div className="control_tool">
-                                <input type="checkbox" checked={shuffleOneClickChk} onChange={() => onClickShuffleOption('oneClick')} />
-                            </div>
+                </div>
+                <div className="shuffle_option">
+                    <div className="option_item">
+                        <div className="control_title">
+                            1회 셔플
                         </div>
-                        <div className="option_section">
-                            <div className="control_title">
-                                무작위
-                            </div>
-                            <div className="control_tool">
-                                <input type="checkbox" checked={shuffleRandomChk} onChange={() => onClickShuffleOption('random')} />
-                            </div>
+                        <div className="control_tool">
+                            <label className="switch" htmlFor="shuffleOneChk">
+                                <input type="checkbox" id="shuffleOneChk" checked={shuffleOneClickChk} onChange={() => onClickShuffleOption('oneClick')} />
+                                <div className="slider">
+                                    <ToggleEffectOn $show={shuffleOneClickChk}>{shuffleOneClickChk ? 'ON' : ''}</ToggleEffectOn> 
+                                    <ToggleEffectOff $show={shuffleOneClickChk}>{shuffleOneClickChk ? '' : 'OFF'}</ToggleEffectOff>
+                                </div>
+                            </label>
                         </div>
-                        <div className="option_section">
-                            <div className="control_title">
-                                밸런스
-                            </div>
-                            <div className="control_tool">
-                                <input type="checkbox" checked={shuffleBalanceChk} onChange={() => onClickShuffleOption('balance')} />
-                            </div>
+                    </div>
+                    <div className="option_item">
+                        <div className="control_title">
+                            무작위
+                        </div>
+                        <div className="control_tool">
+                            <input type="checkbox" checked={shuffleRandomChk} onChange={() => onClickShuffleOption('random')} />
+                        </div>
+                    </div>
+                    <div className="option_item">
+                        <div className="control_title">
+                            밸런스
+                        </div>
+                        <div className="control_tool">
+                            <input type="checkbox" checked={shuffleBalanceChk} onChange={() => onClickShuffleOption('balance')} />
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className="info_section">
+                <div className="shuffle_count">셔플 횟수 {shuffleCount}회</div>
+                <button onClick={() => setActiveOption(!activeOption)}><FontAwesomeIcon icon={icon_option} className="btn_icon"/></button>
             </div>
             <div className="btn_section">
                 <button onClick={() => onClickShuffle()}>
