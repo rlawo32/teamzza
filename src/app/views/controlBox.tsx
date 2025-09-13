@@ -11,8 +11,8 @@ import {
     faSliders as icon_option
 } from "@fortawesome/free-solid-svg-icons";
 
-import useShuffleTeamStore from "./useShuffleTeamStore";
-import useShuffleBaseStore from "./useShuffleBaseStore";
+import useShuffleTeamStore from "../stores/useShuffleTeamStore";
+import useShuffleBaseStore from "../stores/useShuffleBaseStore";
 
 const ControlBox = () => {
     const optionRef:any = useRef<any>(null);
@@ -166,7 +166,8 @@ const ControlBox = () => {
                             </div>
                             <div className="option_tool">
                                 <label className="option_radio" htmlFor="shuffleRandomChk">
-                                    <input type="radio" id="shuffleRandomChk" name="shuffleType" />
+                                    <input type="radio" id="shuffleRandomChk" name="shuffleType" 
+                                           checked={shuffleRandomChk} onChange={() => onClickShuffleOption('random')} />
                                     <div className="radio_check"></div>
                                 </label>
                             </div>
@@ -176,12 +177,10 @@ const ControlBox = () => {
                                 밸런스
                             </div>
                             <div className="option_tool">
-                                <label className="option_toggle" htmlFor="shuffleBalanceChk">
-                                    <input type="checkbox" id="shuffleBalanceChk" checked={shuffleBalanceChk} onChange={() => onClickShuffleOption('balance')} />
-                                    <div className="toggle_slider">
-                                        <Style.ToggleEffectOn $show={shuffleBalanceChk}>{shuffleBalanceChk ? 'ON' : ''}</Style.ToggleEffectOn> 
-                                        <Style.ToggleEffectOff $show={shuffleBalanceChk}>{shuffleBalanceChk ? '' : 'OFF'}</Style.ToggleEffectOff>
-                                    </div>
+                                <label className="option_radio" htmlFor="shuffleBalanceChk">
+                                    <input type="radio" id="shuffleBalanceChk" name="shuffleType" 
+                                           checked={shuffleBalanceChk} onChange={() => onClickShuffleOption('balance')} />
+                                    <div className="radio_check"></div>
                                 </label>
                             </div>
                         </div>

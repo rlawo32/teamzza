@@ -2,8 +2,10 @@
 
 import styled from "styled-components";
 
-import useShuffleBaseStore from "./useShuffleBaseStore";
 import { useEffect, useRef } from "react";
+
+import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+
 import FixedConfettiEffect from "./fixedConfettiEffect";
 
 const ModalOverlay = styled('div')<{$show:boolean}>`
@@ -20,7 +22,7 @@ const CompleteBoxStyle = styled('div')<{$show:boolean}>`
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: 35%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%) ${({$show}) => $show ? 'scale(1)' : 'scale(0.7)'};
     width: 300px;
