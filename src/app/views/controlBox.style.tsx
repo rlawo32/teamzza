@@ -76,7 +76,7 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
         background-color: ${({ theme }) => theme.boxBgColor};
-        color: ${({ theme }) => theme.textColor};
+        color: ${({ theme }) => theme.boxTextColor};
         font-size: 1.3rem;
         opacity: ${({$show}) => $show ? 1 : 0};
         overflow: hidden;
@@ -126,7 +126,7 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            padding: 3px 4px;
+                            padding: 3px;
                             margin: 0 3px;
                             border: none;
                             border-radius: 5px;
@@ -137,6 +137,11 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
                             &:active {
                                 scale: .7;
                                 transition: scale .3s ease-in-out;
+                            }
+
+                            .btn_icon {
+                                font-size: .9rem;
+                                font-weight: 700;
                             }
                         }
                     }
@@ -150,7 +155,7 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
                     position: absolute;
                     top: 5px;
                     width: 120px;
-                    font-size: 1.1rem;
+                    font-size: 1.2rem;
                     font-weight: 700;
                     text-align: center;
                 }
@@ -160,22 +165,18 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
                     flex-direction: column;
                     justify-content: center;
                     align-items: center;
-                    margin: 0 4px;
+                    margin: 0 7px;
 
                     .option_title {
-                        font-size: 1rem;
-                        font-weight: 500;
                         margin-bottom: 6px;
+                        color: ${({ theme }) => theme.boxTextSubColor};
+                        font-size: .9rem;
+                        font-weight: 500;
                     }
 
                     .option_tool {
                         display: flex;
                         align-items: center;
-
-                        .btn_icon {
-                            font-size: .8rem;
-                            font-weight: 700;
-                        }
 
                         .sec_time {
                             @media (max-width: 768px) {
@@ -232,39 +233,36 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
                             input {
                                 display: none;
 
-                                &:checked + .slider {
-                                    color: #0DFF92;
-                                    border: 5px solid #0DFF92;
+                                &:checked + .radio_check {
+                                    border-color: ${({ theme }) => theme.radioCheck};
 
                                     &::before {
-                                        background: #0DFF92;
+                                        background: ${({ theme }) => theme.radioCheck};
                                     }
                                 }
                             }
 
                             .radio_check {
-                                display: block;
-                                position: absolute;
-                                border: 5px solid #AAAAAA;
+                                position: relative;
+                                top: 0;
+                                width: 14px;
+                                height: 14px;
+                                border: 3px solid ${({ theme }) => theme.radioBox};
                                 border-radius: 100%;
-                                height: 25px;
-                                width: 25px;
-                                top: 30px;
-                                left: 20px;
                                 z-index: 5;
-                                transition: border .25s linear;
+                                transition: border .3s linear;
+                                cursor: pointer;
 
                                 &::before {
+                                    content: '';
                                     display: block;
                                     position: absolute;
-                                    content: '';
+                                    top: 1.7px;
+                                    left: 1.5px;
+                                    width: 6px;
+                                    height: 6px;
                                     border-radius: 100%;
-                                    height: 15px;
-                                    width: 15px;
-                                    top: 5px;
-                                    left: 5px;
-                                    margin: auto;
-                                    transition: background 0.25s linear;
+                                    transition: background .3s linear;
                                 }
                             }
                         }
