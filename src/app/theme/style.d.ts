@@ -13,6 +13,7 @@ declare module "styled-components" {
         boxBgColor: string;
         boxBgSubColor: string;
         boxTextColor: string;
+        boxTextSubColor: string;
         boxBorderColor: string;
         borderColor: string;
         borderSubColor: string;
@@ -20,5 +21,7 @@ declare module "styled-components" {
         modalBgSubColor: string,
         modalBgReverseColor: string,
         overlayColor: string,
+        radioBox: string,
+        radioCheck: string,
     }
 }

@@ -10,6 +10,7 @@ export const lightTheme = {
     boxBgColor: "rgba(220, 220, 220, .8)",
     boxBgSubColor: "#F5F5F5",
     boxTextColor: "#1A1A1A",
+    boxTextSubColor: "#555555",
     boxBorderColor: "#B0B0B0",
     borderColor: "#D1D5DB",
     borderSubColor: "rgba(34, 34, 34, .3)",
@@ -17,6 +18,8 @@ export const lightTheme = {
     modalBgSubColor: "rgba(200, 200, 200, 1)",
     modalBgReverseColor: "rgba(34, 34, 34, .95)",
     overlayColor: "rgba(255, 255, 255, 0.1)",
+    radioBox: "#666666",
+    radioCheck: "#00C471",
 };
 
 export const darkTheme = {
@@ -31,6 +34,7 @@ export const darkTheme = {
     boxBgColor: "rgba(34, 34, 34, .8)",
     boxBgSubColor: "#222222",
     boxTextColor: "#DEDEDE",
+    boxTextSubColor: "#AAAAAA",
     boxBorderColor: "#4E4E4E",
     borderColor: "#3F3F46",
     borderSubColor: "rgba(229, 231, 235, .3)",
@@ -38,6 +42,8 @@ export const darkTheme = {
     modalBgSubColor: "rgba(59, 59, 59, 1)",
     modalBgReverseColor: "rgba(220, 220, 220, .95)",
     overlayColor: "rgba(0, 0, 0, 0.1)",
+    radioBox: "#AAAAAA",
+    radioCheck: "#0DFF92",
 };
 
 export const theme = {
