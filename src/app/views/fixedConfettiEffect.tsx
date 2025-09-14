@@ -10,7 +10,7 @@ export default function FixedConfettiEffect() {
         refAnimationInstance.current = instance;
     }, []);
 
-    const makeShot = useCallback((particleRatio:number, opts:Object) => {
+    const makeShot = useCallback((particleRatio:number, opts:object) => {
         refAnimationInstance.current &&
         refAnimationInstance.current({
             ...opts,
