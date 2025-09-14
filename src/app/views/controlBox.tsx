@@ -18,10 +18,10 @@ const ControlBox = () => {
     const optionRef:any = useRef<any>(null);
 
     const { shuffleRandom, shuffleBalance, shuffleReset, insertRollback, activeLocalSave } = useShuffleTeamStore();
-    const { setShuffleProgress, setShuffleCompleteChk, shuffleRandomChk, setShuffleRandomChk, 
+    const { setShuffleProgress, setShuffleComplete, shuffleRandomChk, setShuffleRandomChk, 
             shuffleBalanceChk, setShuffleBalanceChk, shuffleOneClickChk, setShuffleOneClickChk, 
-            shuffleActiveChk, setShuffleActiveChk, shuffleCount, increaseShuffleCount, 
-            shuffleTime, setShuffleTime, reduceTime, setReduceTime, 
+            shuffleCompleteChk, setShuffleCompleteChk, shuffleActiveChk, setShuffleActiveChk, 
+            shuffleCount, increaseShuffleCount, shuffleTime, setShuffleTime, reduceTime, setReduceTime, 
             increaseShuffleTime, decreaseShuffleTime, increaseReduceTime, decreaseReduceTime } = useShuffleBaseStore();
 
     const [activeOption, setActiveOption] = useState<boolean>(false);
@@ -57,7 +57,9 @@ const ControlBox = () => {
             if(intervalTime <= 0) {
                 setShuffleActiveChk(false);
                 setShuffleProgress(false);
-                setShuffleCompleteChk(true);
+                if(shuffleCompleteChk) {
+                    setShuffleComplete(true);
+                }
                 activeLocalSave();
                 clearInterval(interval);
             }
@@ -73,7 +75,9 @@ const ControlBox = () => {
             if(intervalTime <= 0) {
                 setShuffleActiveChk(false);
                 setShuffleProgress(false);
-                setShuffleCompleteChk(true);
+                if(shuffleCompleteChk) {
+                    setShuffleComplete(true);
+                }
                 activeLocalSave();
                 clearInterval(interval);
             }
@@ -96,6 +100,8 @@ const ControlBox = () => {
         } else if(flag === 'balance') {
             setShuffleRandomChk(!shuffleRandomChk);
             setShuffleBalanceChk(!shuffleBalanceChk);
+        } else if(flag === 'complete') {
+            setShuffleCompleteChk(!shuffleCompleteChk);
         }
     }
 
@@ -153,6 +159,20 @@ const ControlBox = () => {
                                     <div className="toggle_slider">
                                         <Style.ToggleEffectOn $show={shuffleOneClickChk}>{shuffleOneClickChk ? 'ON' : ''}</Style.ToggleEffectOn> 
                                         <Style.ToggleEffectOff $show={shuffleOneClickChk}>{shuffleOneClickChk ? '' : 'OFF'}</Style.ToggleEffectOff>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div className="option_item">
+                            <div className="option_title">
+                                결과 효과
+                            </div>
+                            <div className="option_tool">
+                                <label className="option_toggle" htmlFor="shuffleCompleteChk">
+                                    <input type="checkbox" id="shuffleCompleteChk" checked={shuffleCompleteChk} onChange={() => onClickShuffleOption('complete')} />
+                                    <div className="toggle_slider">
+                                        <Style.ToggleEffectOn $show={shuffleCompleteChk}>{shuffleCompleteChk ? 'ON' : ''}</Style.ToggleEffectOn> 
+                                        <Style.ToggleEffectOff $show={shuffleCompleteChk}>{shuffleCompleteChk ? '' : 'OFF'}</Style.ToggleEffectOff>
                                     </div>
                                 </label>
                             </div>

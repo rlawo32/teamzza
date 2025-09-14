@@ -44,22 +44,22 @@ const CompleteBoxStyle = styled('div')<{$show:boolean}>`
 const CompleteBox = () => {
     const modalRef:any = useRef<any>(null);
 
-    const { shuffleCompleteChk, setShuffleCompleteChk } = useShuffleBaseStore();
+    const { shuffleComplete, setShuffleComplete } = useShuffleBaseStore();
 
     useEffect(() => {
-        if (!shuffleCompleteChk) return;
+        if (!shuffleComplete) return;
 
         const timer = setTimeout(() => {
-            setShuffleCompleteChk(false);
+            setShuffleComplete(false);
         }, 3500);
 
         return () => clearTimeout(timer);
-    }, [shuffleCompleteChk])
+    }, [shuffleComplete])
     
     useEffect(()=>{
         const handleClickOutside = (e:MouseEvent)=> {
             if(modalRef.current && !modalRef.current.contains(e.target)) {
-                setShuffleCompleteChk(false);
+                setShuffleComplete(false);
             }
         }
         window.addEventListener('mousedown',handleClickOutside)
@@ -70,11 +70,11 @@ const CompleteBox = () => {
     })
 
     return (
-        <ModalOverlay $show={shuffleCompleteChk}>
-            <CompleteBoxStyle $show={shuffleCompleteChk} ref={modalRef} onClick={(e) => e.stopPropagation()}>
+        <ModalOverlay $show={shuffleComplete}>
+            <CompleteBoxStyle $show={shuffleComplete} ref={modalRef} onClick={(e) => e.stopPropagation()}>
                 셔플 완료!
             </CompleteBoxStyle>
-            {shuffleCompleteChk ? <FixedConfettiEffect /> : <></>}
+            {shuffleComplete ? <FixedConfettiEffect /> : <></>}
         </ModalOverlay>
     )
 }
