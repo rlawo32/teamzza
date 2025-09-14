@@ -245,9 +245,9 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
                             .radio_check {
                                 position: relative;
                                 top: 0;
-                                width: 14px;
-                                height: 14px;
-                                border: 3px solid ${({ theme }) => theme.radioBox};
+                                width: 12px;
+                                height: 12px;
+                                border: 2px solid ${({ theme }) => theme.radioBox};
                                 border-radius: 100%;
                                 z-index: 5;
                                 transition: border .3s linear;
@@ -258,7 +258,7 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
                                     display: block;
                                     position: absolute;
                                     top: 1.7px;
-                                    left: 1.5px;
+                                    left: 1px;
                                     width: 6px;
                                     height: 6px;
                                     border-radius: 100%;
@@ -320,6 +320,7 @@ export const ToggleEffectOn = styled('div')<{$show:boolean}>`
     position: absolute;
     left: 0;
     margin: 0 6px;
+    color: #222222;
     opacity: ${({$show}) => $show ? 1 : 0};
     transition: opacity 1s;
 `
@@ -328,6 +329,7 @@ export const ToggleEffectOff = styled('div')<{$show:boolean}>`
     position: absolute;
     right: 0;
     margin: 0 5px;
+    color: #222222;
     opacity: ${({$show}) => $show ? 0 : 1};
     transition: opacity 1s;
 `
