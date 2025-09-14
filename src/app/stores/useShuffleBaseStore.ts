@@ -9,6 +9,8 @@ interface shuffleBaseStore {
 
     shuffleProgress: boolean;
     setShuffleProgress: (shuffleProgress: boolean) => void;
+    shuffleComplete: boolean;
+    setShuffleComplete: (shuffleProgress: boolean) => void;
     shuffleRandomChk: boolean;
     setShuffleRandomChk: (shuffleRandomChk: boolean) => void;
     shuffleBalanceChk: boolean;
@@ -61,6 +63,11 @@ const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
         set((state: {shuffleProgress: boolean}) => ({
             shuffleProgress: (state.shuffleProgress = shuffleProgress),
         })),
+    shuffleComplete: false,
+    setShuffleComplete: (shuffleComplete: boolean) =>
+        set((state: {shuffleComplete: boolean}) => ({
+            shuffleComplete: (state.shuffleComplete = shuffleComplete),
+        })),
     shuffleRandomChk: true,
     setShuffleRandomChk: (shuffleRandomChk: boolean) =>
         set((state: {shuffleRandomChk: boolean}) => ({
@@ -81,7 +88,7 @@ const useShuffleBaseStore = create<shuffleBaseStore>((set, get) => ({
         set((state: {shuffleActiveChk: boolean}) => ({
             shuffleActiveChk: (state.shuffleActiveChk = shuffleActiveChk),
         })),
-    shuffleCompleteChk: false,
+    shuffleCompleteChk: true,
     setShuffleCompleteChk: (shuffleCompleteChk: boolean) =>
         set((state: {shuffleCompleteChk: boolean}) => ({
             shuffleCompleteChk: (state.shuffleCompleteChk = shuffleCompleteChk),
