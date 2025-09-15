@@ -18,6 +18,7 @@ import CompleteBox from "./completeBox";
 const Main = () => {
     const titleRef = useRef<HTMLInputElement>(null);
     const inputRef = useRef<HTMLDivElement[]>([]);
+    const captureRef = useRef<HTMLDivElement>(null);
 
     const { teamList, createTeam, insertTeam, deleteTeam, insertPlayer, deletePlayer, activeLocalLoad } = useShuffleTeamStore();
     const { shuffleProgress, playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
@@ -102,7 +103,7 @@ const Main = () => {
                     <button onClick={() => setIsModal(true)}>자동 입력</button>
                 </div>
             </Style.ControlSection>
-            <div className="list_section">
+            <div className="list_section" ref={captureRef}>
                 {teamList.map((parent, idx1) => (
                     <div key={idx1} className="list_wrap" id={idx1 + "_t"}>
                         <div className="list_parent">
@@ -138,9 +139,7 @@ const Main = () => {
                                                 </Style.LabelStyle>
                                             </div>
                                         </Style.ListChild>
-                                        <div className="list_select">
-                                            <LevelBox updateSelectData={updateSelectData} inputData={child} inputIdx={idx1} teamCnt={teamCount} playerCnt={playerCount} />
-                                        </div>
+                                        <LevelBox updateSelectData={updateSelectData} inputData={child} inputIdx={idx1} teamCnt={teamCount} playerCnt={playerCount} />
                                     </div>
                                 ))}
                             </Style.ListParent>
@@ -149,7 +148,7 @@ const Main = () => {
                 ))}
             </div>
             <Style.ControlSection $pos="bottom" $teamCnt={teamCount} $playerCnt={playerCount}>
-                <ControlBox />
+                <ControlBox captureRef={captureRef} />
             </Style.ControlSection>
         </Style.MatchShuffle>
     )
