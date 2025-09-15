@@ -1,4 +1,3 @@
-
 'use client'
 
 import * as Style from "./controlBox.style";
@@ -8,16 +7,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faPlus as icon_plus, faMinus as icon_minus,
     faRotate as icon_refresh, faShuffle as icon_random,
-    faSliders as icon_option
+    faSliders as icon_option, faCopy as icon_copy
 } from "@fortawesome/free-solid-svg-icons";
+import { toPng } from 'html-to-image';
 
-import useShuffleTeamStore from "../stores/useShuffleTeamStore";
-import useShuffleBaseStore from "../stores/useShuffleBaseStore";
+import useShuffleTeamStore from "./useShuffleTeamStore";
+import useShuffleBaseStore from "./useShuffleBaseStore";
 
-const ControlBox = () => {
+const ControlBox = (props : { captureRef:any }) => {
     const optionRef:any = useRef<any>(null);
 
-    const { shuffleRandom, shuffleBalance, shuffleReset, insertRollback, activeLocalSave } = useShuffleTeamStore();
+    const { teamList, shuffleRandom, shuffleBalance, shuffleReset, insertRollback, activeLocalSave } = useShuffleTeamStore();
     const { setShuffleProgress, setShuffleComplete, shuffleRandomChk, setShuffleRandomChk, 
             shuffleBalanceChk, setShuffleBalanceChk, shuffleOneClickChk, setShuffleOneClickChk, 
             shuffleCompleteChk, setShuffleCompleteChk, shuffleActiveChk, setShuffleActiveChk, 
@@ -25,6 +25,9 @@ const ControlBox = () => {
             increaseShuffleTime, decreaseShuffleTime, increaseReduceTime, decreaseReduceTime } = useShuffleBaseStore();
 
     const [activeOption, setActiveOption] = useState<boolean>(false);
+    const [activeReset, setActiveReset] = useState<boolean>(false);
+    const [oneCaptureChk, setOneCaptureChk] = useState<boolean>(false);
+    const [captureCopyChk, setCaptureCopyChk] = useState<boolean>(false);
 
     const onClickControl = (flag:string, type:string) => {
         if(!shuffleOneClickChk)
@@ -102,6 +105,62 @@ const ControlBox = () => {
             setShuffleBalanceChk(!shuffleBalanceChk);
         } else if(flag === 'complete') {
             setShuffleCompleteChk(!shuffleCompleteChk);
+        }
+    }
+
+    const onClickShuffleReset = async () => {
+        shuffleReset();
+        setActiveReset(true);
+        setTimeout(() => setActiveReset(false), 3000);
+    }
+
+    const dataURLtoBlob = (dataurl:string):Blob => {
+        const arr = dataurl.split(',');
+        const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/png';
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new Blob([u8arr], { type: mime });
+    };
+
+    const onClickShuffleCopy = async () => {
+        try {
+            if (props.captureRef.current && !oneCaptureChk) {
+                const section = props.captureRef.current;
+                setOneCaptureChk(true);
+                
+                try {
+                    const dataUrl = await toPng(section, {
+                        width: props.captureRef.current.offsetWidth, 
+                        height: props.captureRef.current.offsetHeight,
+                        quality: 0.95,
+                        style: {
+                            margin: '0',
+                        },
+                    });
+                    const imageBlob = dataURLtoBlob(dataUrl); // Base64를 Blob으로 변환
+                    const imageItem = new ClipboardItem({ 'image/png': imageBlob });
+                    await navigator.clipboard.write([imageItem])
+                        .then(() => {
+                            setCaptureCopyChk(true);
+                            setTimeout(() => setCaptureCopyChk(false), 3000);
+                            setOneCaptureChk(false);
+                        }).catch(err => console.log('Copy failed : ' + err));
+                } catch (error) {
+                    if (error instanceof Error) {
+                        console.error(`캡처 또는 전송 중 오류 발생: ${error.message}`);
+                    } else {
+                        console.error('캡처 또는 전송 중 알 수 없는 오류 발생');
+                    }
+                } 
+            } else {
+                alert('잠시 후 시도해주세요');
+            }
+        } catch (err) {
+            console.error('복사 실패:', err);
         }
     }
 
@@ -216,11 +275,22 @@ const ControlBox = () => {
                 </button>
             </div>
             <div className="btn_section">
-                <button onClick={() => onClickShuffle()}>
-                    <FontAwesomeIcon icon={icon_random} className="btn_icon"/>섞기
+                <button onClick={() => onClickShuffle()} className="btn_main">
+                    <FontAwesomeIcon icon={icon_random} className="btn_icon"/>셔플
                 </button>
-                <button onClick={() => shuffleReset()}>
-                    <FontAwesomeIcon icon={icon_refresh} className="btn_icon"/>초기화
+                <button onClick={() => onClickShuffleReset()} className="btn_sub sub_reset" title="초기화">
+                    <div className={activeReset ? "reset_message active" : "reset_message"}>
+                        초기화 완료
+                    </div>
+                    <FontAwesomeIcon icon={icon_refresh} className="btn_icon"/>
+                </button>
+                <button onClick={() => onClickShuffleCopy()} className="btn_sub sub_copy" title="결과 캡쳐">
+                    <div className={captureCopyChk ? "copy_message active" : "copy_message"}>
+                        클립보드로 복사되었습니다.
+                    </div>
+                    {
+                        !captureCopyChk && oneCaptureChk ? <div className="capture_loading" /> : <FontAwesomeIcon icon={icon_copy} className="btn_icon"/>
+                    }
                 </button>
             </div>
         </Style.ControlBoxStyle>
