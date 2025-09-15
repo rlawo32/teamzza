@@ -6,9 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown as arrow } from "@fortawesome/free-solid-svg-icons";
 
-const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
+const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number, $show:boolean}>`
     @media (max-width: 1024px) {
     }
+    position: absolute;
+    top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 12 : 10}px;
+    left: 15px;
+    z-index: ${({$show}) => $show ? 5 : 3};
 
     button {
         @media (max-width: 1300px) {
@@ -223,6 +227,7 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
     const selectArrow:any = useRef<any>(null);
 
     const [isSelectBoxShow, setIsSelectBoxShow] = useState<boolean>(false);
+    const [isZIndexActive, setIsZIndexActive] = useState<boolean>(false);
 
     const selectItemList:string[] = ["1", "2", "3", "4", "5"];
         
@@ -243,8 +248,14 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
                         </li>)
                  
         }
-
         return result;
+    }
+
+    const onClickSelectBox = () => {
+        setIsSelectBoxShow(!isSelectBoxShow);
+        setTimeout(() => {
+            setIsZIndexActive(!isZIndexActive);
+        }, isSelectBoxShow ? 300 : 0)
     }
 
     const onClickSelectItem = (idx:number, level:number) => {
@@ -268,8 +279,12 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
             selectArrow.current.className += " show_select";
             
             const handleOutsideClose = (e: {target: any}) => {
-                // useRef current에 담긴 엘리먼트 바깥을 클릭 시 드롭메뉴 닫힘
-                if(isSelectBoxShow && (!selectBox.current.contains(e.target))) setIsSelectBoxShow(false);
+                if(isSelectBoxShow && (!selectBox.current.contains(e.target))) {
+                    setIsSelectBoxShow(false); 
+                    setTimeout(() => {
+                        setIsZIndexActive(false);
+                    }, 300)
+                }
             };
             document.addEventListener('click', handleOutsideClose);
             
@@ -282,8 +297,8 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
     }, [isSelectBoxShow])
 
     return (
-        <LevelBoxStyle $teamCnt={props.teamCnt} $playerCnt={props.playerCnt}>
-            <button onClick={() => setIsSelectBoxShow(!isSelectBoxShow)}>
+        <LevelBoxStyle $teamCnt={props.teamCnt} $playerCnt={props.playerCnt} $show={isZIndexActive}>
+            <button onClick={() => onClickSelectBox()} tabIndex={-1}>
                 <div className="select_value">
                     <div className="select_level">
                         {selectItemList[props.inputData.lv-1]}
