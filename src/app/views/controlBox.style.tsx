@@ -275,11 +275,12 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
     .btn_section {
         @media (max-width: 768px) {
         }
+        position: relative;
         display: flex;
         justify-content: center;
         padding: 0 10px 15px;
 
-        button {
+        .btn_main {
             @media (max-width: 768px) {
             }
             // mobile_view
@@ -291,7 +292,7 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
             width: 100px;
             margin: 0 5px;
             padding: 10px 15px;
-            border: 1px solid ${({ theme }) => theme.boxBorderColor};;
+            border: 1px solid ${({ theme }) => theme.boxBorderColor};
             border-radius: 10px;
             background-color: ${({ theme }) => theme.textColor};
             color: ${({ theme }) => theme.boxBgSubColor};
@@ -311,6 +312,124 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
             &:active {
                 scale: .9;
                 transition: scale .2s ease-in-out;
+            }
+        }
+
+        .btn_sub {
+            position: absolute;
+            top: 15px;
+            &.sub_reset {
+                right: 65px;
+
+                .reset_message {
+                    position: absolute;
+                    top: -26px;
+                    right: -33px;
+                    width: 65px;
+                    height: 18px;
+                    font-size: .9rem;
+                    font-weight: bold;
+                    background: white;
+                    color: #c97874;
+                    padding: 2px 4px;
+                    border-radius: 10px;
+                    opacity: 0;
+                    pointer-events: none;
+                    z-index: 0;
+
+                    &::before {
+                        position: absolute;
+                        content: "";
+                        height: 8px;
+                        width: 8px;
+                        background: white;
+                        bottom: -3px;
+                        left: 32%;
+                        transform: translate(-50%) rotate(45deg);
+                    }
+                }
+
+                .reset_message.active {
+                    animation: twink 3s ease-in;
+                }
+            }
+            &.sub_copy {
+                right: 38px;
+
+                .capture_loading {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 100%;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-top-color: #222222;
+                    border-left-color: #222222;
+                    animation: spin 1s infinite linear;
+
+                    @keyframes spin { 
+                        100% { 
+                            transform: rotate(360deg); 
+                        } 
+                    } 
+                }
+
+                .copy_message {
+                    position: absolute;
+                    top: -26px;
+                    right: -80px;
+                    width: 135px;
+                    height: 18px;
+                    font-size: .9rem;
+                    font-weight: bold;
+                    background: white;
+                    color: #c97874;
+                    padding: 2px 4px;
+                    border-radius: 10px;
+                    opacity: 0;
+                    pointer-events: none;
+                    z-index: 0;
+
+                    &::before {
+                        position: absolute;
+                        content: "";
+                        height: 8px;
+                        width: 8px;
+                        background: white;
+                        bottom: -3px;
+                        left: 32%;
+                        transform: translate(-50%) rotate(45deg);
+                    }
+                }
+
+                .copy_message.active {
+                    animation: twink 3s ease-in;
+                }
+            }
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 20px;
+            padding: 6px 4px;
+            border: none;
+            border-radius: 5px;
+            font-size: .9rem;
+            font-weight: 700;
+            cursor: pointer;
+
+            &:hover {
+                opacity: .7;
+            }
+
+            @keyframes twink {
+                1% {
+                    opacity: 1;
+                }
+                70% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
             }
         }
     }
