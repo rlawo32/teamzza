@@ -280,6 +280,15 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
         justify-content: center;
         padding: 0 10px 15px;
 
+        button {
+
+            &:active {
+                opacity: .6;
+                scale: .9;
+                transition: scale .2s ease-in-out;
+            }
+        }
+
         .btn_main {
             @media (max-width: 768px) {
             }
@@ -296,7 +305,7 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
             border-radius: 10px;
             background-color: ${({ theme }) => theme.textColor};
             color: ${({ theme }) => theme.boxBgSubColor};
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             font-weight: 700;
             cursor: pointer;
             transition: border .5s;
@@ -307,11 +316,6 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
 
             &:hover {
                 border: 1px solid ${({ theme }) => theme.textColor};
-            }
-
-            &:active {
-                scale: .9;
-                transition: scale .2s ease-in-out;
             }
         }
 
@@ -335,13 +339,13 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
                     border-radius: 10px;
                     opacity: 0;
                     pointer-events: none;
-                    z-index: 0;
 
                     &::before {
                         position: absolute;
                         content: "";
                         height: 8px;
                         width: 8px;
+                        border-top-left-radius: 50%;
                         background: white;
                         bottom: -3px;
                         left: 32%;
@@ -386,13 +390,13 @@ export const ControlBoxStyle = styled('div')<{$show:boolean}>`
                     border-radius: 10px;
                     opacity: 0;
                     pointer-events: none;
-                    z-index: 0;
 
                     &::before {
                         position: absolute;
                         content: "";
                         height: 8px;
                         width: 8px;
+                        border-top-left-radius: 50%;
                         background: white;
                         bottom: -3px;
                         left: 32%;
