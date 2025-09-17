@@ -50,6 +50,13 @@ export const MatchShuffle = styled('div')<{$teamCnt:number, $playerCnt:number}>`
                 margin: 0 50px;
 
                 .list_title {
+                    @media (max-width: 1300px) {
+                        max-width: 130px;
+                    }
+                    max-width: 150px;
+                    text-align: center;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                 }
 
                 .list_child {
@@ -232,7 +239,7 @@ export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $play
             font-size: 1.2rem;
             font-weight: 400;
             cursor: pointer;
-            transition: all .5s;
+            transition: border .5s;
 
             &:hover {
                 border: 1px solid ${({ theme }) => theme.boxTextColor};
@@ -247,6 +254,10 @@ export const ControlSection = styled('div')<{$pos:string, $teamCnt:number, $play
                 &:hover {
                     border: 1px solid ${({ theme }) => theme.boxBorderColor};
                 }
+            }
+
+            &:active {
+                opacity: .6;
             }
         }
     }
@@ -345,6 +356,7 @@ export const InputWrapperStyle = styled('div')<{$camp:number, $idx:string, $team
 
 export const GroupCampStyle = styled('div')<{$camp:number}>`
     @media (max-width: 1300px) {
+        width: 180px;
         font-size: 2rem;
     }
     position: relative;
@@ -353,8 +365,6 @@ export const GroupCampStyle = styled('div')<{$camp:number}>`
     justify-content: center;
     width: 210px;
     height: 30px;
-    font-size: 2.5rem;
-    font-weight: 700;
     margin: 0 auto 10px;
     background-color: ${({ theme }) => theme.bgColor};
     color: ${({$camp}) => $camp === 0 ? "#1F85FD" : 
@@ -366,6 +376,8 @@ export const GroupCampStyle = styled('div')<{$camp:number}>`
                           $camp === 6 ? "#FF5CA8" :
                           $camp === 7 ? "#FF6D00" :
                           $camp === 8 ? "#4CFFD6" : "#A8FF00"};
+    font-size: 2.5rem;
+    font-weight: 700;
     z-index: 1;
     input {
         width: 120px;
@@ -385,7 +397,7 @@ export const GroupCampStyle = styled('div')<{$camp:number}>`
     button {
         position: relative;
         top: 2px;
-        right: -10px;
+        right: -7px;
         display: flex;
         width: 12px;
         height: 12px;
@@ -393,7 +405,7 @@ export const GroupCampStyle = styled('div')<{$camp:number}>`
         background: none;
         cursor: pointer;
 
-        .btn_icon {
+        .btn_icon { // write title
             width: 11px;
             height: 11px;
             font-size: 1.5rem;
