@@ -21,7 +21,7 @@ const Main = () => {
     const captureRef = useRef<HTMLDivElement>(null);
 
     const { teamList, createTeam, insertTeam, deleteTeam, insertPlayer, deletePlayer, activeLocalLoad } = useShuffleTeamStore();
-    const { shuffleProgress, playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
+    const { shuffleProgress, shuffleActiveChk, playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
     const { fixList, rollbackList } = useShuffleListStore();
 
     const updateTitleData = useShuffleTeamStore((state) => state.updateTitleData);
@@ -96,11 +96,11 @@ const Main = () => {
             <CompleteBox />
             <Style.ControlSection $pos="top" $teamCnt={teamCount} $playerCnt={playerCount}>
                 <div className="button_section">
-                    <button onClick={() => insertTeam()}>그룹 추가</button>
-                    <button onClick={() => deleteTeam()}>그룹 삭제</button>
-                    <button onClick={() => insertPlayer()}>그룹원 추가</button>
-                    <button onClick={() => deletePlayer()}>그룹원 삭제</button>
-                    <button onClick={() => setIsModal(true)}>자동 입력</button>
+                    <button onClick={() => shuffleActiveChk ? '' : insertTeam()}>그룹 추가</button>
+                    <button onClick={() => shuffleActiveChk ? '' : deleteTeam()}>그룹 삭제</button>
+                    <button onClick={() => shuffleActiveChk ? '' : insertPlayer()}>그룹원 추가</button>
+                    <button onClick={() => shuffleActiveChk ? '' : deletePlayer()}>그룹원 삭제</button>
+                    <button onClick={() => shuffleActiveChk ? '' : setIsModal(true)}>자동 입력</button>
                 </div>
             </Style.ControlSection>
             <div className="list_section" ref={captureRef}>
