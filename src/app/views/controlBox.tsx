@@ -109,9 +109,11 @@ const ControlBox = (props : { captureRef:any }) => {
     }
 
     const onClickShuffleReset = async () => {
-        shuffleReset();
-        setActiveReset(true);
-        setTimeout(() => setActiveReset(false), 3000);
+        if(!shuffleActiveChk) {
+            shuffleReset();
+            setActiveReset(true);
+            setTimeout(() => setActiveReset(false), 3000);
+        }
     }
 
     const dataURLtoBlob = (dataurl:string):Blob => {
@@ -127,40 +129,42 @@ const ControlBox = (props : { captureRef:any }) => {
     };
 
     const onClickShuffleCopy = async () => {
-        try {
-            if (props.captureRef.current && !oneCaptureChk) {
-                const section = props.captureRef.current;
-                setOneCaptureChk(true);
-                
-                try {
-                    const dataUrl = await toPng(section, {
-                        width: props.captureRef.current.offsetWidth, 
-                        height: props.captureRef.current.offsetHeight,
-                        quality: 0.95,
-                        style: {
-                            margin: '0',
-                        },
-                    });
-                    const imageBlob = dataURLtoBlob(dataUrl); // Base64를 Blob으로 변환
-                    const imageItem = new ClipboardItem({ 'image/png': imageBlob });
-                    await navigator.clipboard.write([imageItem])
-                        .then(() => {
-                            setCaptureCopyChk(true);
-                            setTimeout(() => setCaptureCopyChk(false), 3000);
-                            setOneCaptureChk(false);
-                        }).catch(err => console.log('Copy failed : ' + err));
-                } catch (error) {
-                    if (error instanceof Error) {
-                        console.error(`캡처 또는 전송 중 오류 발생: ${error.message}`);
-                    } else {
-                        console.error('캡처 또는 전송 중 알 수 없는 오류 발생');
-                    }
-                } 
-            } else {
-                alert('잠시 후 시도해주세요');
+        if(!shuffleActiveChk) {
+            try {
+                if (props.captureRef.current && !oneCaptureChk) {
+                    const section = props.captureRef.current;
+                    setOneCaptureChk(true);
+                    
+                    try {
+                        const dataUrl = await toPng(section, {
+                            width: props.captureRef.current.offsetWidth, 
+                            height: props.captureRef.current.offsetHeight,
+                            quality: 0.95,
+                            style: {
+                                margin: '0',
+                            },
+                        });
+                        const imageBlob = dataURLtoBlob(dataUrl); // Base64를 Blob으로 변환
+                        const imageItem = new ClipboardItem({ 'image/png': imageBlob });
+                        await navigator.clipboard.write([imageItem])
+                            .then(() => {
+                                setCaptureCopyChk(true);
+                                setTimeout(() => setCaptureCopyChk(false), 3000);
+                                setOneCaptureChk(false);
+                            }).catch(err => console.log('Copy failed : ' + err));
+                    } catch (error) {
+                        if (error instanceof Error) {
+                            console.error(`캡처 또는 전송 중 오류 발생: ${error.message}`);
+                        } else {
+                            console.error('캡처 또는 전송 중 알 수 없는 오류 발생');
+                        }
+                    } 
+                } else {
+                    alert('잠시 후 시도해주세요');
+                }
+            } catch (err) {
+                console.error('복사 실패:', err);
             }
-        } catch (err) {
-            console.error('복사 실패:', err);
         }
     }
 
