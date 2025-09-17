@@ -11,8 +11,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { toPng } from 'html-to-image';
 
-import useShuffleTeamStore from "./useShuffleTeamStore";
-import useShuffleBaseStore from "./useShuffleBaseStore";
+import useShuffleTeamStore from "../stores/useShuffleTeamStore";
+import useShuffleBaseStore from "../stores/useShuffleBaseStore";
 
 const ControlBox = (props : { captureRef:any }) => {
     const optionRef:any = useRef<any>(null);
