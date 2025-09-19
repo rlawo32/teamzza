@@ -7,7 +7,7 @@ export const metadata: Metadata = {
                 직관적인 UI와 편리한 기능을 통해 사용자 맞춤형 팀 조합이 가능하며,  
                 무작위 또는 사용자가 설정한 밸런스에 따라 팀을 분리하여 구성해주는 서비스입니다.`,   
   icons: {
-    icon: '/icon.png',
+    icon: '/favicon.ico',
   },
   alternates: {
     canonical: 'https://teamzza.co.kr/',
