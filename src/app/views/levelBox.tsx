@@ -1,216 +1,10 @@
 'use client'
 
-import styled from "styled-components";
+import * as Style from "./levelBox.style";
 
 import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown as arrow } from "@fortawesome/free-solid-svg-icons";
-
-const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number, $show:boolean}>`
-    @media (max-width: 1024px) {
-    }
-    position: absolute;
-    top: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 12 : 10}px;
-    left: 15px;
-    z-index: ${({$show}) => $show ? 5 : 3};
-
-    button {
-        @media (max-width: 1300px) {
-            height: 32px;
-        }
-        @media (max-width: 1024px) {
-        }
-        @media (max-width: 768px) {
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-        }
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 50px;
-        height: ${({$teamCnt, $playerCnt}) => $teamCnt <= 5 && $playerCnt < 7 ? 36 : 32}px;
-        padding: 5px 7px;
-        border: none;
-        border-radius: 5px;
-        background-color: ${({ theme }) => theme.buttonBgColor};
-        color: ${({ theme }) => theme.textColor};
-        font-size: 1rem;
-        font-weight: 700;
-        z-index: 10;
-        cursor: pointer;
-    }
-
-    .select_box {
-        @media (max-width: 1024px) {
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-        }
-        position: absolute;
-        top: 105%;
-        left: 0;
-        width: 50px;
-        height: 0;
-        padding: 0 3px;
-        border: 1px solid transparent;
-        border-radius: 5px;
-        background-color: ${({ theme }) => theme.bgSubColor};
-        text-align: center;
-        z-index: 15;
-        opacity: 0;
-        transition: all 0.3s ease-in-out;
-        transform-origin: top;
-        transform: scaleY(0);
-    }
-
-    ul.select_list {
-        @media (max-width: 1024px) {
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-        }
-        width: 100%;
-        height: 0;
-        padding: 0;
-        border: none;
-        border-radius: 5px;
-        overflow: hidden;
-        overflow-y: scroll;
-        background-color: ${({ theme }) => theme.inputBgColor};
-        color: ${({ theme }) => theme.textColor};
-        text-align: center;
-        cursor: pointer;
-        z-index: 20;
-        user-select: none;
-        list-style:none;
-        word-break: keep-all;
-        transition: all 0.3s ease-in-out;
-        
-        &::-webkit-scrollbar {
-            width: 2px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: rgba(205, 205, 205, 1);
-            border-radius: 1px;
-        }
-
-        &::-webkit-scrollbar-track {
-            background: rgba(200, 200, 200, .1);
-            border-radius: 1px;
-        }
-    }
-
-    ul.select_list li {
-        @media (max-width: 1024px) {
-        }
-        @media (max-width: 768px) {
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-        }
-        padding: 6px 5px;
-        border-bottom: 2px solid ${({ theme }) => theme.bgSubColor};
-        font-size: 1.2rem;
-        opacity: 0.9;
-
-        .item_top {
-            @media (max-width: 768px) {
-            }
-            // mobile_view
-            @media (max-width: 500px) {
-            }
-            font-size: 1.1rem;
-            font-weight: 700;
-        }
-
-        .item_bottom {
-            // mobile_view
-            @media (max-width: 500px) {
-            }
-            font-size: .9rem;
-        }
-
-        &:last-child {
-            border: none;
-        }
-    }
-
-    .select_value {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        .select_level {
-            @media (max-width: 768px) {
-            }
-            // mobile_view
-            @media (max-width: 500px) {
-            }
-            font-size: 1.4rem;
-        }
-
-        .select_text {
-            // mobile_view
-            @media (max-width: 500px) {
-            }
-            font-size: .9rem;
-            letter-spacing: -0.1rem;
-        }
-    }
-
-    .select_arrow {
-        @media (max-width: 1024px) {
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-        }
-        display: inline-block;
-        margin-left: 4px;
-        color: ${({ theme }) => theme.textColor};
-        font-weight: 700;
-        transition: all .3s linear;
-    }
-
-    .select_box.show_select {
-        @media (max-width: 768px) {
-            
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-        }
-        transform: scaleY(1);
-        padding: 4px 3px;
-        height: 120px;
-        border: 1px solid ${({ theme }) => theme.borderColor};
-        z-index: 11;
-        opacity: 1;
-    }
-
-    .select_list.show_select {
-        @media (max-width: 768px) {
-        }
-        // mobile_view
-        @media (max-width: 500px) {
-        }
-        transform: scaleY(1);
-        height: 111px;
-        z-index: 11;
-        opacity: 1;
-    }
-
-    ul.select_list li.rs_active {
-        color: rgb(255 68 56 / 1);
-        font-weight: 700;
-        opacity: 1;
-    }
-
-    .select_arrow.show_select {
-        transform: rotate(180deg);
-    }
-`
 
 interface SelectBoxShuffleProps {
     updateSelectData: (data:{index:number; arrNo:number; level:number;}) => void;
@@ -228,19 +22,22 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
 
     const [isSelectBoxShow, setIsSelectBoxShow] = useState<boolean>(false);
     const [isZIndexActive, setIsZIndexActive] = useState<boolean>(false);
-
-    const selectItemList:string[] = ["1", "2", "3", "4", "5"];
         
+    // DEFAULT(LEVEL)
+    // GAME - LOL, VALORANT, OVERWATCH, SUDDEN, 
+    // SPORT - SOCCER, BASKETBALL, 
+    // SCHOOL - GROUP PLAY, POSITION, 
     const customSelectBox = () => {
         const result:any[] = [];
+        const levelLength:number = props.playerCnt;
 
-        for(let i:number=0; i<selectItemList.length; i++) {
-            const level:number = 5-i;
+        for(let i:number=0; i<levelLength; i++) {
+            const level:number = levelLength-i;
             result.push(<li key={"level_" + (i+props.inputData.id)} value={level}
                             onClick={() => onClickSelectItem(i, level)}
                             ref={(li:any) => (selectItem.current[i] = li)}>
                             <div className="item_top">
-                                {selectItemList[level-1]}
+                                {level}
                             </div>
                             <div className="item_bottom">
                                 LEVEL
@@ -300,11 +97,11 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
     }, [isSelectBoxShow])
 
     return (
-        <LevelBoxStyle $teamCnt={props.teamCnt} $playerCnt={props.playerCnt} $show={isZIndexActive}>
+        <Style.LevelBoxStyle $teamCnt={props.teamCnt} $playerCnt={props.playerCnt} $show={isZIndexActive}>
             <button onClick={() => onClickSelectBox()} tabIndex={-1}>
                 <div className="select_value">
                     <div className="select_level">
-                        {selectItemList[props.inputData.lv-1]}
+                        {props.inputData.lv}
                     </div>
                     <div className="select_text">
                         LEVEL
@@ -319,7 +116,7 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
                     {customSelectBox()}
                 </ul>
             </div>
-        </LevelBoxStyle>
+        </Style.LevelBoxStyle>
     )
 }
 
