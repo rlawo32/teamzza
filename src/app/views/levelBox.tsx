@@ -260,6 +260,9 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
 
     const onClickSelectItem = (idx:number, level:number) => {
         setIsSelectBoxShow(false);
+        setTimeout(() => {
+            setIsZIndexActive(false);
+        }, 300)
         props.updateSelectData({index:props.inputData.idx, arrNo:props.inputIdx, level:level});
 
         selectItem.current[idx].className = selectItem.current[idx].className.replace('rs_active', '');
