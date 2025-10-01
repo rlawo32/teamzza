@@ -72,7 +72,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         for(let i=0; i<tempList.length; i++) {
             tempList[i].title = teamTitleStorage[i];
             for(let j=0; j<tempList[i].list.length; j++) {
-                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:5, nm:'', tmp:null};
+                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:playerCount-j, nm:'', tmp:null};
                 idx += 1;
             }
         }
@@ -87,7 +87,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         if(teamCount < 10) {
             let idx:number = playerCount * teamCount + 1;
             for(let i=0; i<playerCount; i++) {
-                tempList.list[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:5, nm:'', tmp:null};
+                tempList.list[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:playerCount-i, nm:'', tmp:null};
                 idx += 1;
             }
 
@@ -113,9 +113,10 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
             const newTeamList = get().teamList.map((team, teamIdx) => {
                 for(let i:number=0; i<team.list.length; i++) {
                     team.list[i].idx = idx;
+                    team.list[i].lv = (playerCount+1)-i;
                     idx += 1;
                 }
-                const newPlayer:{idx:number, id:string, lv:number, nm:string, tmp:any} = {idx:idx, id:teamIdStorage[teamIdx]+'_'+(team.list.length+1), lv:5, nm:'', tmp:null};
+                const newPlayer:{idx:number, id:string, lv:number, nm:string, tmp:any} = {idx:idx, id:teamIdStorage[teamIdx]+'_'+(team.list.length+1), lv:1, nm:'', tmp:null};
                 idx += 1;
 
                 return {title:team.title, target:team.target, list:[...team.list, newPlayer]}; 
@@ -135,6 +136,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
                 team.list = team.list.slice(0, -1);
                 for(let i:number=0; i<team.list.length; i++) {
                     team.list[i].idx = idx;
+                    team.list[i].lv = (playerCount-1)-i;
                     idx += 1;
                 }
 
@@ -237,9 +239,9 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
 
         for(let i=0; i<copyTeamList.length; i++) {
             for(let j=0; j<copyTeamList[i].list.length; j++) {
-                if(copyTeamList[i].list[j].nm.length < 1) {
-                    copyTeamList[i].list[j].lv = 1;
-                }
+                // if(copyTeamList[i].list[j].nm.length < 1) {
+                //     copyTeamList[i].list[j].lv = 1;
+                // }
                 temp1DemList.push(copyTeamList[i].list[j]);
             }
         }
@@ -277,13 +279,13 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
             }
         }
         
-        for(let i=0; i<copyTeamList.length; i++) {
-            for(let j=0; j<copyTeamList[i].list.length; j++) {
-                if(copyTeamList[i].list[j].nm.length < 1) {
-                    copyTeamList[i].list[j].lv = 5;
-                }
-            }
-        }
+        // for(let i=0; i<copyTeamList.length; i++) {
+        //     for(let j=0; j<copyTeamList[i].list.length; j++) {
+        //         if(copyTeamList[i].list[j].nm.length < 1) {
+        //             copyTeamList[i].list[j].lv = 5;
+        //         }
+        //     }
+        // }
 
         if(copyFixList.length > 0) { 
             for(let i=0; i<copyFixList.length; i++) {
