@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number, $show:boolean}>`
+export const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number, $show:boolean, $mode:string|undefined}>`
     @media (max-width: 1024px) {
     }
     position: absolute;
@@ -115,7 +115,7 @@ export const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number, 
             // mobile_view
             @media (max-width: 500px) {
             }
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
         }
 
@@ -143,7 +143,7 @@ export const LevelBoxStyle = styled('div')<{$teamCnt:number, $playerCnt:number, 
             // mobile_view
             @media (max-width: 500px) {
             }
-            font-size: 1.4rem;
+            font-size: ${({$mode}) => $mode === 'D' ? 1.4 : 1.2}rem;
         }
 
         .select_text {
