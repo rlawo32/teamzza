@@ -7,12 +7,12 @@ interface shuffleListStore {
     setAutoList: (autoList: {cnt:number, raw:string}) => void;
     fixList: {idx:number, id:string, row:number, cell:number, tmp:any}[];
     setFixList: (fixList: {idx:number, id:string, row:number, cell:number, tmp:any}[]) => void;
-    rollbackList: {id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]}[];
-    setRollbackList: (rollbackList: {id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]}[]) => void;
+    rollbackList: {id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]}[];
+    setRollbackList: (rollbackList: {id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]}[]) => void;
     
     updateAutoData: (data: {type:string, value:any}) => void;
     updateFixData: (data: {checked:boolean; index:number; id:string, arrNo:number; value:number; tmp:any;}) => void;
-    updateRollbackData: (data: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]) => void;
+    updateRollbackData: (data: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]) => void;
     deleteRollbackData: () => void;
 }
 
@@ -54,13 +54,13 @@ const useShuffleListStore = create<shuffleListStore>((set, get) => ({
         }
     },
     rollbackList: [],
-    setRollbackList: (rollbackList: {id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]}[]) =>
-        set((state: {rollbackList: {id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]}[]}) => ({
+    setRollbackList: (rollbackList: {id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]}[]) =>
+        set((state: {rollbackList: {id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]}[]}) => ({
             rollbackList: (state.rollbackList = rollbackList),
         })),
-    updateRollbackData: (data: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]) => {
+    updateRollbackData: (data: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]) => {
         const {rollbackCount, increaseRollbackCount} = useShuffleBaseStore.getState();
-        const currentRollbackList:{id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]}[] = get().rollbackList;
+        const currentRollbackList:{id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]}[] = get().rollbackList;
         set({
             rollbackList: [...currentRollbackList, { id:'rb_'+(rollbackCount+1), idx:rollbackCount+1, arr:data }],
         });
@@ -68,7 +68,7 @@ const useShuffleListStore = create<shuffleListStore>((set, get) => ({
     },
     deleteRollbackData: () => {
         const {decreaseRollbackCount} = useShuffleBaseStore.getState();
-        const currentRollbackList:{id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]}[] = get().rollbackList;
+        const currentRollbackList:{id:string, idx:number, arr:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]}[] = get().rollbackList;
         if(currentRollbackList.length > 0) {
             set({ 
                 rollbackList: currentRollbackList.slice(0, -1) 
