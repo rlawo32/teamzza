@@ -21,9 +21,10 @@ const Main = () => {
     const captureRef = useRef<HTMLDivElement>(null);
 
     const { teamList, createTeam, insertTeam, deleteTeam, insertPlayer, deletePlayer, activeLocalLoad } = useShuffleTeamStore();
-    const { shuffleProgress, shuffleActiveChk, playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
+    const { shuffleModeStorage, shuffleProgress, playerCount, teamCount, rollbackCount } = useShuffleBaseStore();
     const { fixList, rollbackList } = useShuffleListStore();
 
+    const updateModeTarget = useShuffleBaseStore((state) => state.updateModeTarget);
     const updateTitleData = useShuffleTeamStore((state) => state.updateTitleData);
     const updateTargetData = useShuffleTeamStore((state) => state.updateTargetData);
     const updateTargetAllData = useShuffleTeamStore((state) => state.updateTargetAllData);
@@ -32,6 +33,18 @@ const Main = () => {
     const updateFixData = useShuffleListStore((state) => state.updateFixData);
 
     const [isModal, setIsModal] = useState<boolean>(false);
+    
+    const onClickControl = (type:string) => {
+
+        const mode = shuffleModeStorage.find((data) => data.target === true);
+
+        if(mode!.id === 'D')
+        if(type === 'IT') insertTeam();
+        else if(type === 'DT') deleteTeam();
+        else if(type === 'IP') insertPlayer();
+        else if(type === 'DP') deletePlayer();
+        else if(type === 'IM') setIsModal(true);
+    }
 
     const insertTitle = () => {
         if (titleRef.current) {
@@ -96,13 +109,20 @@ const Main = () => {
             <CompleteBox />
             <Style.ControlSection $pos="top" $teamCnt={teamCount} $playerCnt={playerCount}>
                 <div className="button_section">
-                    <button onClick={() => shuffleActiveChk ? '' : insertTeam()}>그룹 추가</button>
-                    <button onClick={() => shuffleActiveChk ? '' : deleteTeam()}>그룹 삭제</button>
-                    <button onClick={() => shuffleActiveChk ? '' : insertPlayer()}>그룹원 추가</button>
-                    <button onClick={() => shuffleActiveChk ? '' : deletePlayer()}>그룹원 삭제</button>
-                    <button onClick={() => shuffleActiveChk ? '' : setIsModal(true)}>자동 입력</button>
+                    <button onClick={() => onClickControl('IT')}>그룹 추가</button>
+                    <button onClick={() => onClickControl('DT')}>그룹 삭제</button>
+                    <button onClick={() => onClickControl('IP')}>그룹원 추가</button>
+                    <button onClick={() => onClickControl('DP')}>그룹원 삭제</button>
+                    <button onClick={() => onClickControl('IM')}>자동 입력</button>
                 </div>
             </Style.ControlSection>
+                <div className="button_section">
+                    <button onClick={() => updateModeTarget({id:'D', target:true})}>Default</button>
+                    <button onClick={() => updateModeTarget({id:'L', target:true})}>L</button>
+                    <button onClick={() => updateModeTarget({id:'B', target:true})}>B</button>
+                    <button onClick={() => updateModeTarget({id:'O', target:true})}>O</button>
+                    <button onClick={() => updateModeTarget({id:'V', target:true})}>V</button>
+                </div>
             <div className="list_section" ref={captureRef}>
                 {teamList.map((parent, idx1) => (
                     <div key={idx1} className="list_wrap" id={idx1 + "_t"}>
