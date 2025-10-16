@@ -4,8 +4,8 @@ import useShuffleBaseStore from "./useShuffleBaseStore";
 import useShuffleListStore from "./useShuffleListStore";
 
 interface shuffleTeamStore {
-    teamList: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[];
-    setTeamList: (teamList: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]) => void;
+    teamList: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[];
+    setTeamList: (teamList: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]) => void;
 
     createTeam: () => void;
     insertTeam: () => void;
@@ -17,7 +17,7 @@ interface shuffleTeamStore {
     updateTargetData: (data: {arrNo: number; target: boolean;}) => void;
     updateTargetAllData: (data: {target: boolean;}) => void;
     updateInputData: (data: {index: number; arrNo: number; input: string;}) => void;
-    updateSelectData: (data: {index: number; arrNo: number; level: number;}) => void;
+    updateSelectData: (data: {index: number; arrNo: number; name: string; level: number;}) => void;
     
     shuffleRandom: () => void;
     shuffleBalance: () => void;
@@ -32,14 +32,14 @@ interface shuffleTeamStore {
 
 const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
     teamList: [],
-    setTeamList: (teamList: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]) =>
-        set((state: {teamList: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[]}) => ({
+    setTeamList: (teamList: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]) =>
+        set((state: {teamList: {title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[]}) => ({
             teamList: (state.teamList = teamList),
         })),
     createTeam: () => {
         const {teamTitleStorage, teamIdStorage, playerCount, teamCount} = useShuffleBaseStore.getState();
 
-        const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: teamCount }, () => ({title: '', target:false, list: Array.from({ length: playerCount })}));
+        const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = Array.from({ length: teamCount }, () => ({title: '', target:false, list: Array.from({ length: playerCount })}));
 /*
         if(realPlayerCount % realTeamCount !== 0) {
             let tempComposition:number = Math.ceil(realPlayerCount/realTeamCount);
@@ -72,7 +72,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         for(let i=0; i<tempList.length; i++) {
             tempList[i].title = teamTitleStorage[i];
             for(let j=0; j<tempList[i].list.length; j++) {
-                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:playerCount-j, nm:'', tmp:null};
+                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:playerCount-j, nm:'', tmp:playerCount-j, as:'LEVEL'};
                 idx += 1;
             }
         }
@@ -82,12 +82,12 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
     insertTeam: () => {
         const {teamTitleStorage, teamIdStorage, playerCount, teamCount, increaseTeamCount} = useShuffleBaseStore.getState();
 
-        const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]} = {title:teamTitleStorage[teamCount], target:false, list:Array.from({length: playerCount})};
+        const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]} = {title:teamTitleStorage[teamCount], target:false, list:Array.from({length: playerCount})};
         
         if(teamCount < 10) {
             let idx:number = playerCount * teamCount + 1;
             for(let i=0; i<playerCount; i++) {
-                tempList.list[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:playerCount-i, nm:'', tmp:null};
+                tempList.list[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:playerCount-i, nm:'', tmp:playerCount-i, as:'LEVEL'};
                 idx += 1;
             }
 
@@ -114,9 +114,10 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
                 for(let i:number=0; i<team.list.length; i++) {
                     team.list[i].idx = idx;
                     team.list[i].lv = (playerCount+1)-i;
+                    team.list[i].tmp = (playerCount+1)-i;
                     idx += 1;
                 }
-                const newPlayer:{idx:number, id:string, lv:number, nm:string, tmp:any} = {idx:idx, id:teamIdStorage[teamIdx]+'_'+(team.list.length+1), lv:1, nm:'', tmp:null};
+                const newPlayer:{idx:number, id:string, lv:number, nm:string, tmp:any, as:string} = {idx:idx, id:teamIdStorage[teamIdx]+'_'+(team.list.length+1), lv:1, nm:'', tmp:1, as:'LEVEL'};
                 idx += 1;
 
                 return {title:team.title, target:team.target, list:[...team.list, newPlayer]}; 
@@ -149,21 +150,21 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         }
     },
     updateTitleData: (data: {arrNo: number; title: string;}) => {
-        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = JSON.parse(JSON.stringify(get().teamList));
+        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = JSON.parse(JSON.stringify(get().teamList));
         
         currentTeamList[data.arrNo].title = data.title;
 
         set({ teamList: currentTeamList });
     },
     updateTargetData: (data: {arrNo: number; target: boolean;}) => {
-        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = JSON.parse(JSON.stringify(get().teamList));
+        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = JSON.parse(JSON.stringify(get().teamList));
         
         currentTeamList[data.arrNo].target = data.target;
 
         set({ teamList: currentTeamList });
     },
     updateTargetAllData: (data: {target: boolean;}) => {
-        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = JSON.parse(JSON.stringify(get().teamList));
+        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = JSON.parse(JSON.stringify(get().teamList));
         
         for(let i:number=0; i<currentTeamList.length; i++) {
             currentTeamList[i].target = data.target;
@@ -172,7 +173,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         set({ teamList: currentTeamList });
     },
     updateInputData: (data: {index: number; arrNo: number; input: string;}) => {
-        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = JSON.parse(JSON.stringify(get().teamList));
+        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = JSON.parse(JSON.stringify(get().teamList));
         const index = currentTeamList[data.arrNo].list.findIndex((item: {idx: number}) => item.idx === data.index);
         
         if (index !== -1) { 
@@ -181,11 +182,12 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
 
         set({ teamList: currentTeamList });
     },
-    updateSelectData: (data: {index: number; arrNo: number; level: number;}) => {
-        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = JSON.parse(JSON.stringify(get().teamList));
+    updateSelectData: (data: {index: number; arrNo: number; name: string; level: number;}) => {
+        const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = JSON.parse(JSON.stringify(get().teamList));
         const index = currentTeamList[data.arrNo].list.findIndex((item: {idx: number}) => item.idx === data.index);
         
         if (index !== -1) {
+            currentTeamList[data.arrNo].list[index].tmp = data.name;
             currentTeamList[data.arrNo].list[index].lv = data.level;
         }
 
@@ -193,7 +195,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
     },
     shuffleRandom: () => {
         const copyFixList:{idx:number, id:string, row:number, cell:number, tmp:any}[] = useShuffleListStore.getState().fixList;
-        const copyTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = JSON.parse(JSON.stringify(get().teamList));
+        const copyTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = JSON.parse(JSON.stringify(get().teamList));
     
         for(let i=copyTeamList.length-1; i>=0; i--) { 
             for(let j=copyTeamList[i].list.length-1; j>=0; j--) {
@@ -208,7 +210,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
                 for(let j=0; j<copyTeamList.length; j++) {
                     for(let x=0; x<copyTeamList[j].list.length; x++) {
                         if(j === copyFixList[i].row && x === copyFixList[i].cell) {
-                            const tempBox:{idx:number, id:string, lv:number, nm:string, tmp:any} = copyTeamList[j].list[x];
+                            const tempBox:{idx:number, id:string, lv:number, nm:string, tmp:any, as:string} = copyTeamList[j].list[x];
                             let row:number = -1;
                             let cell:number = -1;
                             for(let y=0; y<copyTeamList.length; y++) {
@@ -230,11 +232,11 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
     },
     shuffleBalance: () => {
         const copyFixList:{idx:number, id:string, row:number, cell:number, tmp:any}[] = useShuffleListStore.getState().fixList;
-        const copyTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = JSON.parse(JSON.stringify(get().teamList));
+        const copyTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = JSON.parse(JSON.stringify(get().teamList));
         const {playerCount, teamCount} = useShuffleBaseStore.getState();
         
-        const temp1DemList:{idx:number, id:string, lv:number, nm:string, tmp:any}[] = [];
-        const temp2DemList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: teamCount }, () => ({title: '', target:false, list: Array.from({ length: playerCount })}));
+        const temp1DemList:{idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[] = [];
+        const temp2DemList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = Array.from({ length: teamCount }, () => ({title: '', target:false, list: Array.from({ length: playerCount })}));
         const tempCompare:{idx:number, sum:number, len:number}[] = [];
 
         for(let i=0; i<copyTeamList.length; i++) {
@@ -292,7 +294,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
                 for(let j=0; j<temp2DemList.length; j++) {
                     for(let x=0; x<temp2DemList[j].list.length; x++) {
                         if(j === copyFixList[i].row && x === copyFixList[i].cell) {
-                            const tempBox:{idx:number, id:string, lv:number, nm:string, tmp:any} = temp2DemList[j].list[x];
+                            const tempBox:{idx:number, id:string, lv:number, nm:string, tmp:any, as:string} = temp2DemList[j].list[x];
                             let row:number = -1;
                             let cell:number = -1;
                             for(let y=0; y<temp2DemList.length; y++) {
@@ -366,13 +368,13 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         setPlayerCount(autoPlayerCount);
         setTeamCount(autoTeamCount);
 
-        const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = Array.from({ length: autoTeamCount }, () => ({title: '', target:false, list: Array.from({ length: autoPlayerCount })}));
+        const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = Array.from({ length: autoTeamCount }, () => ({title: '', target:false, list: Array.from({ length: autoPlayerCount })}));
         
         let idx:number = 1;
         for(let i=0; i<tempList.length; i++) {
             tempList[i].title = teamTitleStorage[i];
             for(let j=0; j<tempList[i].list.length; j++) {
-                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:5, nm:autoPlayerList[idx-1], tmp:null};
+                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:5, nm:autoPlayerList[idx-1], tmp:null, as:'LEVEL'};
                 idx += 1;
             }
         }
@@ -389,7 +391,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         if (typeof window !== 'undefined') {
             const data:string|null = localStorage.getItem('LastList');
             if(data) {
-                const parsedData:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any}[]}[] = JSON.parse(data);
+                const parsedData:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = JSON.parse(data);
                 setTeamCount(parsedData.length);
                 setPlayerCount(parsedData[0].list.length);
                 set({ teamList: parsedData });
