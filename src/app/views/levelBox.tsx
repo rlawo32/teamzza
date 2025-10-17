@@ -6,8 +6,10 @@ import { useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown as arrow } from "@fortawesome/free-solid-svg-icons";
 
+import useShuffleBaseStore from "./stores/useShuffleBaseStore";
+
 interface SelectBoxShuffleProps {
-    updateSelectData: (data:{index:number; arrNo:number; name:string; level:number;}) => void;
+    updateSelectData: (data:{index:number; arrNo:number; level:number; tmp:string;}) => void;
     inputData: {id:string, lv:number, nm:string, idx:number, tmp:any, as:string};
     inputIdx: number;
     teamCnt: number;
@@ -40,7 +42,7 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
             if(data.id !== 'D') {
                 for(let i:number=0; i<data.list.length; i++) {
                     result.push(<li key={"level_" + (i+props.inputData.id)}
-                                    onClick={() => onClickSelectItem(i, data.list[i].tmp, data.list[i].lv)}
+                                    onClick={() => onClickSelectItem(i, data.list[i].lv, data.list[i].tmp)}
                                     ref={(li:any) => (selectItem.current[i] = li)}>
                                     <div className="item_top">
                                         {data.list[i].tmp}
@@ -53,13 +55,13 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
                 for(let i:number=0; i<levelLength; i++) {
                     const level:number = levelLength-i;
                     result.push(<li key={"level_" + (i+props.inputData.id)} value={level}
-                                    onClick={() => onClickSelectItem(i, String(level), level)}
+                                    onClick={() => onClickSelectItem(i, level, String(i+1))}
                                     ref={(li:any) => (selectItem.current[i] = li)}>
                                     <div className="item_top">
-                                        {level}
+                                        {i+1}
                                     </div>
                                     <div className="item_bottom">
-                                        LEVEL
+                                        Tier
                                     </div>
                                 </li>)
                 }
@@ -75,12 +77,12 @@ const LevelBox = (props : SelectBoxShuffleProps) => {
         }, isSelectBoxShow ? 300 : 0)
     }
 
-    const onClickSelectItem = (idx:number, name:string, level:number) => {
+    const onClickSelectItem = (idx:number, level:number, tmp:string) => {
         setIsSelectBoxShow(false);
         setTimeout(() => {
             setIsZIndexActive(false);
         }, 300)
-        props.updateSelectData({index:props.inputData.idx, arrNo:props.inputIdx, name:name, level:level});
+        props.updateSelectData({index:props.inputData.idx, arrNo:props.inputIdx, level:level, tmp:tmp});
 
         selectItem.current[idx].className = selectItem.current[idx].className.replace('rs_active', '');
         selectItem.current[idx].className += 'rs_active';
