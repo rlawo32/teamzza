@@ -17,7 +17,7 @@ interface shuffleTeamStore {
     updateTargetData: (data: {arrNo: number; target: boolean;}) => void;
     updateTargetAllData: (data: {target: boolean;}) => void;
     updateInputData: (data: {index: number; arrNo: number; input: string;}) => void;
-    updateSelectData: (data: {index: number; arrNo: number; name: string; level: number;}) => void;
+    updateSelectData: (data: {index: number; arrNo: number; level: number; tmp: string;}) => void;
     
     shuffleRandom: () => void;
     shuffleBalance: () => void;
@@ -72,7 +72,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         for(let i=0; i<tempList.length; i++) {
             tempList[i].title = teamTitleStorage[i];
             for(let j=0; j<tempList[i].list.length; j++) {
-                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:playerCount-j, nm:'', tmp:playerCount-j, as:'LEVEL'};
+                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:playerCount-j, nm:'', tmp:j+1, as:'Tier'};
                 idx += 1;
             }
         }
@@ -80,14 +80,19 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         set({ teamList: tempList });
     },
     insertTeam: () => {
-        const {teamTitleStorage, teamIdStorage, playerCount, teamCount, increaseTeamCount} = useShuffleBaseStore.getState();
+        const {teamTitleStorage, teamIdStorage, shuffleModeStorage, playerCount, teamCount, increaseTeamCount} = useShuffleBaseStore.getState();
 
         const tempList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]} = {title:teamTitleStorage[teamCount], target:false, list:Array.from({length: playerCount})};
         
         if(teamCount < 10) {
             let idx:number = playerCount * teamCount + 1;
             for(let i=0; i<playerCount; i++) {
-                tempList.list[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:playerCount-i, nm:'', tmp:playerCount-i, as:'LEVEL'};
+                const mode = shuffleModeStorage.find((item) => item.target === true);
+                if(mode) {
+                    if(mode.id === 'D') tempList.list[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:playerCount-i, nm:'', tmp:i+1, as:'Tier'};
+                    else if(mode.id === 'O') tempList.list[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:mode.list[i > 1 ? i > 2 ? 2 : 1 : i].lv, nm:'', tmp:mode.list[i > 1 ? i > 2 ? 2 : 1 : i].tmp, as:''};
+                    else tempList.list[i] = {idx:idx, id:teamIdStorage[teamCount]+'_'+(i+1), lv:mode.list[i].lv, nm:'', tmp:mode.list[i].tmp, as:''};
+                }
                 idx += 1;
             }
 
@@ -117,7 +122,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
                     team.list[i].tmp = (playerCount+1)-i;
                     idx += 1;
                 }
-                const newPlayer:{idx:number, id:string, lv:number, nm:string, tmp:any, as:string} = {idx:idx, id:teamIdStorage[teamIdx]+'_'+(team.list.length+1), lv:1, nm:'', tmp:1, as:'LEVEL'};
+                const newPlayer:{idx:number, id:string, lv:number, nm:string, tmp:any, as:string} = {idx:idx, id:teamIdStorage[teamIdx]+'_'+(team.list.length+1), lv:1, nm:'', tmp:playerCount, as:'Tier'};
                 idx += 1;
 
                 return {title:team.title, target:team.target, list:[...team.list, newPlayer]}; 
@@ -182,13 +187,13 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
 
         set({ teamList: currentTeamList });
     },
-    updateSelectData: (data: {index: number; arrNo: number; name: string; level: number;}) => {
+    updateSelectData: (data: {index: number; arrNo: number; level: number; tmp: string;}) => {
         const currentTeamList:{title:string, target:boolean, list: {idx:number, id:string, lv:number, nm:string, tmp:any, as:string}[]}[] = JSON.parse(JSON.stringify(get().teamList));
         const index = currentTeamList[data.arrNo].list.findIndex((item: {idx: number}) => item.idx === data.index);
         
         if (index !== -1) {
-            currentTeamList[data.arrNo].list[index].tmp = data.name;
             currentTeamList[data.arrNo].list[index].lv = data.level;
+            currentTeamList[data.arrNo].list[index].tmp = data.tmp;
         }
 
         set({ teamList: currentTeamList }); 
@@ -374,7 +379,7 @@ const useShuffleTeamStore = create<shuffleTeamStore>((set, get) => ({
         for(let i=0; i<tempList.length; i++) {
             tempList[i].title = teamTitleStorage[i];
             for(let j=0; j<tempList[i].list.length; j++) {
-                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:5, nm:autoPlayerList[idx-1], tmp:null, as:'LEVEL'};
+                tempList[i].list[j] = {idx:idx, id:teamIdStorage[i]+'_'+(j+1), lv:autoPlayerCount-j, nm:autoPlayerList[idx-1], tmp:j+1, as:'Tier'};
                 idx += 1;
             }
         }
