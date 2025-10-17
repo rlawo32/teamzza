@@ -38,12 +38,11 @@ const Main = () => {
 
         const mode = shuffleModeStorage.find((data) => data.target === true);
 
-        if(mode!.id === 'D')
         if(type === 'IT') insertTeam();
         else if(type === 'DT') deleteTeam();
-        else if(type === 'IP') insertPlayer();
-        else if(type === 'DP') deletePlayer();
-        else if(type === 'IM') setIsModal(true);
+        else if(type === 'IP' && mode!.id === 'D') insertPlayer();
+        else if(type === 'DP' && mode!.id === 'D') deletePlayer();
+        else if(type === 'IM' && mode!.id === 'D') setIsModal(true);
     }
 
     const insertTitle = () => {
